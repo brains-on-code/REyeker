@@ -1,0 +1,11 @@
+{
+  "name": "dataanalyses",
+  "version": "1.0.0",
+  "description": "A Package used for analysing the Ryker data",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT"
+}

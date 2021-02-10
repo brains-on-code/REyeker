@@ -1,0 +1,39 @@
+<html>
+<head>
+    <title>rEYEker</title>
+    <meta charset="utf-8"/>
+    <script src="scripts/require.js"></script>
+    <script src="scripts/rEYEker.js"></script>
+</head>
+<body>
+<h1>Ein Beispiel Text :)</h1>
+<div id="Image">
+    <div style="position: relative;">
+        <canvas id="bubble-image-canvas" style="position: relative; left: 0; top: 0;"></canvas>
+        <canvas id="visible-image-canvas" style="position: absolute; left: 0; top: 0;"></canvas>
+    </div>
+</div>
+<div id="attributeText">
+    <div class="htmlTesting">
+    <h3>html Testing</h3>
+        x-Folding Range<label id="xFoldingRangeLabel"> [2]</label>             <input type="range" min="1" max="50"  value="5" class="slider" id="xFoldingRange"><br>
+        y-Folding Range<label id="yFoldingRangeLabel"> [2]</label>             <input type="range" min="1" max="50"  value="5" class="slider" id="yFoldingRange"><br>
+        minimal x Visibility<label id="minimalXVisibilityLabel"> [50]</label>  <input type="range" min="1" max="200" value="50" class="slider" id="minimalXVisibility"><br>
+        minimal y Visibility<label id="minimalYVisibilityLabel"> [50]</label>  <input type="range" min="1" max="200" value="50" class="slider" id="minimalYVisibility"><br>
+        blur Radius<label id="blurRadiusLabel"> [50]</label>                   <input type="range" min="1" max="200" value="50" class="slider" id="blurRadius"><br>
+        x blur Ratio<label id="blurXRatioLabel"> [100]%</label>                <input type="range" min="1" max="100" value="100" class="slider" id="blurXRatio"><br>
+        y blur Ratio<label id="blurYRatioLabel"> [100]%</label>                <input type="range" min="1" max="100" value="100" class="slider" id="blurYRatio"><br>
+        <br>
+        Mouse Click: <input type="checkbox" id="mouseClickActivation" checked><br>
+        <br>
+        Example:<br>
+        1) <input type="checkbox" id="ex_1" checked="true"> <br>
+        2) <input type="checkbox" id="ex_2"> <br>
+        3) <input type="checkbox" id="ex_3"> <br>
+    </div>
+</div>
+<script>
+    require(['rEYEker']);
+</script>
+</body>
+</html>
