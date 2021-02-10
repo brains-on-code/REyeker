@@ -19,22 +19,7 @@ html Testing
 	Make sure that the Images are formattet in an 8 Bit Color Depth RGB(A) format.
 	Also supply some html code, for useriterface interactions:
 	
-	<h3>html Testing</h3>
-        <label id="xFoldingRangeLabel"> [2]</label>             <input type="range" min="1" max="50"  value="5" class="slider" id="xFoldingRange"><br>
-        <label id="yFoldingRangeLabel"> [2]</label>             <input type="range" min="1" max="50"  value="5" class="slider" id="yFoldingRange"><br>
-        <label id="minimalXVisibilityLabel"> [50]</label>  <input type="range" min="1" max="200" value="50" class="slider" id="minimalXVisibility"><br>
-        <label id="minimalYVisibilityLabel"> [50]</label>  <input type="range" min="1" max="200" value="50" class="slider" id="minimalYVisibility"><br>
-        <label id="blurRadiusLabel"> [50]</label>                   <input type="range" min="1" max="200" value="50" class="slider" id="blurRadius"><br>
-        <label id="blurXRatioLabel"> [100]%</label>                <input type="range" min="1" max="100" value="100" class="slider" id="blurXRatio"><br>
-        <label id="blurYRatioLabel"> [100]%</label>                <input type="range" min="1" max="100" value="100" class="slider" id="blurYRatio"><br>
-        <br>
-        <input type="checkbox" id="mouseClickActivation" checked><br>
-        <br>
-        <br>
-        <input type="checkbox" id="ex_1" checked="true"> <br>
-        <input type="checkbox" id="ex_2"> <br>
-        <input type="checkbox" id="ex_3"> <br>
-    </div>
+	For the basics look into the index.html file
 	
 	<div class="Image">
         <div style="position: relative;">
@@ -74,6 +59,8 @@ soSciSurvey
 	
 	For the Querstion, just create a new Question and feel free to ask anything.
 	
+	Additionally a variable for timing could be inserted
+
 	For putting together all the Parts, create a questionnaire and use the order 
 	->variablepart
 	->embedding
@@ -82,7 +69,7 @@ soSciSurvey
 	To Change the attributes go to "block : customize attributes".
 	Change the values as you want to the amount of their definition range, you can test theese parameters with html testing.
 	
-dataAnaylsis
+dataAnaylsis 1.0:
 	Make sure the dataAnaylsis flag is set.
 	
 	Add the Image to the root folder of you server and change the variable "imageWithDataOfClickLog" to the Name of The Image.
@@ -93,22 +80,6 @@ dataAnaylsis
 	
 	Supply the following html elements:
 	
-	<div class="dataAnalysis">
-        <h3>data analysis</h3>
-        <input type="range" min="0" max="0" value="0" id="clickLogDataSetBar"><br>
-        <input type="checkbox" id="lineViewCheckbox" ><br>
-        <input type="checkbox" id="rowViewCheckbox" ><br>
-        <input type="checkbox" id="rectangleViewCheckbox" ><br><br>
-
-        <input type="checkbox" id="verticalViewCheckbox" checked ><br>
-        <input type="checkbox" id="horizontalViewCheckbox" ><br><br>
-
-        <input type="checkbox" id="verticalHeatmapCheckbox" ><br>
-        <input type="checkbox" id="horizontalHeatmapCheckbox" ><br>
-        <input type="checkbox" id="rectangleHeatmapCheckbox" ><br><br>
-
-        <input type="range" min="0" max="0" value="0" class="slider" id="clickLogActivationBarMax"><br>
-        <input type="range" min="0" max="0" value="0" class="slider" id="clickLogActivationBarMin"><br>
     </div>
     <div class="Image">
         <div style="position: relative;">
@@ -117,6 +88,8 @@ dataAnaylsis
         </div>
     </div>
 
+dataAnaylsis 2.0:
+	Use Jupyter and include the python module from the module folder, for example look into the given notebook
 	
 	
 	
