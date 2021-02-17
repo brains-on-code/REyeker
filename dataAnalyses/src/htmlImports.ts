@@ -1,5 +1,3 @@
-
-
 /**
  * A Section for used html references
  */
@@ -19,10 +17,11 @@ export let rectangleHeatmapCheckbox: HTMLInputElement;// a checkbox to indicate 
 export let imageDataAnalysisInput: HTMLInputElement;// set the Image url of the image to analyse
 export let imageDataAnalysisButton: HTMLInputElement;// set the Image url of the image to analyse button
 export let dataDataAnalysisInput: HTMLInputElement;// push the data for the used image
+export let timeDataAnalysisInput: HTMLInputElement;// push the data for the used image
 export let dataDataAnalysisButton: HTMLInputElement;// push the data for the used image button
-export let dataSetNumberOutput : HTMLLabelElement; // a label for displaying the currently used dataset
+export let dataSetNumberOutput: HTMLLabelElement; // a label for displaying the currently used dataset
 
-export let SNWRoundingInput : HTMLInputElement; //input to get the rounding number for SNW
+export let SNWRoundingInput: HTMLInputElement; //input to get the rounding number for SNW
 export let SNWDataInput1: HTMLInputElement; //Input for getting the first dataset number
 export let SNWDataInput2: HTMLInputElement; //Input for getting the second dataset number
 export let SNWGoButton: HTMLInputElement; //input to start the SNW calculation
@@ -47,7 +46,19 @@ export let DataSetInput: HTMLInputElement; // a input label to get the file loca
 export let DataSetLoadButton: HTMLInputElement; // a Button to trigger the load event
 export let DataSetSaveAsButton: HTMLInputElement; // a Button to trigger the save as event
 
+export let RectangleMinimalWidthInput: HTMLInputElement; //text input for reading minimal width
+export let RectangleMinimalHeightInput: HTMLInputElement;  // text input for reading minimal height
+export let RectangleGradientRadiusInput: HTMLInputElement; // text input for reading gradient radius
+export let RectangleSubmitButton: HTMLInputElement; //Button for using rectangle
 
+export let CircleRadiusInput: HTMLInputElement; // text input for reading circle radius
+export let CircleGradientRadiusInput: HTMLInputElement; // text input for reading ellipse radius
+export let CircleSubmitButton: HTMLInputElement; //Button for using circle
+
+export let EllipseXRadiusInput: HTMLInputElement; // text input for reading ellipse x radius
+export let EllipseYRadiusInput: HTMLInputElement; // text input for reading ellipse y radius
+export let EllipseGradientRadiusInput: HTMLInputElement; // text input for reading gradient radius
+export let EllipseSubmitButton: HTMLInputElement; //Button for using ellipse
 
 
 clickLogCanvas = <HTMLCanvasElement>document.getElementById("click-log-canvas");
@@ -65,9 +76,10 @@ horizontalHeatmapCheckbox = <HTMLInputElement>document.getElementById("horizonta
 rectangleHeatmapCheckbox = <HTMLInputElement>document.getElementById("rectangleHeatmapCheckbox");
 imageDataAnalysisInput = <HTMLInputElement>document.getElementById("imageDataAnalysisInput");
 imageDataAnalysisButton = <HTMLInputElement>document.getElementById("imageDataAnalysisButton");
+timeDataAnalysisInput = <HTMLInputElement>document.getElementById("timeDataAnalysisInput");
 dataDataAnalysisInput = <HTMLInputElement>document.getElementById("dataDataAnalysisInput");
 dataDataAnalysisButton = <HTMLInputElement>document.getElementById("dataDataAnalysisButton");
-SNWRoundingInput  = <HTMLInputElement>document.getElementById("SNW_rounding");
+SNWRoundingInput = <HTMLInputElement>document.getElementById("SNW_rounding");
 SNWDataInput1 = <HTMLInputElement>document.getElementById("SNW_Input1");
 SNWDataInput2 = <HTMLInputElement>document.getElementById("SNW_Input2");
 SNWGoButton = <HTMLInputElement>document.getElementById("SNW_go");
@@ -89,6 +101,17 @@ SemanticClassifierOutput = <HTMLLabelElement>document.getElementById("SemanticCl
 DataSetInput = <HTMLInputElement>document.getElementById("datasetInput");
 DataSetLoadButton = <HTMLInputElement>document.getElementById("datasetLoadButton");
 DataSetSaveAsButton = <HTMLInputElement>document.getElementById("datasetSaveAsButton");
+RectangleMinimalWidthInput = <HTMLInputElement>document.getElementById("minimalWidthInput");
+RectangleMinimalHeightInput = <HTMLInputElement>document.getElementById("minimalHeightInput");
+RectangleGradientRadiusInput = <HTMLInputElement>document.getElementById("rectangleGradRadiusInput");
+RectangleSubmitButton = <HTMLInputElement>document.getElementById("useRectangle");
+CircleRadiusInput = <HTMLInputElement>document.getElementById("radiusInput");
+CircleGradientRadiusInput = <HTMLInputElement>document.getElementById("circleGradRadiusInput");
+CircleSubmitButton = <HTMLInputElement>document.getElementById("useCircle");
+EllipseXRadiusInput = <HTMLInputElement>document.getElementById("xRadiusInput");
+EllipseYRadiusInput = <HTMLInputElement>document.getElementById("yRadiusInput");
+EllipseGradientRadiusInput = <HTMLInputElement>document.getElementById("ellipseGradRadiusInput");
+EllipseSubmitButton = <HTMLInputElement>document.getElementById("useEllipse");
 
 /**
  * the canvas for the image

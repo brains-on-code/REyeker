@@ -13,12 +13,22 @@ declare module "clickDataSaver" {
     export class clickDataSaver {
         static imageWithDataOfClickLog: string;
         static clickLogData: Coordinate[][];
+        static timeLogData: number[][];
         static current: number;
+        static use_times: boolean;
+        static use_rectangle: boolean;
+        static use_circle: boolean;
+        static use_ellipse: boolean;
         static grad_radius: number;
         static minimal_width: number;
         static minimal_height: number;
+        static radius: number;
+        static radius_x: number;
+        static radius_y: number;
         static string_to_click_log(data_str: string): void;
+        static string_to_time_log(data_str: string): void;
         static get_current_log(): Coordinate[];
+        static get_current_time_log(): number[];
         static clear_current_log(): void;
         static set_current_log(dataToSet: Object): void;
         static add_current_to_object(object_to_add_on: any): any;
@@ -26,13 +36,13 @@ declare module "clickDataSaver" {
 }
 declare module "BoxDiagram" {
     import { Coordinate } from "Coordinate";
-    export function drawRectangleView(context: CanvasRenderingContext2D, current_coordinate: Coordinate): void;
+    export function drawShapeView(context: CanvasRenderingContext2D, current_coordinate: Coordinate): void;
     export function drawLineView(context: CanvasRenderingContext2D, current_coordinate: Coordinate, width: number): void;
     export function drawRowView(context: CanvasRenderingContext2D, current_coordinate: Coordinate, height: number): void;
 }
 declare module "Heatmaps" {
     import { Coordinate } from "Coordinate";
-    export function drawRectangleHeatMap(context: CanvasRenderingContext2D, min: number, max: number, buffer: Coordinate[]): void;
+    export function drawShapeHeatMap(context: CanvasRenderingContext2D, min: number, max: number, buffer: Coordinate[]): void;
     export function drawVerticalHeatMap(context: CanvasRenderingContext2D, min: number, max: number, buffer: Coordinate[], maxWidth: number): void;
     export function drawHorizontalHeatMap(context: CanvasRenderingContext2D, min: number, max: number, buffer: Coordinate[], maxHeight: number): void;
 }
@@ -96,6 +106,7 @@ declare module "htmlImports" {
     export let imageDataAnalysisInput: HTMLInputElement;
     export let imageDataAnalysisButton: HTMLInputElement;
     export let dataDataAnalysisInput: HTMLInputElement;
+    export let timeDataAnalysisInput: HTMLInputElement;
     export let dataDataAnalysisButton: HTMLInputElement;
     export let dataSetNumberOutput: HTMLLabelElement;
     export let SNWRoundingInput: HTMLInputElement;
@@ -119,6 +130,17 @@ declare module "htmlImports" {
     export let DataSetInput: HTMLInputElement;
     export let DataSetLoadButton: HTMLInputElement;
     export let DataSetSaveAsButton: HTMLInputElement;
+    export let RectangleMinimalWidthInput: HTMLInputElement;
+    export let RectangleMinimalHeightInput: HTMLInputElement;
+    export let RectangleGradientRadiusInput: HTMLInputElement;
+    export let RectangleSubmitButton: HTMLInputElement;
+    export let CircleRadiusInput: HTMLInputElement;
+    export let CircleGradientRadiusInput: HTMLInputElement;
+    export let CircleSubmitButton: HTMLInputElement;
+    export let EllipseXRadiusInput: HTMLInputElement;
+    export let EllipseYRadiusInput: HTMLInputElement;
+    export let EllipseGradientRadiusInput: HTMLInputElement;
+    export let EllipseSubmitButton: HTMLInputElement;
     export const canvas: HTMLCanvasElement;
     export let ctx: CanvasRenderingContext2D;
     export let image: HTMLImageElement;

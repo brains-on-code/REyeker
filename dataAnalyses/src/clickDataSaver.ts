@@ -6,11 +6,22 @@ import {Coordinate} from "./Coordinate";
 export class clickDataSaver{
     public static imageWithDataOfClickLog = "./images/InsertSort.PNG";
     public static clickLogData : Coordinate[][] = [];
+    public static timeLogData : number[][] = [];
     public static current = -1;
 
+    public static use_times = false;
+    public static use_rectangle = true;
+    public static use_circle = false;
+    public static use_ellipse = false;
     public static grad_radius = 30;
+
     public static minimal_width = 200;
     public static minimal_height = 1;
+
+    public static radius = 50;
+
+    public static radius_x = 100;
+    public static radius_y = 50;
 
     /**
      * gets a string and formats that to a click log vector, the string should be formatted like "x1-y1 x2-y2 ... xn-yn"
@@ -29,6 +40,21 @@ export class clickDataSaver{
     }
 
     /**
+     * gets a string and formats that to a time log vector, the string should be formatted like "t1 t2 t3 ... tn"
+     *
+     * @param data_str the data which to format
+     */
+    public static string_to_time_log(data_str: string){
+        let time_String: string[] = data_str.split(" ");
+        let time_log_vector: number[] = [];
+        for (let i = 0; i < time_String.length; i++) {
+            let time_stamp: number = parseInt(time_String[i]);
+            time_log_vector.push(time_stamp);
+        }
+        clickDataSaver.timeLogData.push(time_log_vector);
+    }
+
+    /**
      * returns the ccurrent active data
      */
     public static get_current_log(){
@@ -36,10 +62,18 @@ export class clickDataSaver{
     }
 
     /**
+     * returns the ccurrent active data
+     */
+    public static get_current_time_log(){
+        return clickDataSaver.timeLogData[clickDataSaver.current];
+    }
+
+    /**
      * clears all the data
      */
     public static clear_current_log(){
         clickDataSaver.clickLogData = [];
+        clickDataSaver.timeLogData = [];
         clickDataSaver.current = -1;
         clickDataSaver.grad_radius = 30;
         clickDataSaver.minimal_width = 200;
@@ -64,14 +98,42 @@ export class clickDataSaver{
                 clickDataSaver.current = 0;
             }
         }
+        if("times" in dataToSet){
+            let timeString : [string] = dataToSet["times"];
+            for(let i=0; i<timeString.length; i++){
+                let data : string = timeString[i];
+                clickDataSaver.string_to_time_log(data)
+            }
+        }
         if("grad_radius" in dataToSet){
             clickDataSaver.grad_radius = dataToSet["grad_radius"]
         }
-        if("minimal_width" in dataToSet){
-            clickDataSaver.minimal_width = dataToSet["minimal_width"]
-        }
-        if("minimal_height" in dataToSet){
-            clickDataSaver.minimal_height = dataToSet["minimal_height"]
+        if("use_rectangle" in dataToSet && dataToSet["use_rectangle"] === true){
+            clickDataSaver.use_rectangle = true;
+            clickDataSaver.use_circle = false;
+            clickDataSaver.use_rectangle = false;
+            if("minimal_width" in dataToSet){
+                clickDataSaver.minimal_width = dataToSet["minimal_width"]
+            }
+            if("minimal_height" in dataToSet){
+                clickDataSaver.minimal_height = dataToSet["minimal_height"]
+            }
+        }else if("use_circle" in dataToSet && dataToSet["use_circle"] === true){
+            clickDataSaver.use_rectangle = false;
+            clickDataSaver.use_circle = true;
+            clickDataSaver.use_rectangle = false;
+            if("radius" in dataToSet){
+                clickDataSaver.radius = dataToSet["radius"];
+            }
+        }else if("use_ellipse" in dataToSet && dataToSet["use_ellipse"] === true){
+            clickDataSaver.use_rectangle = false;
+            clickDataSaver.use_circle = false;
+            clickDataSaver.use_rectangle = true;
+            if("radius_x" in dataToSet){
+                clickDataSaver.radius_x = dataToSet["radius_x"];
+            }else if("radius_y" in dataToSet){
+                clickDataSaver.radius_y = dataToSet["radius_y"];
+            }
         }
 
     }
@@ -84,6 +146,12 @@ export class clickDataSaver{
         object_to_add_on["grad_radius"] = clickDataSaver.grad_radius;
         object_to_add_on["minimal_width"] = clickDataSaver.minimal_width;
         object_to_add_on["minimal_height"] = clickDataSaver.minimal_height;
+        object_to_add_on["radius"] = clickDataSaver.radius;
+        object_to_add_on["radius_x"] = clickDataSaver.radius_x;
+        object_to_add_on["radius_y"] = clickDataSaver.radius_y;
+        object_to_add_on["use_rectangle"] = clickDataSaver.use_rectangle;
+        object_to_add_on["use_circle"] = clickDataSaver.use_circle;
+        object_to_add_on["use_ellipse"] = clickDataSaver.use_ellipse;
         let clickLogStringArray = [];
         for(let i=0; i<clickDataSaver.clickLogData.length; i++){
             let oneDataSet = "";
@@ -96,6 +164,22 @@ export class clickDataSaver{
             clickLogStringArray.push(oneDataSet)
         }
         object_to_add_on["data"] = clickLogStringArray;
+
+        let timeLogSringArray = [];
+        for(let i=0; i<clickDataSaver.timeLogData.length; i++){
+            let oneDataSet = "";
+            for(let j=0; j<clickDataSaver.timeLogData[i].length; j++){
+                oneDataSet += clickDataSaver.timeLogData[i][j];
+                if(j!=clickDataSaver.clickLogData[i].length-1){
+                    oneDataSet += " ";
+                }
+            }
+            timeLogSringArray.push(oneDataSet)
+        }
+        if(timeLogSringArray.length != 0){
+            object_to_add_on["times"] = timeLogSringArray;
+        }
+
         return object_to_add_on
     }
 

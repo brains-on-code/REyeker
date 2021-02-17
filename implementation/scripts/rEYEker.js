@@ -116,23 +116,29 @@ define("ImageCalculator", ["require", "exports", "Coordinate", "Rectangle", "Hel
             this.color_buffer = [];
             this.blurry_buffer = [];
             this.visible_buffer = [];
+            this.has_calculated_lock = false;
             this.max_width = 0;
             this.max_height = 0;
+            this.use_rectangle = false;
             this.minimal_width_visibility = 5;
             this.minimal_height_visibility = 5;
-            this.gradient_radius = 10;
-            this.gradient_x_ratio = 1.0;
-            this.gradient_y_ratio = 5;
+            this.use_circle = false;
+            this.circle_radius = 3;
+            this.use_ellipse = true;
+            this.ellipse_x_radius = 150;
+            this.ellipse_y_radius = 20;
+            this.gradient_radius = 50;
             this.current_render_area = new Rectangle_1.Rectangle(0, 0, 0, 0);
-            this.has_calculated_lock = false;
             this.click_log = [];
+            this.click_log_times = [];
+            this.time_start = 0;
         }
         ImageCalculator.prototype.to_index = function (width_idx, height_idx) {
             return height_idx * this.max_width + width_idx;
         };
-        ImageCalculator.prototype.get_render_region = function (current_coordinate, min_radius, factor, max_value) {
-            var min = Math.max(0, (current_coordinate - min_radius - (1.5 / factor * this.gradient_radius)));
-            var max = Math.min(max_value, (current_coordinate + min_radius + (1.5 / factor * this.gradient_radius)));
+        ImageCalculator.prototype.get_render_region = function (current_coordinate, min_radius, max_value) {
+            var min = Math.max(0, (current_coordinate - min_radius - this.gradient_radius));
+            var max = Math.min(max_value, (current_coordinate + min_radius + this.gradient_radius));
             return [min, max];
         };
         ImageCalculator.prototype.get_color_interpolation = function (idx, alpha) {
@@ -207,53 +213,140 @@ define("ImageCalculator", ["require", "exports", "Coordinate", "Rectangle", "Hel
             }
             this.blurry_buffer = blur_buf;
             this.has_calculated_lock = true;
+            this.time_start = Math.floor(performance.now());
         };
         ImageCalculator.prototype.calculate_visible_area = function (x_coordinate, y_coordinate) {
+            var _a, _b, _c, _d, _e, _f;
             x_coordinate = Math.floor(x_coordinate);
             y_coordinate = Math.floor(y_coordinate);
             var gradiant_buffer = __spreadArrays(this.blurry_buffer);
             var y_distance_flag;
             var x_distance_flag;
-            var _a = this.get_render_region(x_coordinate, this.minimal_width_visibility, this.gradient_x_ratio, this.max_width), x_min = _a[0], x_max = _a[1];
-            var _b = this.get_render_region(y_coordinate, this.minimal_height_visibility, this.gradient_y_ratio, this.max_height), y_min = _b[0], y_max = _b[1];
+            var x_min, x_max;
+            var y_min, y_max;
+            if (this.use_rectangle) {
+                _a = this.get_render_region(x_coordinate, this.minimal_width_visibility, this.max_width), x_min = _a[0], x_max = _a[1];
+                _b = this.get_render_region(y_coordinate, this.minimal_height_visibility, this.max_height), y_min = _b[0], y_max = _b[1];
+            }
+            else if (this.use_circle) {
+                _c = this.get_render_region(x_coordinate, this.circle_radius, this.max_width), x_min = _c[0], x_max = _c[1];
+                _d = this.get_render_region(y_coordinate, this.circle_radius, this.max_height), y_min = _d[0], y_max = _d[1];
+            }
+            else if (this.use_ellipse) {
+                _e = this.get_render_region(x_coordinate, this.ellipse_x_radius, this.max_width), x_min = _e[0], x_max = _e[1];
+                _f = this.get_render_region(y_coordinate, this.ellipse_y_radius, this.max_height), y_min = _f[0], y_max = _f[1];
+            }
             this.current_render_area = new Rectangle_1.Rectangle(x_min, y_min, x_max - x_min, y_max - y_min);
             this.click_log.push(new Coordinate_2.Coordinate(x_coordinate, y_coordinate));
-            for (var height_iter = y_min; height_iter < y_max; height_iter++) {
-                y_distance_flag = DISTANCE_CASE.INTERPOLATION;
-                var y_distance = Math.sqrt(Math.pow(y_coordinate - height_iter, 2));
-                if (y_distance < this.minimal_height_visibility) {
-                    y_distance_flag = DISTANCE_CASE.IN_MIN;
+            this.click_log_times.push(Math.floor(performance.now() - this.time_start));
+            if (this.use_rectangle) {
+                for (var height_iter = y_min; height_iter < y_max; height_iter++) {
+                    y_distance_flag = DISTANCE_CASE.INTERPOLATION;
+                    var y_distance = Math.sqrt(Math.pow(y_coordinate - height_iter, 2));
+                    if (this.use_rectangle && y_distance < this.minimal_height_visibility) {
+                        y_distance_flag = DISTANCE_CASE.IN_MIN;
+                    }
+                    for (var width_iter = x_min; width_iter < x_max; width_iter++) {
+                        x_distance_flag = DISTANCE_CASE.INTERPOLATION;
+                        var x_distance = Math.sqrt(Math.pow(x_coordinate - width_iter, 2));
+                        if (x_distance < this.minimal_width_visibility) {
+                            x_distance_flag = DISTANCE_CASE.IN_MIN;
+                        }
+                        var idx = this.to_index(width_iter, height_iter);
+                        if (x_distance_flag == DISTANCE_CASE.IN_MIN && y_distance_flag == DISTANCE_CASE.IN_MIN) {
+                            gradiant_buffer[idx * this.bytesPerPixel] = this.color_buffer[idx * this.bytesPerPixel];
+                            gradiant_buffer[idx * this.bytesPerPixel + 1] = this.color_buffer[idx * this.bytesPerPixel + 1];
+                            gradiant_buffer[idx * this.bytesPerPixel + 2] = this.color_buffer[idx * this.bytesPerPixel + 2];
+                        }
+                        else {
+                            var x_distance_normalized = Math.max(0, x_distance - this.minimal_width_visibility);
+                            x_distance_normalized = Math.max(0, x_distance_normalized / this.gradient_radius);
+                            var y_distance_normalized = Math.max(0, y_distance - this.minimal_height_visibility);
+                            y_distance_normalized = Math.max(0, y_distance_normalized / this.gradient_radius);
+                            var distance = Math.min(1, x_distance_normalized + y_distance_normalized);
+                            var alpha = 1.0 - distance;
+                            var _g = this.get_color_interpolation(idx, alpha), r = _g[0], g = _g[1], b = _g[2];
+                            gradiant_buffer[idx * this.bytesPerPixel] = r;
+                            gradiant_buffer[idx * this.bytesPerPixel + 1] = g;
+                            gradiant_buffer[idx * this.bytesPerPixel + 2] = b;
+                        }
+                    }
                 }
-                for (var width_iter = x_min; width_iter < x_max; width_iter++) {
-                    x_distance_flag = DISTANCE_CASE.INTERPOLATION;
-                    var x_distance = Math.sqrt(Math.pow(x_coordinate - width_iter, 2));
-                    if (x_distance < this.minimal_width_visibility) {
-                        x_distance_flag = DISTANCE_CASE.IN_MIN;
+            }
+            else if (this.use_circle) {
+                var rad_square = Math.pow(this.circle_radius, 2);
+                var rad_grad_square = Math.pow(this.circle_radius + this.gradient_radius, 2);
+                for (var height_iter = y_min; height_iter < y_max; height_iter++) {
+                    for (var width_iter = x_min; width_iter < x_max; width_iter++) {
+                        var clear = Math.pow(width_iter - x_coordinate, 2) + Math.pow(height_iter - y_coordinate, 2) <= rad_square;
+                        var inter_value = Math.pow(width_iter - x_coordinate, 2) + Math.pow(height_iter - y_coordinate, 2);
+                        var interpolate = inter_value <= rad_grad_square;
+                        var idx = this.to_index(width_iter, height_iter);
+                        if (clear) {
+                            gradiant_buffer[idx * this.bytesPerPixel] = this.color_buffer[idx * this.bytesPerPixel];
+                            gradiant_buffer[idx * this.bytesPerPixel + 1] = this.color_buffer[idx * this.bytesPerPixel + 1];
+                            gradiant_buffer[idx * this.bytesPerPixel + 2] = this.color_buffer[idx * this.bytesPerPixel + 2];
+                        }
+                        else if (interpolate) {
+                            var x_distance = Math.abs(x_coordinate - width_iter);
+                            var y_distance = Math.abs(y_coordinate - height_iter);
+                            var x_distance_normalized = Math.max(0, x_distance - this.circle_radius);
+                            x_distance_normalized = Math.max(0, x_distance_normalized / this.gradient_radius);
+                            var y_distance_normalized = Math.max(0, y_distance - this.circle_radius);
+                            y_distance_normalized = Math.max(0, y_distance_normalized / this.gradient_radius);
+                            var distance = Math.min(1, x_distance_normalized + y_distance_normalized);
+                            var alpha = 1.0 - distance;
+                            var _h = this.get_color_interpolation(idx, alpha), r = _h[0], g = _h[1], b = _h[2];
+                            gradiant_buffer[idx * this.bytesPerPixel] = r;
+                            gradiant_buffer[idx * this.bytesPerPixel + 1] = g;
+                            gradiant_buffer[idx * this.bytesPerPixel + 2] = b;
+                        }
                     }
-                    var idx = this.to_index(width_iter, height_iter);
-                    if (x_distance_flag == DISTANCE_CASE.IN_MIN && y_distance_flag == DISTANCE_CASE.IN_MIN) {
-                        gradiant_buffer[idx * this.bytesPerPixel] = this.color_buffer[idx * this.bytesPerPixel];
-                        gradiant_buffer[idx * this.bytesPerPixel + 1] = this.color_buffer[idx * this.bytesPerPixel + 1];
-                        gradiant_buffer[idx * this.bytesPerPixel + 2] = this.color_buffer[idx * this.bytesPerPixel + 2];
-                    }
-                    else {
-                        var x_distance_normalized = Math.max(0, x_distance - this.minimal_width_visibility);
-                        x_distance_normalized = Math.max(0, x_distance_normalized / this.gradient_radius);
-                        var y_distance_normalized = Math.max(0, y_distance - this.minimal_height_visibility);
-                        y_distance_normalized = Math.max(0, y_distance_normalized / this.gradient_radius);
-                        var distance = Math.min(1, (this.gradient_x_ratio * x_distance_normalized + this.gradient_y_ratio * y_distance_normalized) / (this.gradient_x_ratio + this.gradient_y_ratio));
-                        var alpha = 1.0 - distance;
-                        var _c = this.get_color_interpolation(idx, alpha), r = _c[0], g = _c[1], b = _c[2];
-                        gradiant_buffer[idx * this.bytesPerPixel] = r;
-                        gradiant_buffer[idx * this.bytesPerPixel + 1] = g;
-                        gradiant_buffer[idx * this.bytesPerPixel + 2] = b;
+                }
+            }
+            else if (this.use_ellipse) {
+                var x_rad_square = Math.pow(this.ellipse_x_radius, 2);
+                var y_rad_square = Math.pow(this.ellipse_y_radius, 2);
+                var x_rad_grad_square = Math.pow(this.ellipse_x_radius + this.gradient_radius, 2);
+                var y_rad_grad_square = Math.pow(this.ellipse_y_radius + this.gradient_radius, 2);
+                for (var height_iter = y_min; height_iter < y_max; height_iter++) {
+                    for (var width_iter = x_min; width_iter < x_max; width_iter++) {
+                        var clear = Math.pow(width_iter - x_coordinate, 2) / x_rad_square + Math.pow(height_iter - y_coordinate, 2) / y_rad_square <= 1;
+                        var inter_value = Math.pow(width_iter - x_coordinate, 2) / x_rad_grad_square + Math.pow(height_iter - y_coordinate, 2) / y_rad_grad_square;
+                        var interpolate = inter_value <= 1;
+                        var idx = this.to_index(width_iter, height_iter);
+                        if (clear) {
+                            gradiant_buffer[idx * this.bytesPerPixel] = this.color_buffer[idx * this.bytesPerPixel];
+                            gradiant_buffer[idx * this.bytesPerPixel + 1] = this.color_buffer[idx * this.bytesPerPixel + 1];
+                            gradiant_buffer[idx * this.bytesPerPixel + 2] = this.color_buffer[idx * this.bytesPerPixel + 2];
+                        }
+                        else if (interpolate) {
+                            var x_distance = Math.abs(x_coordinate - width_iter);
+                            var y_distance = Math.abs(y_coordinate - height_iter);
+                            var x_distance_normalized = Math.max(0, x_distance - this.ellipse_x_radius);
+                            x_distance_normalized = Math.max(0, x_distance_normalized / this.gradient_radius);
+                            var y_distance_normalized = Math.max(0, y_distance - this.ellipse_y_radius);
+                            y_distance_normalized = Math.max(0, y_distance_normalized / this.gradient_radius);
+                            var distance = Math.min(1, x_distance_normalized + y_distance_normalized);
+                            var alpha = 1.0 - distance;
+                            var _j = this.get_color_interpolation(idx, alpha), r = _j[0], g = _j[1], b = _j[2];
+                            gradiant_buffer[idx * this.bytesPerPixel] = r;
+                            gradiant_buffer[idx * this.bytesPerPixel + 1] = g;
+                            gradiant_buffer[idx * this.bytesPerPixel + 2] = b;
+                        }
                     }
                 }
             }
             this.visible_buffer = gradiant_buffer;
         };
+        ImageCalculator.prototype.clear_click_log = function () {
+            this.click_log = [];
+        };
         ImageCalculator.prototype.get_click_log = function () {
             return this.click_log;
+        };
+        ImageCalculator.prototype.get_click_log_times = function () {
+            return this.click_log_times;
         };
         ImageCalculator.prototype.set_click_log = function (click_log) {
             this.click_log = click_log;
@@ -283,6 +376,16 @@ define("ImageCalculator", ["require", "exports", "Coordinate", "Rectangle", "Hel
         ImageCalculator.prototype.get_color_buffer = function () {
             return this.color_buffer;
         };
+        ImageCalculator.prototype.read_and_reset_calculated_lock = function () {
+            var tmp = this.has_calculated_lock;
+            this.has_calculated_lock = false;
+            return tmp;
+        };
+        ImageCalculator.prototype.set_use_rectangle = function () {
+            this.use_rectangle = true;
+            this.use_circle = false;
+            this.use_ellipse = false;
+        };
         ImageCalculator.prototype.set_minimal_width_radius = function (minimal_width_radius) {
             this.minimal_width_visibility = minimal_width_radius;
         };
@@ -301,19 +404,33 @@ define("ImageCalculator", ["require", "exports", "Coordinate", "Rectangle", "Hel
         ImageCalculator.prototype.get_gradient_radius = function () {
             return this.gradient_radius;
         };
-        ImageCalculator.prototype.set_gradient_x_ratio = function (gradient_x_radius) {
-            this.gradient_x_ratio = Math.min(1.0, Math.max(0.0, gradient_x_radius));
+        ImageCalculator.prototype.set_use_circle = function () {
+            this.use_rectangle = false;
+            this.use_circle = true;
+            this.use_ellipse = false;
         };
-        ImageCalculator.prototype.set_gradient_y_ratio = function (gradient_y_radius) {
-            this.gradient_y_ratio = Math.min(1.0, Math.max(0.0, gradient_y_radius));
+        ImageCalculator.prototype.set_circle_radius = function (radius) {
+            this.circle_radius = radius;
         };
-        ImageCalculator.prototype.clear_click_log = function () {
-            this.click_log = [];
+        ImageCalculator.prototype.get_circle_radius = function () {
+            return this.circle_radius;
         };
-        ImageCalculator.prototype.read_and_reset_calculated_lock = function () {
-            var tmp = this.has_calculated_lock;
-            this.has_calculated_lock = false;
-            return tmp;
+        ImageCalculator.prototype.set_use_ellipse = function () {
+            this.use_rectangle = false;
+            this.use_circle = false;
+            this.use_ellipse = true;
+        };
+        ImageCalculator.prototype.set_ellipse_radius_x = function (radius_x) {
+            this.ellipse_x_radius = radius_x;
+        };
+        ImageCalculator.prototype.set_ellipse_radius_y = function (radius_y) {
+            this.ellipse_y_radius = radius_y;
+        };
+        ImageCalculator.prototype.get_ellipse_radius_x = function () {
+            return this.ellipse_x_radius;
+        };
+        ImageCalculator.prototype.get_ellipse_radius_y = function () {
+            return this.ellipse_y_radius;
         };
         return ImageCalculator;
     }());
@@ -334,8 +451,8 @@ define("useCases", ["require", "exports"], function (require, exports) {
                 value++;
             return value === 1;
         };
-        UseCases.htmlTesting = false;
-        UseCases.soSciSurvey = true;
+        UseCases.htmlTesting = true;
+        UseCases.soSciSurvey = false;
         return UseCases;
     }());
     exports.UseCases = UseCases;
@@ -354,23 +471,32 @@ define("rEYEker", ["require", "exports", "useCases", "ImageCalculator"], functio
     var ex_2_url = "./images/Calculation.PNG";
     var ex_3_url = "./images/Rectangle.PNG";
     var imageUrl;
-    var variableName;
+    var variableNameClickLog;
+    var variableNameTimeLog = null;
     var x_blur_radius = 8;
     var y_blur_radius = 8;
     var grad_radius = 30;
     var minimal_width = 200;
     var minimal_height = 1;
-    var x_ratio = 1;
-    var y_ratio = 1;
+    var circle_radius = 50;
+    var ellipse_radius_x = 100;
+    var ellipse_radius_y = 50;
+    var use_rectangle = true;
+    var use_circle = false;
+    var use_ellipse = false;
     var visibleImageCanvas;
     var clickLogCanvas;
     var xFoldingRangeInput;
     var yFoldingRangeInput;
+    var useRectangleInput;
     var minimalXVisibilityInput;
     var minimalYVisibilityInput;
+    var useCircleInput;
+    var circleRadiusInput;
+    var useEllipseInput;
+    var ellipseXRadiusInput;
+    var ellipseYRadiusInput;
     var blurRadiusInput;
-    var blurXRatioInput;
-    var blurYRatioInput;
     var mouseClickActivationInput;
     var ex_1_box;
     var ex_2_box;
@@ -381,18 +507,25 @@ define("rEYEker", ["require", "exports", "useCases", "ImageCalculator"], functio
         minimalXVisibilityInput = document.getElementById("minimalXVisibility");
         minimalYVisibilityInput = document.getElementById("minimalYVisibility");
         blurRadiusInput = document.getElementById("blurRadius");
-        blurXRatioInput = document.getElementById("blurXRatio");
-        blurYRatioInput = document.getElementById("blurYRatio");
         mouseClickActivationInput = document.getElementById("mouseClickActivation");
         ex_1_box = document.getElementById("ex_1");
         ex_2_box = document.getElementById("ex_2");
         ex_3_box = document.getElementById("ex_3");
         visibleImageCanvas = document.getElementById("visible-image-canvas");
         clickLogCanvas = document.getElementById("click-log-canvas");
+        useRectangleInput = document.getElementById("useRectangleCheckbox");
+        useCircleInput = document.getElementById("useCircleCheckbox");
+        useEllipseInput = document.getElementById("useEllipseCheckbox");
+        circleRadiusInput = document.getElementById("circleRadius");
+        ellipseXRadiusInput = document.getElementById("ellipseXRadius");
+        ellipseYRadiusInput = document.getElementById("ellipseYRadius");
     }
     if (useCases_1.UseCases.soSciSurvey === true) {
         imageUrl = document.getElementById("imageToBlurTag").innerHTML;
-        variableName = document.getElementById("clickLogVariable").innerHTML;
+        variableNameClickLog = document.getElementById("clickLogVariable").innerHTML;
+        if (document.getElementById("timeLogVariable") != null) {
+            variableNameTimeLog = document.getElementById("timeLogVariable").innerHTML;
+        }
         visibleImageCanvas = document.getElementById("visible-image-canvas");
     }
     var canvas = document.getElementById("bubble-image-canvas");
@@ -443,16 +576,6 @@ define("rEYEker", ["require", "exports", "useCases", "ImageCalculator"], functio
             eyeTrackImage.set_gradient_radius(blurRadius);
             document.getElementById("blurRadiusLabel").innerText = "[" + blurRadius + "]";
         };
-        blurXRatioInput.oninput = function () {
-            var blurXRatio = Number(blurXRatioInput.value);
-            eyeTrackImage.set_gradient_x_ratio(blurXRatio / 100);
-            document.getElementById("blurXRatioLabel").innerText = "[" + blurXRatio + "]%";
-        };
-        blurYRatioInput.oninput = function () {
-            var blurYRatio = Number(blurYRatioInput.value);
-            eyeTrackImage.set_gradient_y_ratio(blurYRatio / 100);
-            document.getElementById("blurYRatioLabel").innerText = "[" + blurYRatio + "]%";
-        };
         mouseClickActivationInput.onchange = function () {
             mouseClickMode = mouseClickActivationInput.checked;
         };
@@ -483,6 +606,51 @@ define("rEYEker", ["require", "exports", "useCases", "ImageCalculator"], functio
                 eyeTrackImage.clear_click_log();
             }
         };
+        useRectangleInput.onchange = function () {
+            if (useRectangleInput.checked == true) {
+                use_rectangle = true;
+                use_circle = false;
+                useCircleInput.checked = false;
+                use_ellipse = false;
+                useEllipseInput.checked = false;
+                eyeTrackImage.set_use_rectangle();
+            }
+        };
+        useCircleInput.onchange = function () {
+            if (useCircleInput.checked == true) {
+                use_rectangle = true;
+                useRectangleInput.checked = false;
+                use_circle = false;
+                use_ellipse = false;
+                useEllipseInput.checked = false;
+                eyeTrackImage.set_use_circle();
+            }
+        };
+        useEllipseInput.onchange = function () {
+            if (useEllipseInput.checked == true) {
+                use_rectangle = true;
+                useRectangleInput.checked = false;
+                use_circle = false;
+                useCircleInput.checked = false;
+                use_ellipse = false;
+                eyeTrackImage.set_use_ellipse();
+            }
+        };
+        circleRadiusInput.oninput = function () {
+            var circle_radius = Number(circleRadiusInput.value);
+            eyeTrackImage.set_circle_radius(circle_radius);
+            document.getElementById("circleRadiusLabel").innerText = "[" + circle_radius + "]";
+        };
+        ellipseXRadiusInput.oninput = function () {
+            var ellipseXRadius = Number(ellipseXRadiusInput.value);
+            eyeTrackImage.set_ellipse_radius_x(ellipseXRadius);
+            document.getElementById("ellipseXRadiusLabel").innerText = "[" + ellipseXRadius + "]";
+        };
+        ellipseYRadiusInput.oninput = function () {
+            var ellipseYRadius = Number(ellipseYRadiusInput.value);
+            eyeTrackImage.set_ellipse_radius_y(ellipseYRadius);
+            document.getElementById("ellipseYRadiusLabel").innerText = "[" + ellipseYRadius + "]";
+        };
     }
     image.onload = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -490,7 +658,6 @@ define("rEYEker", ["require", "exports", "useCases", "ImageCalculator"], functio
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        debugger;
                         canvas.width = image.width;
                         canvas.height = image.height;
                         visibleImageCanvas.width = image.width;
@@ -514,11 +681,21 @@ define("rEYEker", ["require", "exports", "useCases", "ImageCalculator"], functio
                         return [4, eyeTrackImage.calculate_blurred(x_blur_radius, y_blur_radius)];
                     case 3:
                         _a.sent();
+                        if (use_rectangle) {
+                            eyeTrackImage.set_use_rectangle();
+                        }
                         eyeTrackImage.set_gradient_radius(grad_radius);
                         eyeTrackImage.set_minimal_width_radius(minimal_width);
                         eyeTrackImage.set_minimal_height_radius(minimal_height);
-                        eyeTrackImage.set_gradient_x_ratio(x_ratio);
-                        eyeTrackImage.set_gradient_y_ratio(y_ratio);
+                        if (use_circle) {
+                            eyeTrackImage.set_use_circle();
+                        }
+                        eyeTrackImage.set_circle_radius(circle_radius);
+                        if (use_ellipse) {
+                            eyeTrackImage.set_use_ellipse();
+                        }
+                        eyeTrackImage.set_ellipse_radius_x(ellipse_radius_x);
+                        eyeTrackImage.set_ellipse_radius_y(ellipse_radius_y);
                         calculateNew = false;
                         return [2];
                 }
@@ -598,7 +775,7 @@ define("rEYEker", ["require", "exports", "useCases", "ImageCalculator"], functio
     }
     function drawImage() {
         return __awaiter(this, void 0, void 0, function () {
-            var log, data, i;
+            var log, data, i, time, i;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -626,7 +803,13 @@ define("rEYEker", ["require", "exports", "useCases", "ImageCalculator"], functio
                         for (i = 0; i < log.length; i++) {
                             data += log[i].get_x() + "-" + log[i].get_y() + " ";
                         }
-                        console.log(data);
+                        console.log("Data: " + data);
+                        time = eyeTrackImage.get_click_log_times();
+                        data = "";
+                        for (i = 0; i < time.length; i++) {
+                            data += time[i] + " ";
+                        }
+                        console.log("Time: " + data);
                         _a.label = 6;
                     case 6: return [2];
                 }
@@ -655,7 +838,7 @@ define("rEYEker", ["require", "exports", "useCases", "ImageCalculator"], functio
     }
     function setup() {
         return __awaiter(this, void 0, void 0, function () {
-            var x_blur_element, y_blur_element, grad_radius_element, minimal_width_element, minimal_height_element;
+            var x_blur_radius_element, y_blur_radius_element, grad_radius_element, minimal_width_element, minimal_height_element, circle_radius_element, ellipse_radius_x_element, ellipse_radius_y_element;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -667,36 +850,64 @@ define("rEYEker", ["require", "exports", "useCases", "ImageCalculator"], functio
                             imageUrl = ex_1_url;
                         }
                         if (useCases_1.UseCases.soSciSurvey === true) {
-                            debugger;
                             document.getElementById("submit0").addEventListener('click', function (event) {
                                 var log = eyeTrackImage.get_click_log();
                                 var data = "";
                                 for (var i = 0; i < log.length; i++) {
                                     data += log[i].get_x() + "-" + log[i].get_y() + " ";
                                 }
-                                document.getElementById(variableName).value = data;
+                                document.getElementById(variableNameClickLog).value = data;
+                                if (variableNameTimeLog != null) {
+                                    var log_1 = eyeTrackImage.get_click_log_times();
+                                    var data_1 = "";
+                                    for (var i = 0; i < log_1.length; i++) {
+                                        data_1 += log_1[i] + " ";
+                                    }
+                                    document.getElementById(variableNameTimeLog).value = data_1;
+                                }
                             });
                             calculateNew = true;
-                            x_blur_element = document.getElementById("x_blur_radius");
-                            if (x_blur_element != null) {
-                                x_blur_radius = Number(x_blur_element.innerHTML);
-                            }
-                            y_blur_element = document.getElementById("y_blur_radius");
-                            if (y_blur_element != null) {
-                                y_blur_radius = Number(y_blur_element.innerHTML);
-                            }
-                            grad_radius_element = document.getElementById("grad_radius");
-                            if (grad_radius_element != null) {
-                                grad_radius = Number(grad_radius_element.innerHTML);
-                            }
-                            minimal_width_element = document.getElementById("minimal_width");
-                            if (minimal_width_element != null) {
-                                minimal_width = Number(minimal_width_element.innerHTML);
-                            }
-                            minimal_height_element = document.getElementById("minimal_height");
-                            if (minimal_height_element != null) {
-                                minimal_height = Number(minimal_height_element.innerHTML);
-                            }
+                        }
+                        x_blur_radius_element = document.getElementById("x_blur_radius");
+                        if (x_blur_radius_element != null) {
+                            x_blur_radius = Number(x_blur_radius_element.innerHTML);
+                        }
+                        y_blur_radius_element = document.getElementById("y_blur_radius");
+                        if (y_blur_radius_element != null) {
+                            y_blur_radius = Number(y_blur_radius_element.innerHTML);
+                        }
+                        grad_radius_element = document.getElementById("grad_radius");
+                        if (grad_radius_element != null) {
+                            grad_radius = Number(grad_radius_element.innerHTML);
+                        }
+                        minimal_width_element = document.getElementById("minimal_width");
+                        if (minimal_width_element != null) {
+                            minimal_width = Number(minimal_width_element.innerHTML);
+                        }
+                        minimal_height_element = document.getElementById("minimal_height");
+                        if (minimal_height_element != null) {
+                            minimal_height = Number(minimal_height_element.innerHTML);
+                        }
+                        circle_radius_element = document.getElementById("circle_radius");
+                        if (circle_radius_element != null) {
+                            circle_radius = Number(circle_radius_element.innerHTML);
+                        }
+                        ellipse_radius_x_element = document.getElementById("ellipse_radius_x");
+                        if (ellipse_radius_x_element != null) {
+                            ellipse_radius_x = Number(ellipse_radius_x_element.innerHTML);
+                        }
+                        ellipse_radius_y_element = document.getElementById("ellipse_radius_x");
+                        if (ellipse_radius_y_element != null) {
+                            ellipse_radius_y = Number(ellipse_radius_y_element.innerHTML);
+                        }
+                        if (document.getElementById("use_rectangle") != null) {
+                            use_rectangle = true;
+                        }
+                        if (document.getElementById("use_circle") != null) {
+                            use_circle = true;
+                        }
+                        if (document.getElementById("use_ellipse") != null) {
+                            use_ellipse = true;
                         }
                         return [4, running()];
                     case 1:

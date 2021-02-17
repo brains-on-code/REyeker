@@ -1,3 +1,6 @@
+/**
+ * basic coordinate class
+ */
 export class Coordinate{
     private readonly x : number;
     private readonly y : number;

@@ -16,11 +16,25 @@
     <div class="dataAnalysis">
         <h3>data analysis</h3>
 
+        <h4>Shapes</h4>
+        Rectangle: [minimal width <input type="text" id="minimalWidthInput">, minimal height <input type="text"
+                                                                                                    id="minimalHeightInput">]
+        [gradient radius <input type="text" id="rectangleGradRadiusInput">]
+        <button id="useRectangle">use Rect</button>
+        <br>
+        Circle: [radius <input type="text" id="radiusInput">] [gradient radius <input type="text"
+                                                                                      id="circleGradRadiusInput">]
+        <button id="useCircle">use Circle</button>
+        <br>
+        Ellipse: [x Radius <input type="text" id="xRadiusInput">, y Radius <input type="text" id="yRadiusInput">]
+        [gradient radius <input type="text" id="ellipseGradRadiusInput">]
+        <button id="useEllipse">use Ellipse</button>
+        <h4>Diagrams</h4>
         <div style="width: 1000px; overflow: hidden">
             <div style="width: 200px; float: left">
                 line View: <input type="checkbox" id="lineViewCheckbox"><br>
                 row View: <input type="checkbox" id="rowViewCheckbox"><br>
-                rectangle View: <input type="checkbox" id="rectangleViewCheckbox"><br>
+                Shape View: <input type="checkbox" id="rectangleViewCheckbox"><br>
             </div>
             <div style="width: 200px; float: left">
                 vertical View: <input type="checkbox" id="verticalViewCheckbox" checked><br>
@@ -29,10 +43,14 @@
             <div style="width: 200px; float: left">
                 vertical Heat map: <input type="checkbox" id="verticalHeatmapCheckbox"><br>
                 horizontal Heatmap : <input type="checkbox" id="horizontalHeatmapCheckbox"><br>
-                rectangle Heatmap: <input type="checkbox" id="rectangleHeatmapCheckbox"><br><br>
+                Shape Heatmap: <input type="checkbox" id="rectangleHeatmapCheckbox"><br><br>
+            </div>
+            <div style="width: 200px; float: left">
+                Use Times: <input type="checkbox" id="useTimes"><br>
             </div>
         </div>
 
+        <h4>Needleman Wunsch</h4>
         <div style="width: 1000px; overflow: hidden">
             <div style="width: 500px; float: left">
                 Add for single NeedlemanWunsch:<br>
@@ -53,16 +71,18 @@
             </div>
         </div>
 
+        <h4>Import Data</h4>
         <div style="width: 600px; overflow: hidden">
             image URl : <input type="text" id="imageDataAnalysisInput">
             <button id="imageDataAnalysisButton">Load</button>
             <br>
-            click data : <input type="text" id="dataDataAnalysisInput">
+            click data : <input type="text" id="dataDataAnalysisInput"> time data: <input type="text"
+                                                                                          id="timeDataAnalysisInput">
             <button id="dataDataAnalysisButton">Push</button>
             <br>
             Load from: <input type="text" id="datasetInput">
-                <button id="datasetLoadButton">Load</button>
-                <button id="datasetSaveAsButton">Download As</button>
+            <button id="datasetLoadButton">Load</button>
+            <button id="datasetSaveAsButton">Download As</button>
         </div>
 
         <div style="width: 400px; overflow: hidden">
@@ -74,6 +94,7 @@
             <input type="range" min="0" max="0" value="0" class="slider" id="clickLogActivationBarMin"><br>
         </div>
         <br>
+        <h4>Semantic Classifier</h4>
         <div style="width: 400px; overflow: hidden">
             semantic Classifier: <br>
             Sequence: <label id="SemanticClassifierOutput"></label><br>

@@ -1,5 +1,5 @@
 {
-  "imageName": "./images/InsertSort.PNG",
+  "imageName": "/images/InsertSort.PNG",
   "grad_radius": 30,
   "minimal_width": 200,
   "minimal_height": 1,
@@ -11,67 +11,77 @@
   "semanticClassifier": [
     {
       "top": 0,
-      "bot": 27,
+      "bot": 12,
       "classifier": "N"
     },
     {
-      "top": 27,
-      "bot": 90,
+      "top": 12,
+      "bot": 34,
+      "classifier": "S"
+    },
+    {
+      "top": 34,
+      "bot": 46,
       "classifier": "I"
     },
     {
-      "top": 90,
-      "bot": 121,
+      "top": 46,
+      "bot": 95,
       "classifier": "S"
     },
     {
-      "top": 121,
-      "bot": 168,
-      "classifier": "E"
+      "top": 95,
+      "bot": 109,
+      "classifier": "N"
     },
     {
-      "top": 168,
-      "bot": 294,
+      "top": 109,
+      "bot": 127,
       "classifier": "S"
     },
     {
-      "top": 294,
+      "top": 127,
+      "bot": 136,
+      "classifier": "N"
+    },
+    {
+      "top": 136,
+      "bot": 158,
+      "classifier": "I"
+    },
+    {
+      "top": 158,
+      "bot": 212,
+      "classifier": "N"
+    },
+    {
+      "top": 212,
+      "bot": 246,
+      "classifier": "I"
+    },
+    {
+      "top": 246,
+      "bot": 287,
+      "classifier": "N"
+    },
+    {
+      "top": 287,
       "bot": 321,
       "classifier": "I"
     },
     {
       "top": 321,
-      "bot": 352,
-      "classifier": "S"
+      "bot": 399,
+      "classifier": "N"
     },
     {
-      "top": 352,
-      "bot": 420,
-      "classifier": "E"
-    },
-    {
-      "top": 420,
-      "bot": 452,
-      "classifier": "S"
-    },
-    {
-      "top": 452,
-      "bot": 521,
-      "classifier": "E"
-    },
-    {
-      "top": 521,
-      "bot": 711,
-      "classifier": "S"
-    },
-    {
-      "top": 711,
-      "bot": 741,
+      "top": 399,
+      "bot": 438,
       "classifier": "I"
     },
     {
-      "top": 741,
-      "bot": 1000,
+      "top": 438,
+      "bot": 480,
       "classifier": "N"
     }
   ]

@@ -18,24 +18,32 @@
     </expand>
     <select />
   </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" ENABLED="true" />
+    </configurations>
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="a9f458ff-f848-4d7e-b22f-abe55be0863f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../dataAnalyses/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../dataAnalyses/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../dataAnalyses/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../dataAnalyses/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../dataAnalyses/scripts/index.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../dataAnalyses/scripts/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../dataAnalyses/scripts/index.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dataAnalyses/scripts/index.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../dataAnalyses/scripts/index.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dataAnalyses/scripts/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../dataAnalyses/scripts/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dataAnalyses/scripts/index.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/../dataAnalyses/scripts/index.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dataAnalyses/src/BoxDiagram.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../dataAnalyses/src/BoxDiagram.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dataAnalyses/src/Heatmaps.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../dataAnalyses/src/Heatmaps.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dataAnalyses/src/clickDataSaver.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../dataAnalyses/src/clickDataSaver.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../dataAnalyses/src/htmlImports.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../dataAnalyses/src/htmlImports.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../dataAnalyses/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../dataAnalyses/src/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/rEYEker.js" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/rEYEker.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rEYEker.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/rEYEker.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -48,6 +56,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
+  <component name="MacroExpansionManager">
+    <option name="directoryName" value="m3dpwnlf" />
+  </component>
   <component name="ProjectId" id="1gE5nPpdjWO76Rk0f4UoAoGefGQ" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -56,8 +67,10 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="cf.first.check.clang-format" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../dataAnalyses" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -65,30 +78,22 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="settings.typescriptcompiler" />
-    <property name="ts.external.directory.path" value="C:\Users\jonas\AppData\Local\JetBrains\Toolbox\apps\WebStorm\ch-0\202.7660.23\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
+    <property name="settings.editor.selected.configurable" value="settings.javascript.linters.tslint" />
+    <property name="ts.external.directory.path" value="C:\Users\jonas\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\203.7148.70\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
-  <component name="RunManager" selected="Node.js.index.ts">
-    <configuration name="index.ts" type="NodeJSConfigurationType" temporary="true" node-parameters="--require ts-node/register " path-to-js-file="$PROJECT_DIR$/src/Main.ts" working-dir="$PROJECT_DIR$">
-      <method v="2" />
-    </configuration>
-    <configuration name="index.ts" type="TypeScriptProgramRunner" factoryName="TypeScript">
+  <component name="RunManager">
+    <configuration name="build" type="TypeScriptProgramRunner" factoryName="TypeScript">
       <module name="rEYEker" />
       <option name="interpreterRef" value="project" />
       <option name="interpreterOptions" value="" />
-      <option name="workingDirectory" value="C:\Users\Jonas\Desktop\ts_try\src" />
-      <option name="tsconfigFile" value="" />
+      <option name="workingDirectory" value="" />
+      <option name="tsconfigFile" value="C:\Users\jonas\OneDrive\Dokumente\GitHub\rEYEker\implementation\tsconfig.json" />
       <option name="extraTypeScriptOptions" value="" />
-      <option name="scriptName" value="$PROJECT_DIR$/src/index.ts" />
+      <option name="scriptName" value="" />
       <option name="programParameters" value="" />
       <method v="2" />
     </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Node.js.index.ts" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -117,6 +122,14 @@
       <workItem from="1600252324918" duration="1322000" />
       <workItem from="1602060748663" duration="1163000" />
       <workItem from="1602513274862" duration="2076000" />
+      <workItem from="1606310782161" duration="402000" />
+      <workItem from="1606312034659" duration="5000" />
+      <workItem from="1611130086702" duration="2579000" />
+      <workItem from="1612440355526" duration="2872000" />
+      <workItem from="1612446818601" duration="72000" />
+      <workItem from="1612446902023" duration="7927000" />
+      <workItem from="1612513339981" duration="130000" />
+      <workItem from="1612513686749" duration="603000" />
     </task>
     <servers />
   </component>
@@ -135,103 +148,8 @@
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
-  <component name="WindowStateProjectService">
-    <state x="1034" y="343" key="#Notifications" timestamp="1598947511617">
-      <screen x="0" y="0" width="2560" height="1040" />
-    </state>
-    <state x="1034" y="343" key="#Notifications/0.0.2560.1040/-1920.0.1920.1040@0.0.2560.1040" timestamp="1598947511617" />
-    <state x="1046" y="321" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1597672975251">
-      <screen x="0" y="0" width="2560" height="1040" />
-    </state>
-    <state x="1046" y="321" key="#com.intellij.fileTypes.FileTypeChooser/0.0.2560.1040/-1920.0.1920.1040@0.0.2560.1040" timestamp="1597672975251" />
-    <state x="960" y="255" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1598372537969">
-      <screen x="0" y="0" width="2560" height="1040" />
-    </state>
-    <state x="960" y="255" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.2560.1040/-1920.0.1920.1040@0.0.2560.1040" timestamp="1598372537969" />
-    <state x="-1162" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1602061565969">
-      <screen x="-1920" y="0" width="1920" height="1040" />
-    </state>
-    <state x="-1162" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.2560.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1602061565969" />
-    <state x="1010" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.2560.1040/-1920.0.1920.1040@0.0.2560.1040" timestamp="1602061175286" />
-    <state width="2539" height="348" key="GridCell.Tab.0.bottom" timestamp="1597669663254">
-      <screen x="0" y="0" width="2560" height="1040" />
-    </state>
-    <state width="2539" height="348" key="GridCell.Tab.0.bottom/0.0.2560.1040/-1920.0.1920.1040@0.0.2560.1040" timestamp="1597669663254" />
-    <state width="2539" height="348" key="GridCell.Tab.0.center" timestamp="1597669663254">
-      <screen x="0" y="0" width="2560" height="1040" />
-    </state>
-    <state width="2539" height="348" key="GridCell.Tab.0.center/0.0.2560.1040/-1920.0.1920.1040@0.0.2560.1040" timestamp="1597669663254" />
-    <state width="2539" height="348" key="GridCell.Tab.0.left" timestamp="1597669663254">
-      <screen x="0" y="0" width="2560" height="1040" />
-    </state>
-    <state width="2539" height="348" key="GridCell.Tab.0.left/0.0.2560.1040/-1920.0.1920.1040@0.0.2560.1040" timestamp="1597669663254" />
-    <state width="2539" height="348" key="GridCell.Tab.0.right" timestamp="1597669663254">
-      <screen x="0" y="0" width="2560" height="1040" />
-    </state>
-    <state width="2539" height="348" key="GridCell.Tab.0.right/0.0.2560.1040/-1920.0.1920.1040@0.0.2560.1040" timestamp="1597669663254" />
-    <state width="2539" height="348" key="GridCell.Tab.1.bottom" timestamp="1597669663254">
-      <screen x="0" y="0" width="2560" height="1040" />
-    </state>
-    <state width="2539" height="348" key="GridCell.Tab.1.bottom/0.0.2560.1040/-1920.0.1920.1040@0.0.2560.1040" timestamp="1597669663254" />
-    <state width="2539" height="348" key="GridCell.Tab.1.center" timestamp="1597669663254">
-      <screen x="0" y="0" width="2560" height="1040" />
-    </state>
-    <state width="2539" height="348" key="GridCell.Tab.1.center/0.0.2560.1040/-1920.0.1920.1040@0.0.2560.1040" timestamp="1597669663254" />
-    <state width="2539" height="348" key="GridCell.Tab.1.left" timestamp="1597669663254">
-      <screen x="0" y="0" width="2560" height="1040" />
-    </state>
-    <state width="2539" height="348" key="GridCell.Tab.1.left/0.0.2560.1040/-1920.0.1920.1040@0.0.2560.1040" timestamp="1597669663254" />
-    <state width="2539" height="348" key="GridCell.Tab.1.right" timestamp="1597669663254">
-      <screen x="0" y="0" width="2560" height="1040" />
-    </state>
-    <state width="2539" height="348" key="GridCell.Tab.1.right/0.0.2560.1040/-1920.0.1920.1040@0.0.2560.1040" timestamp="1597669663254" />
-    <state width="2539" height="348" key="GridCell.Tab.2.bottom" timestamp="1597669663255">
-      <screen x="0" y="0" width="2560" height="1040" />
-    </state>
-    <state width="2539" height="348" key="GridCell.Tab.2.bottom/0.0.2560.1040/-1920.0.1920.1040@0.0.2560.1040" timestamp="1597669663255" />
-    <state width="2539" height="348" key="GridCell.Tab.2.center" timestamp="1597669663255">
-      <screen x="0" y="0" width="2560" height="1040" />
-    </state>
-    <state width="2539" height="348" key="GridCell.Tab.2.center/0.0.2560.1040/-1920.0.1920.1040@0.0.2560.1040" timestamp="1597669663255" />
-    <state width="2539" height="348" key="GridCell.Tab.2.left" timestamp="1597669663254">
-      <screen x="0" y="0" width="2560" height="1040" />
-    </state>
-    <state width="2539" height="348" key="GridCell.Tab.2.left/0.0.2560.1040/-1920.0.1920.1040@0.0.2560.1040" timestamp="1597669663254" />
-    <state width="2539" height="348" key="GridCell.Tab.2.right" timestamp="1597669663255">
-      <screen x="0" y="0" width="2560" height="1040" />
-    </state>
-    <state width="2539" height="348" key="GridCell.Tab.2.right/0.0.2560.1040/-1920.0.1920.1040@0.0.2560.1040" timestamp="1597669663255" />
-    <state width="2539" height="348" key="GridCell.Tab.3.bottom" timestamp="1597669663255">
-      <screen x="0" y="0" width="2560" height="1040" />
-    </state>
-    <state width="2539" height="348" key="GridCell.Tab.3.bottom/0.0.2560.1040/-1920.0.1920.1040@0.0.2560.1040" timestamp="1597669663255" />
-    <state width="2539" height="348" key="GridCell.Tab.3.center" timestamp="1597669663255">
-      <screen x="0" y="0" width="2560" height="1040" />
-    </state>
-    <state width="2539" height="348" key="GridCell.Tab.3.center/0.0.2560.1040/-1920.0.1920.1040@0.0.2560.1040" timestamp="1597669663255" />
-    <state width="2539" height="348" key="GridCell.Tab.3.left" timestamp="1597669663255">
-      <screen x="0" y="0" width="2560" height="1040" />
-    </state>
-    <state width="2539" height="348" key="GridCell.Tab.3.left/0.0.2560.1040/-1920.0.1920.1040@0.0.2560.1040" timestamp="1597669663255" />
-    <state width="2539" height="348" key="GridCell.Tab.3.right" timestamp="1597669663255">
-      <screen x="0" y="0" width="2560" height="1040" />
-    </state>
-    <state width="2539" height="348" key="GridCell.Tab.3.right/0.0.2560.1040/-1920.0.1920.1040@0.0.2560.1040" timestamp="1597669663255" />
-    <state x="1032" y="222" key="RollbackChangesDialog" timestamp="1600089688755">
-      <screen x="0" y="0" width="2560" height="1040" />
-    </state>
-    <state x="1032" y="222" key="RollbackChangesDialog/0.0.2560.1040/-1920.0.1920.1040@0.0.2560.1040" timestamp="1600089688755" />
-    <state x="781" y="164" key="SettingsEditor" timestamp="1598885254422">
-      <screen x="0" y="0" width="2560" height="1040" />
-    </state>
-    <state x="781" y="164" key="SettingsEditor/0.0.2560.1040/-1920.0.1920.1040@0.0.2560.1040" timestamp="1598885254422" />
-    <state x="944" y="244" key="run.anything.popup" timestamp="1597686582964">
-      <screen x="0" y="0" width="2560" height="1040" />
-    </state>
-    <state x="944" y="244" key="run.anything.popup/0.0.2560.1040/-1920.0.1920.1040@0.0.2560.1040" timestamp="1597686582964" />
-    <state x="943" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1598436351523">
-      <screen x="0" y="0" width="2560" height="1040" />
-    </state>
-    <state x="943" y="225" width="672" height="678" key="search.everywhere.popup/0.0.2560.1040/-1920.0.1920.1040@0.0.2560.1040" timestamp="1598436351523" />
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

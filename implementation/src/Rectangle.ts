@@ -1,5 +1,8 @@
 import {Coordinate} from "./Coordinate";
 
+/**
+ * A simple rectangle class, which saves the top-left and the width and height
+ */
 export class Rectangle{
     private readonly start : Coordinate;
     private readonly x_range : number;

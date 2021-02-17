@@ -1,8 +1,8 @@
 import {clickDataSaver} from "./clickDataSaver";
 import {Coordinate} from "./Coordinate";
-import {drawLineView, drawRectangleView, drawRowView} from "./BoxDiagram";
+import {drawLineView, drawShapeView, drawRowView} from "./BoxDiagram";
 import {drawVerticalLineDiagram, drawHorizontalLineDiagram} from "./LineDiagram";
-import {drawHorizontalHeatMap, drawRectangleHeatMap, drawVerticalHeatMap} from "./Heatmaps";
+import {drawHorizontalHeatMap, drawShapeHeatMap, drawVerticalHeatMap} from "./Heatmaps";
 import {SemanticClassifier} from "./SemanticClassifier";
 import * as html_doc from "./htmlImports";
 import * as NW from "./NeedlemanWunschLineDiagram"
@@ -309,6 +309,56 @@ html_doc.CNWResetButton.addEventListener('click', function () {
     html_doc.CNWDataPreview.value = "[None]";
 })
 
+/**
+ * TODO
+ *
+ * a function to set the values for using the rectangle
+ */
+html_doc.RectangleSubmitButton.addEventListener('click', function(){
+    clickDataSaver.minimal_width = parseInt(html_doc.RectangleMinimalWidthInput.value);
+    clickDataSaver.minimal_height = parseInt(html_doc.RectangleMinimalHeightInput.value);
+    clickDataSaver.grad_radius = parseInt(html_doc.RectangleGradientRadiusInput.value);
+    clickDataSaver.use_rectangle = true;
+    clickDataSaver.use_circle = false;
+    clickDataSaver.use_ellipse = false;
+    setRedrawClickLog();
+})
+
+/**
+ * TODO
+ *
+ * a function to set the values for using the circle
+ */
+html_doc.CircleSubmitButton.addEventListener('click', function(){
+    clickDataSaver.radius = parseInt(html_doc.CircleRadiusInput.value);
+    clickDataSaver.grad_radius = parseInt(html_doc.CircleGradientRadiusInput.value);
+    clickDataSaver.use_rectangle = false;
+    clickDataSaver.use_circle = true;
+    clickDataSaver.use_ellipse = false;
+    setRedrawClickLog();
+})
+
+/**
+ * TODO
+ *
+ * a function to set the values for using the ellipse
+ */
+html_doc.EllipseSubmitButton.addEventListener('click', function(){
+    clickDataSaver.radius_x = parseInt(html_doc.EllipseXRadiusInput.value);
+    clickDataSaver.radius_y = parseInt(html_doc.EllipseYRadiusInput.value);
+    clickDataSaver.grad_radius = parseInt(html_doc.EllipseGradientRadiusInput.value);
+    clickDataSaver.use_rectangle = false;
+    clickDataSaver.use_circle = false;
+    clickDataSaver.use_ellipse = true;
+    setRedrawClickLog();
+})
+
+
+/**
+ * loads image data async from a file
+ *
+ * @param filename
+ */
 async function loadDataFrom(filename : String){
     let JSONData = JSON.parse(await Utils.loadFile("data/" + filename));
     //make updates based oin image now
@@ -319,6 +369,11 @@ async function loadDataFrom(filename : String){
     importedData = JSONData;
 }
 
+/**
+ * creates the file and download it
+ *
+ * @param filename
+ */
 async function saveDataTo(filename : String){
     let dataObject = {};
     clickDataSaver.imageWithDataOfClickLog = imageUrl;
@@ -352,7 +407,7 @@ function drawClickLog() {
     let horizontalHeatMap: boolean = html_doc.horizontalHeatmapCheckbox.checked;
     let rectangleHeatMap: boolean = html_doc.rectangleHeatmapCheckbox.checked;
 
-    if (rectangleView === true) drawRectangleView(context, buffer[maxLog]);
+    if (rectangleView === true) drawShapeView(context, buffer[maxLog]);
     if (lineView === true) drawLineView(context, buffer[maxLog], html_doc.image.width);
     if (rowView === true) drawRowView(context, buffer[maxLog], html_doc.image.height);
 
@@ -362,7 +417,7 @@ function drawClickLog() {
 
     if (verticalHeatMap === true) drawVerticalHeatMap(context, minLog, maxLog, buffer, html_doc.image.width);
     if (horizontalHeatMap === true) drawHorizontalHeatMap(context, minLog, maxLog, buffer, html_doc.image.height);
-    if (rectangleHeatMap === true) drawRectangleHeatMap(context, minLog, maxLog, buffer);
+    if (rectangleHeatMap === true) drawShapeHeatMap(context, minLog, maxLog, buffer);
 
     semanticClassifier.drawToLabel(buffer, minLog, maxLog, html_doc.SemanticClassifierOutput);
 }

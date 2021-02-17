@@ -17,26 +17,50 @@ let ex_2_url: string = "./images/Calculation.PNG"; //the used test image, use an
 let ex_3_url: string = "./images/Rectangle.PNG"; //the used test image, use an rgb (8 bit color depth) image
 
 let imageUrl: string; //the img which will be loaded
-let variableName: string;//the name for the intern soSci variable name
+let variableNameClickLog: string;//the name for the intern soSci variable name
+let variableNameTimeLog: string = null;//the name for the intern soSci variable name
+
+//variables for the usage of the tool
 let x_blur_radius = 8;
 let y_blur_radius = 8;
+
 let grad_radius = 30;
+
 let minimal_width = 200;
 let minimal_height = 1;
-let x_ratio = 1;
-let y_ratio = 1;
+
+let circle_radius = 50;
+
+let ellipse_radius_x = 100;
+let ellipse_radius_y = 50;
+
+let use_rectangle = true;
+let use_circle = false;
+let use_ellipse = false;
+
 /**
  * A Section for used html references
  */
 let visibleImageCanvas: HTMLCanvasElement;//canvas for drawing the visible Part
 let clickLogCanvas: HTMLCanvasElement;//canvas for drawing the clickLog used for speeding up;
+
 let xFoldingRangeInput: HTMLInputElement; //a scrollbar for x blur inpout
 let yFoldingRangeInput: HTMLInputElement; //a scrollbar for y blur input
+
+let useRectangleInput: HTMLInputElement; //checkbox if a rectangle should be used
 let minimalXVisibilityInput: HTMLInputElement; //a scrollbar for minimal x visibility
 let minimalYVisibilityInput: HTMLInputElement; //a scrollbar for minimal y visibility
+
+let useCircleInput: HTMLInputElement; //checkbox if a circle should be used
+let circleRadiusInput : HTMLInputElement;   //a scrollbar for circle radius
+
+let useEllipseInput: HTMLInputElement; //checkbox if a ellipse should be usedCircle
+let ellipseXRadiusInput : HTMLInputElement; //a scrollbar for ellipse x radius
+let ellipseYRadiusInput : HTMLInputElement; //a scrollbar for ellipse y radius
+
+
 let blurRadiusInput: HTMLInputElement; //a scrollbar for generell blur radius input
-let blurXRatioInput: HTMLInputElement; //a scrollbar for the x ratio input
-let blurYRatioInput: HTMLInputElement; //a scrollbar for the y ratio input
+
 let mouseClickActivationInput: HTMLInputElement; //a checkbox indicating if it should deblur on mouse click or hover
 let ex_1_box: HTMLInputElement; //the url of example 1 in html testing
 let ex_2_box: HTMLInputElement; //the url of example 2 in html testing
@@ -49,18 +73,26 @@ if (UseCases.htmlTesting === true) {
     minimalXVisibilityInput = <HTMLInputElement>document.getElementById("minimalXVisibility");
     minimalYVisibilityInput = <HTMLInputElement>document.getElementById("minimalYVisibility");
     blurRadiusInput = <HTMLInputElement>document.getElementById("blurRadius");
-    blurXRatioInput = <HTMLInputElement>document.getElementById("blurXRatio");
-    blurYRatioInput = <HTMLInputElement>document.getElementById("blurYRatio");
     mouseClickActivationInput = <HTMLInputElement>document.getElementById("mouseClickActivation");
     ex_1_box = <HTMLInputElement>document.getElementById("ex_1");
     ex_2_box = <HTMLInputElement>document.getElementById("ex_2");
     ex_3_box = <HTMLInputElement>document.getElementById("ex_3");
     visibleImageCanvas = <HTMLCanvasElement>document.getElementById("visible-image-canvas");
     clickLogCanvas = <HTMLCanvasElement>document.getElementById("click-log-canvas");
+
+    useRectangleInput = <HTMLInputElement>document.getElementById("useRectangleCheckbox")
+    useCircleInput = <HTMLInputElement>document.getElementById("useCircleCheckbox")
+    useEllipseInput = <HTMLInputElement>document.getElementById("useEllipseCheckbox")
+    circleRadiusInput  = <HTMLInputElement>document.getElementById("circleRadius")
+    ellipseXRadiusInput  = <HTMLInputElement>document.getElementById("ellipseXRadius")
+    ellipseYRadiusInput  = <HTMLInputElement>document.getElementById("ellipseYRadius")
 }
 if (UseCases.soSciSurvey === true) {
     imageUrl = document.getElementById("imageToBlurTag").innerHTML; //the used test image, use an rgba (8 bit color depth) image
-    variableName = document.getElementById("clickLogVariable").innerHTML; //the name of the inner variable of soSci
+    variableNameClickLog = document.getElementById("clickLogVariable").innerHTML; //the name of the inner variable of soSci
+    if(document.getElementById("timeLogVariable")!=null){
+        variableNameTimeLog = document.getElementById("timeLogVariable").innerHTML; //the name of the inner variable of soSci
+    }
     visibleImageCanvas = <HTMLCanvasElement>document.getElementById("visible-image-canvas");
 }
 
@@ -148,24 +180,6 @@ if (UseCases.htmlTesting === true) {
     };
 
     /**
-     * a function to handle a change x ratio input (input will be normed to [0,1])
-     */
-    blurXRatioInput.oninput = function () {
-        const blurXRatio = Number(blurXRatioInput.value);
-        eyeTrackImage.set_gradient_x_ratio(blurXRatio / 100);
-        document.getElementById("blurXRatioLabel").innerText = "[" + blurXRatio + "]%";
-    };
-
-    /**
-     * a function to handle a change y ratio input (input will be normed to [0,1])
-     */
-    blurYRatioInput.oninput = function () {
-        const blurYRatio = Number(blurYRatioInput.value);
-        eyeTrackImage.set_gradient_y_ratio(blurYRatio / 100);
-        document.getElementById("blurYRatioLabel").innerText = "[" + blurYRatio + "]%";
-    };
-
-    /**
      * a function which sets a flag, indicating if we are in mouse hover or click mode based on the checkbox.
      */
     mouseClickActivationInput.onchange = function () {
@@ -210,6 +224,75 @@ if (UseCases.htmlTesting === true) {
             eyeTrackImage.clear_click_log();
         }
     };
+
+    /**
+     * a function to handle the input of the rectangle checkbox
+     */
+    useRectangleInput.onchange = function(){
+        if(useRectangleInput.checked == true) {
+            use_rectangle = true;
+            use_circle = false;
+            useCircleInput.checked = false;
+            use_ellipse = false;
+            useEllipseInput.checked = false;
+            eyeTrackImage.set_use_rectangle()
+        }
+    }
+
+    /**
+     * a function to handle the input of the circle checkbox
+     */
+    useCircleInput.onchange = function(){
+        if(useCircleInput.checked == true) {
+            use_rectangle = true;
+            useRectangleInput.checked = false;
+            use_circle = false;
+            use_ellipse = false;
+            useEllipseInput.checked = false;
+            eyeTrackImage.set_use_circle()
+        }
+    }
+
+    /**
+     * a function to handle the input of the ellipse checkbox
+     */
+    useEllipseInput.onchange = function(){
+        if(useEllipseInput.checked == true) {
+            use_rectangle = true;
+            useRectangleInput.checked = false;
+            use_circle = false;
+            useCircleInput.checked = false;
+            use_ellipse = false;
+            eyeTrackImage.set_use_ellipse()
+        }
+    }
+
+    /**
+     * a function to set the circle radius based on the input
+     */
+    circleRadiusInput.oninput = function (){
+        const circle_radius = Number(circleRadiusInput.value);
+        eyeTrackImage.set_circle_radius(circle_radius);
+        document.getElementById("circleRadiusLabel").innerText = "[" + circle_radius + "]";
+    }
+
+    /**
+     * a function to set the ellipse x radius based on the input
+     */
+    ellipseXRadiusInput.oninput = function (){
+        const ellipseXRadius = Number(ellipseXRadiusInput.value);
+        eyeTrackImage.set_ellipse_radius_x(ellipseXRadius);
+        document.getElementById("ellipseXRadiusLabel").innerText = "[" + ellipseXRadius + "]";
+    }
+
+    /**
+     * a function to set the ellipse y radius based on the input
+     */
+    ellipseYRadiusInput.oninput = function (){
+        const ellipseYRadius = Number(ellipseYRadiusInput.value);
+        eyeTrackImage.set_ellipse_radius_y(ellipseYRadius);
+        document.getElementById("ellipseYRadiusLabel").innerText = "[" + ellipseYRadius + "]";
+    }
 }
 
 /**
@@ -218,8 +301,6 @@ if (UseCases.htmlTesting === true) {
  * All values for the set up, will be getted from the html inputs.
  */
 image.onload = async function () {
-
-    debugger
     canvas.width = image.width;
     canvas.height = image.height;
 
@@ -248,11 +329,24 @@ image.onload = async function () {
 
     await eyeTrackImage.calculate_blurred(x_blur_radius, y_blur_radius);
 
+    if(use_rectangle){
+        eyeTrackImage.set_use_rectangle();
+    }
     eyeTrackImage.set_gradient_radius(grad_radius);
     eyeTrackImage.set_minimal_width_radius(minimal_width);
     eyeTrackImage.set_minimal_height_radius(minimal_height);
-    eyeTrackImage.set_gradient_x_ratio(x_ratio);
-    eyeTrackImage.set_gradient_y_ratio(y_ratio);
+
+    if(use_circle){
+        eyeTrackImage.set_use_circle();
+    }
+    eyeTrackImage.set_circle_radius(circle_radius);
+
+    if(use_ellipse){
+        eyeTrackImage.set_use_ellipse();
+    }
+    eyeTrackImage.set_ellipse_radius_x(ellipse_radius_x);
+    eyeTrackImage.set_ellipse_radius_y(ellipse_radius_y);
+
 
     calculateNew = false;
 };
@@ -352,7 +446,14 @@ async function drawImage() {
             for (let i = 0; i < log.length; i++) {
                 data += log[i].get_x() + "-" + log[i].get_y() + " ";
             }
-            console.log(data);
+            console.log("Data: " + data);
+
+            let time = eyeTrackImage.get_click_log_times()
+            data = "";
+            for (let i = 0; i < time.length; i++) {
+                data += time[i] + " ";
+            }
+            console.log("Time: " + data);
         }
     }
 }
@@ -383,39 +484,78 @@ async function setup() {
         imageUrl = ex_1_url;
     }
     if (UseCases.soSciSurvey === true) {
-        debugger
         document.getElementById("submit0").addEventListener('click', function (event) {
             let log = eyeTrackImage.get_click_log();
             let data = "";
             for (let i = 0; i < log.length; i++) {
                 data += log[i].get_x() + "-" + log[i].get_y() + " ";
             }
-            (<HTMLInputElement>document.getElementById(variableName)).value = data;
+            (<HTMLInputElement>document.getElementById(variableNameClickLog)).value = data;
+            if(variableNameTimeLog!=null){
+                let log = eyeTrackImage.get_click_log_times();
+                let data = "";
+                for (let i = 0; i < log.length; i++) {
+                    data += log[i] + " ";
+                }
+                (<HTMLInputElement>document.getElementById(variableNameTimeLog)).value = data;
+            }
         });
         calculateNew = true;
-
-        //add variables if there are some
-        let x_blur_element = document.getElementById("x_blur_radius")
-        if (x_blur_element != null) {
-            x_blur_radius = Number(x_blur_element.innerHTML)
-        }
-        let y_blur_element = document.getElementById("y_blur_radius")
-        if (y_blur_element != null) {
-            y_blur_radius = Number(y_blur_element.innerHTML)
-        }
-        let grad_radius_element = document.getElementById("grad_radius")
-        if (grad_radius_element != null) {
-            grad_radius = Number(grad_radius_element.innerHTML)
-        }
-        let minimal_width_element = document.getElementById("minimal_width")
-        if (minimal_width_element != null) {
-            minimal_width = Number(minimal_width_element.innerHTML)
-        }
-        let minimal_height_element = document.getElementById("minimal_height")
-        if (minimal_height_element != null) {
-            minimal_height = Number(minimal_height_element.innerHTML)
-        }
     }
+
+    //add variables if there are some
+
+    let x_blur_radius_element = document.getElementById("x_blur_radius")
+    if (x_blur_radius_element != null) {
+        x_blur_radius = Number(x_blur_radius_element.innerHTML)
+    }
+
+    let y_blur_radius_element = document.getElementById("y_blur_radius")
+    if (y_blur_radius_element != null) {
+        y_blur_radius = Number(y_blur_radius_element.innerHTML)
+    }
+
+    let grad_radius_element = document.getElementById("grad_radius")
+    if (grad_radius_element != null) {
+        grad_radius = Number(grad_radius_element.innerHTML)
+    }
+
+    let minimal_width_element = document.getElementById("minimal_width")
+    if (minimal_width_element != null) {
+        minimal_width = Number(minimal_width_element.innerHTML)
+    }
+    let minimal_height_element = document.getElementById("minimal_height")
+    if (minimal_height_element != null) {
+        minimal_height = Number(minimal_height_element.innerHTML)
+    }
+
+    let circle_radius_element = document.getElementById("circle_radius")
+    if (circle_radius_element != null){
+        circle_radius = Number(circle_radius_element.innerHTML)
+    }
+
+    let ellipse_radius_x_element = document.getElementById("ellipse_radius_x")
+    if (ellipse_radius_x_element != null){
+        ellipse_radius_x = Number(ellipse_radius_x_element.innerHTML)
+    }
+
+    let ellipse_radius_y_element = document.getElementById("ellipse_radius_x")
+    if (ellipse_radius_y_element != null){
+        ellipse_radius_y = Number(ellipse_radius_y_element.innerHTML)
+    }
+
+    if (document.getElementById("use_rectangle") != null){
+        use_rectangle = true
+    }
+
+    if (document.getElementById("use_circle") != null){
+        use_circle = true
+    }
+
+    if (document.getElementById("use_ellipse") != null){
+        use_ellipse = true
+    }
+
     /**
      * starts the "game-loop"
      */

@@ -73,11 +73,24 @@ define("clickDataSaver", ["require", "exports", "Coordinate"], function (require
             }
             clickDataSaver.clickLogData.push(click_log_vector);
         };
+        clickDataSaver.string_to_time_log = function (data_str) {
+            var time_String = data_str.split(" ");
+            var time_log_vector = [];
+            for (var i = 0; i < time_String.length; i++) {
+                var time_stamp = parseInt(time_String[i]);
+                time_log_vector.push(time_stamp);
+            }
+            clickDataSaver.timeLogData.push(time_log_vector);
+        };
         clickDataSaver.get_current_log = function () {
             return clickDataSaver.clickLogData[clickDataSaver.current];
         };
+        clickDataSaver.get_current_time_log = function () {
+            return clickDataSaver.timeLogData[clickDataSaver.current];
+        };
         clickDataSaver.clear_current_log = function () {
             clickDataSaver.clickLogData = [];
+            clickDataSaver.timeLogData = [];
             clickDataSaver.current = -1;
             clickDataSaver.grad_radius = 30;
             clickDataSaver.minimal_width = 200;
@@ -98,14 +111,45 @@ define("clickDataSaver", ["require", "exports", "Coordinate"], function (require
                     clickDataSaver.current = 0;
                 }
             }
+            if ("times" in dataToSet) {
+                var timeString = dataToSet["times"];
+                for (var i = 0; i < timeString.length; i++) {
+                    var data = timeString[i];
+                    clickDataSaver.string_to_time_log(data);
+                }
+            }
             if ("grad_radius" in dataToSet) {
                 clickDataSaver.grad_radius = dataToSet["grad_radius"];
             }
-            if ("minimal_width" in dataToSet) {
-                clickDataSaver.minimal_width = dataToSet["minimal_width"];
+            if ("use_rectangle" in dataToSet && dataToSet["use_rectangle"] === true) {
+                clickDataSaver.use_rectangle = true;
+                clickDataSaver.use_circle = false;
+                clickDataSaver.use_rectangle = false;
+                if ("minimal_width" in dataToSet) {
+                    clickDataSaver.minimal_width = dataToSet["minimal_width"];
+                }
+                if ("minimal_height" in dataToSet) {
+                    clickDataSaver.minimal_height = dataToSet["minimal_height"];
+                }
             }
-            if ("minimal_height" in dataToSet) {
-                clickDataSaver.minimal_height = dataToSet["minimal_height"];
+            else if ("use_circle" in dataToSet && dataToSet["use_circle"] === true) {
+                clickDataSaver.use_rectangle = false;
+                clickDataSaver.use_circle = true;
+                clickDataSaver.use_rectangle = false;
+                if ("radius" in dataToSet) {
+                    clickDataSaver.radius = dataToSet["radius"];
+                }
+            }
+            else if ("use_ellipse" in dataToSet && dataToSet["use_ellipse"] === true) {
+                clickDataSaver.use_rectangle = false;
+                clickDataSaver.use_circle = false;
+                clickDataSaver.use_rectangle = true;
+                if ("radius_x" in dataToSet) {
+                    clickDataSaver.radius_x = dataToSet["radius_x"];
+                }
+                else if ("radius_y" in dataToSet) {
+                    clickDataSaver.radius_y = dataToSet["radius_y"];
+                }
             }
         };
         clickDataSaver.add_current_to_object = function (object_to_add_on) {
@@ -113,6 +157,12 @@ define("clickDataSaver", ["require", "exports", "Coordinate"], function (require
             object_to_add_on["grad_radius"] = clickDataSaver.grad_radius;
             object_to_add_on["minimal_width"] = clickDataSaver.minimal_width;
             object_to_add_on["minimal_height"] = clickDataSaver.minimal_height;
+            object_to_add_on["radius"] = clickDataSaver.radius;
+            object_to_add_on["radius_x"] = clickDataSaver.radius_x;
+            object_to_add_on["radius_y"] = clickDataSaver.radius_y;
+            object_to_add_on["use_rectangle"] = clickDataSaver.use_rectangle;
+            object_to_add_on["use_circle"] = clickDataSaver.use_circle;
+            object_to_add_on["use_ellipse"] = clickDataSaver.use_ellipse;
             var clickLogStringArray = [];
             for (var i = 0; i < clickDataSaver.clickLogData.length; i++) {
                 var oneDataSet = "";
@@ -125,14 +175,36 @@ define("clickDataSaver", ["require", "exports", "Coordinate"], function (require
                 clickLogStringArray.push(oneDataSet);
             }
             object_to_add_on["data"] = clickLogStringArray;
+            var timeLogSringArray = [];
+            for (var i = 0; i < clickDataSaver.timeLogData.length; i++) {
+                var oneDataSet = "";
+                for (var j = 0; j < clickDataSaver.timeLogData[i].length; j++) {
+                    oneDataSet += clickDataSaver.timeLogData[i][j];
+                    if (j != clickDataSaver.clickLogData[i].length - 1) {
+                        oneDataSet += " ";
+                    }
+                }
+                timeLogSringArray.push(oneDataSet);
+            }
+            if (timeLogSringArray.length != 0) {
+                object_to_add_on["times"] = timeLogSringArray;
+            }
             return object_to_add_on;
         };
         clickDataSaver.imageWithDataOfClickLog = "./images/InsertSort.PNG";
         clickDataSaver.clickLogData = [];
+        clickDataSaver.timeLogData = [];
         clickDataSaver.current = -1;
+        clickDataSaver.use_times = false;
+        clickDataSaver.use_rectangle = true;
+        clickDataSaver.use_circle = false;
+        clickDataSaver.use_ellipse = false;
         clickDataSaver.grad_radius = 30;
         clickDataSaver.minimal_width = 200;
         clickDataSaver.minimal_height = 1;
+        clickDataSaver.radius = 50;
+        clickDataSaver.radius_x = 100;
+        clickDataSaver.radius_y = 50;
         return clickDataSaver;
     }());
     exports.clickDataSaver = clickDataSaver;
@@ -140,23 +212,47 @@ define("clickDataSaver", ["require", "exports", "Coordinate"], function (require
 define("BoxDiagram", ["require", "exports", "clickDataSaver"], function (require, exports, clickDataSaver_1) {
     "use strict";
     exports.__esModule = true;
-    exports.drawRowView = exports.drawLineView = exports.drawRectangleView = void 0;
-    function drawRectangleView(context, current_coordinate) {
+    exports.drawRowView = exports.drawLineView = exports.drawShapeView = void 0;
+    function drawShapeView(context, current_coordinate) {
         var x_pos = current_coordinate.get_x();
         var y_pos = current_coordinate.get_y();
-        var minimal_x_half = clickDataSaver_1.clickDataSaver.minimal_width + clickDataSaver_1.clickDataSaver.grad_radius;
-        var minimal_y_half = clickDataSaver_1.clickDataSaver.minimal_height + clickDataSaver_1.clickDataSaver.grad_radius;
-        context.beginPath();
-        context.moveTo(x_pos - minimal_x_half, y_pos - minimal_y_half);
-        context.lineTo(x_pos + minimal_x_half, y_pos - minimal_y_half);
-        context.lineTo(x_pos + minimal_x_half, y_pos + minimal_y_half);
-        context.lineTo(x_pos - minimal_x_half, y_pos + minimal_y_half);
-        context.lineTo(x_pos - minimal_x_half, y_pos - minimal_y_half);
-        context.stroke();
+        if (clickDataSaver_1.clickDataSaver.use_rectangle) {
+            var minimal_x_half = clickDataSaver_1.clickDataSaver.minimal_width + clickDataSaver_1.clickDataSaver.grad_radius;
+            var minimal_y_half = clickDataSaver_1.clickDataSaver.minimal_height + clickDataSaver_1.clickDataSaver.grad_radius;
+            context.beginPath();
+            context.moveTo(x_pos - minimal_x_half, y_pos - minimal_y_half);
+            context.lineTo(x_pos + minimal_x_half, y_pos - minimal_y_half);
+            context.lineTo(x_pos + minimal_x_half, y_pos + minimal_y_half);
+            context.lineTo(x_pos - minimal_x_half, y_pos + minimal_y_half);
+            context.lineTo(x_pos - minimal_x_half, y_pos - minimal_y_half);
+            context.stroke();
+        }
+        else if (clickDataSaver_1.clickDataSaver.use_circle) {
+            var radius = clickDataSaver_1.clickDataSaver.radius + clickDataSaver_1.clickDataSaver.grad_radius;
+            context.beginPath();
+            context.arc(x_pos, y_pos, radius, 0, 2 * Math.PI);
+            context.stroke();
+        }
+        else if (clickDataSaver_1.clickDataSaver.use_ellipse) {
+            var x_radius = clickDataSaver_1.clickDataSaver.radius_x + clickDataSaver_1.clickDataSaver.grad_radius;
+            var y_radius = clickDataSaver_1.clickDataSaver.radius_y + clickDataSaver_1.clickDataSaver.grad_radius;
+            context.beginPath();
+            context.ellipse(x_pos, y_pos, x_radius, y_radius, 0, 0, 2 * Math.PI);
+            context.stroke();
+        }
     }
-    exports.drawRectangleView = drawRectangleView;
+    exports.drawShapeView = drawShapeView;
     function drawLineView(context, current_coordinate, width) {
-        var minimal_y_half = clickDataSaver_1.clickDataSaver.minimal_height + clickDataSaver_1.clickDataSaver.grad_radius;
+        var minimal_y_half;
+        if (clickDataSaver_1.clickDataSaver.use_rectangle) {
+            minimal_y_half = clickDataSaver_1.clickDataSaver.minimal_height + clickDataSaver_1.clickDataSaver.grad_radius;
+        }
+        else if (clickDataSaver_1.clickDataSaver.use_circle) {
+            minimal_y_half = clickDataSaver_1.clickDataSaver.radius + clickDataSaver_1.clickDataSaver.grad_radius;
+        }
+        else {
+            minimal_y_half = clickDataSaver_1.clickDataSaver.radius_y + clickDataSaver_1.clickDataSaver.grad_radius;
+        }
         context.beginPath();
         context.moveTo(0, current_coordinate.get_y() - minimal_y_half);
         context.lineTo(width, current_coordinate.get_y() - minimal_y_half);
@@ -166,7 +262,16 @@ define("BoxDiagram", ["require", "exports", "clickDataSaver"], function (require
     }
     exports.drawLineView = drawLineView;
     function drawRowView(context, current_coordinate, height) {
-        var minimal_x_half = clickDataSaver_1.clickDataSaver.minimal_width + clickDataSaver_1.clickDataSaver.grad_radius;
+        var minimal_x_half;
+        if (clickDataSaver_1.clickDataSaver.use_rectangle) {
+            minimal_x_half = clickDataSaver_1.clickDataSaver.minimal_width + clickDataSaver_1.clickDataSaver.grad_radius;
+        }
+        else if (clickDataSaver_1.clickDataSaver.use_circle) {
+            minimal_x_half = clickDataSaver_1.clickDataSaver.radius + clickDataSaver_1.clickDataSaver.grad_radius;
+        }
+        else {
+            minimal_x_half = clickDataSaver_1.clickDataSaver.radius_x + clickDataSaver_1.clickDataSaver.grad_radius;
+        }
         context.beginPath();
         context.moveTo(current_coordinate.get_x() - minimal_x_half, 0);
         context.lineTo(current_coordinate.get_x() - minimal_x_half, height);
@@ -179,20 +284,52 @@ define("BoxDiagram", ["require", "exports", "clickDataSaver"], function (require
 define("Heatmaps", ["require", "exports", "clickDataSaver"], function (require, exports, clickDataSaver_2) {
     "use strict";
     exports.__esModule = true;
-    exports.drawHorizontalHeatMap = exports.drawVerticalHeatMap = exports.drawRectangleHeatMap = void 0;
-    function drawRectangleHeatMap(context, min, max, buffer) {
-        var minimal_x_half = clickDataSaver_2.clickDataSaver.minimal_width + clickDataSaver_2.clickDataSaver.grad_radius;
-        var minimal_y_half = clickDataSaver_2.clickDataSaver.minimal_height + clickDataSaver_2.clickDataSaver.grad_radius;
+    exports.drawHorizontalHeatMap = exports.drawVerticalHeatMap = exports.drawShapeHeatMap = void 0;
+    function drawShapeHeatMap(context, min, max, buffer) {
         var opacity = 0.9 / (max - min + 1);
         context.fillStyle = "rgba(0,255,0," + opacity + ")";
-        for (var i = min; i <= max; i++) {
-            context.fillRect(buffer[i].get_x() - minimal_x_half, buffer[i].get_y() - minimal_y_half, 2 * minimal_x_half, 2 * minimal_y_half);
+        context.strokeStyle = "rgba(0,255,0," + opacity + ")";
+        if (clickDataSaver_2.clickDataSaver.use_rectangle) {
+            var minimal_x_half = clickDataSaver_2.clickDataSaver.minimal_width + clickDataSaver_2.clickDataSaver.grad_radius;
+            var minimal_y_half = clickDataSaver_2.clickDataSaver.minimal_height + clickDataSaver_2.clickDataSaver.grad_radius;
+            for (var i = min; i <= max; i++) {
+                context.fillRect(buffer[i].get_x() - minimal_x_half, buffer[i].get_y() - minimal_y_half, 2 * minimal_x_half, 2 * minimal_y_half);
+            }
+        }
+        else if (clickDataSaver_2.clickDataSaver.use_circle) {
+            var radius = clickDataSaver_2.clickDataSaver.radius + clickDataSaver_2.clickDataSaver.grad_radius;
+            for (var i = min; i <= max; i++) {
+                context.beginPath();
+                context.arc(buffer[i].get_x(), buffer[i].get_y(), radius, 0, 2 * Math.PI);
+                context.fill();
+                context.stroke();
+            }
+        }
+        else if (clickDataSaver_2.clickDataSaver.use_ellipse) {
+            var x_radius = clickDataSaver_2.clickDataSaver.radius_x + clickDataSaver_2.clickDataSaver.grad_radius;
+            var y_radius = clickDataSaver_2.clickDataSaver.radius_y + clickDataSaver_2.clickDataSaver.grad_radius;
+            for (var i = min; i <= max; i++) {
+                context.beginPath();
+                context.ellipse(buffer[i].get_x(), buffer[i].get_y(), x_radius, y_radius, 0, 0, 2 * Math.PI);
+                context.fill();
+                context.stroke();
+            }
         }
         context.fillStyle = "rgba(0,0,0,1)";
+        context.strokeStyle = "rgba(1,1,1,1)";
     }
-    exports.drawRectangleHeatMap = drawRectangleHeatMap;
+    exports.drawShapeHeatMap = drawShapeHeatMap;
     function drawVerticalHeatMap(context, min, max, buffer, maxWidth) {
-        var minimal_y_half = clickDataSaver_2.clickDataSaver.minimal_height + clickDataSaver_2.clickDataSaver.grad_radius;
+        var minimal_y_half;
+        if (clickDataSaver_2.clickDataSaver.use_rectangle) {
+            minimal_y_half = clickDataSaver_2.clickDataSaver.minimal_height + clickDataSaver_2.clickDataSaver.grad_radius;
+        }
+        else if (clickDataSaver_2.clickDataSaver.use_circle) {
+            minimal_y_half = clickDataSaver_2.clickDataSaver.radius + clickDataSaver_2.clickDataSaver.grad_radius;
+        }
+        else {
+            minimal_y_half = clickDataSaver_2.clickDataSaver.radius_y + clickDataSaver_2.clickDataSaver.grad_radius;
+        }
         var opacity = 0.9 / (max - min + 1);
         context.fillStyle = "rgba(255,0,0," + opacity + ")";
         for (var i = min; i <= max; i++) {
@@ -202,7 +339,16 @@ define("Heatmaps", ["require", "exports", "clickDataSaver"], function (require, 
     }
     exports.drawVerticalHeatMap = drawVerticalHeatMap;
     function drawHorizontalHeatMap(context, min, max, buffer, maxHeight) {
-        var minimal_x_half = clickDataSaver_2.clickDataSaver.minimal_width + clickDataSaver_2.clickDataSaver.grad_radius;
+        var minimal_x_half;
+        if (clickDataSaver_2.clickDataSaver.use_rectangle) {
+            minimal_x_half = clickDataSaver_2.clickDataSaver.minimal_width + clickDataSaver_2.clickDataSaver.grad_radius;
+        }
+        else if (clickDataSaver_2.clickDataSaver.use_circle) {
+            minimal_x_half = clickDataSaver_2.clickDataSaver.radius + clickDataSaver_2.clickDataSaver.grad_radius;
+        }
+        else {
+            minimal_x_half = clickDataSaver_2.clickDataSaver.radius_x + clickDataSaver_2.clickDataSaver.grad_radius;
+        }
         var opacity = 0.9 / (max - min + 1);
         context.fillStyle = "rgba(0,0,255," + opacity + ")";
         for (var i = min; i <= max; i++) {
@@ -324,9 +470,13 @@ define("NeedlemanWunschLineDiagram", ["require", "exports", "NeedlemanWunsch"], 
         var tmp3 = (tmp1 - tmp2) + offset;
         return tmp3;
     }
-    function toUseableBuffer(solution_buffer) {
+    function toUseableBuffer(solution_buffer, useDeleted) {
+        if (useDeleted === void 0) { useDeleted = true; }
         var usable_buffer = [];
         for (var i = 0; i < solution_buffer.length; i++) {
+            if (useDeleted == false && solution_buffer[i].kind === "delete") {
+                continue;
+            }
             usable_buffer.push(solution_buffer[i].data);
         }
         return usable_buffer;
@@ -357,16 +507,6 @@ define("NeedlemanWunschLineDiagram", ["require", "exports", "NeedlemanWunsch"], 
         var buffer = NeedlemanWunsch_1.NeedlemanWunsch(buffer_needle_a, buffer_needle_b);
         var current_x = width;
         var color = { r: 0, g: 0, b: 0 };
-        for (var i = 1; i < buffer.length; i++) {
-            context.beginPath();
-            color = getColor(buffer[i].kind);
-            setColor(context, color);
-            context.moveTo(current_x, buffer[i - 1].data);
-            context.lineTo(current_x, buffer[i].data);
-            current_x -= 3;
-            context.lineTo(current_x, buffer[i].data);
-            context.stroke();
-        }
         current_x = 3;
         context.beginPath();
         context.moveTo(current_x, buffer[0].data);
@@ -421,8 +561,8 @@ define("NeedlemanWunschLineDiagram", ["require", "exports", "NeedlemanWunsch"], 
     }
     exports.drawHorizontalNeedlemanWunschLineDiagram = drawHorizontalNeedlemanWunschLineDiagram;
     function drawVerticalCNWLineDiagram(context, rounding, buffers) {
-        var rounding_half = rounding / 2.0;
         var buffers_needle = [];
+        var rounding_half = rounding / 2.0;
         for (var i = 0; i < buffers.length; i++) {
             var tmp_buffer = [];
             for (var j = 0; j < buffers[i].length; j++) {
@@ -433,7 +573,7 @@ define("NeedlemanWunschLineDiagram", ["require", "exports", "NeedlemanWunsch"], 
         var current_sol = buffers_needle[0];
         for (var i = 1; i < buffers_needle.length; i++) {
             var sol_buffer = NeedlemanWunsch_1.NeedlemanWunsch(buffers_needle[i], current_sol);
-            current_sol = toUseableBuffer(sol_buffer);
+            current_sol = toUseableBuffer(sol_buffer, false);
         }
         var buffer = current_sol;
         var current_x = 3;
@@ -695,7 +835,7 @@ define("Utils", ["require", "exports"], function (require, exports) {
 define("htmlImports", ["require", "exports"], function (require, exports) {
     "use strict";
     exports.__esModule = true;
-    exports.image = exports.ctx = exports.canvas = exports.DataSetSaveAsButton = exports.DataSetLoadButton = exports.DataSetInput = exports.SemanticClassifierOutput = exports.SemanticClassifierCheckBoxExpression = exports.SemanticClassifierCheckBoxStructural = exports.SemanticClassifierCheckBoxIdentifier = exports.SemanticClassifierCheckBoxNone = exports.SemanticClassifierCheckBoxShow = exports.SemanticClassifierCNWFlag = exports.SemanticClassifierSNWFlag = exports.CNWGoButton = exports.CNWResetButton = exports.CNWPushButton = exports.CNWDataPreview = exports.CNWDataInput = exports.CNWRoundingInput = exports.SNWGoButton = exports.SNWDataInput2 = exports.SNWDataInput1 = exports.SNWRoundingInput = exports.dataSetNumberOutput = exports.dataDataAnalysisButton = exports.dataDataAnalysisInput = exports.imageDataAnalysisButton = exports.imageDataAnalysisInput = exports.rectangleHeatmapCheckbox = exports.horizontalHeatmapCheckbox = exports.verticalHeatmapCheckbox = exports.horizontalViewCheckbox = exports.verticalViewCheckbox = exports.rectangleViewCheckbox = exports.rowViewCheckbox = exports.lineViewCheckBox = exports.clickLogDataSetBar = exports.clickLogActivationBarMin = exports.clickLogActivationBarMax = exports.semanticClassifierCanvas = exports.clickLogCanvas = void 0;
+    exports.image = exports.ctx = exports.canvas = exports.EllipseSubmitButton = exports.EllipseGradientRadiusInput = exports.EllipseYRadiusInput = exports.EllipseXRadiusInput = exports.CircleSubmitButton = exports.CircleGradientRadiusInput = exports.CircleRadiusInput = exports.RectangleSubmitButton = exports.RectangleGradientRadiusInput = exports.RectangleMinimalHeightInput = exports.RectangleMinimalWidthInput = exports.DataSetSaveAsButton = exports.DataSetLoadButton = exports.DataSetInput = exports.SemanticClassifierOutput = exports.SemanticClassifierCheckBoxExpression = exports.SemanticClassifierCheckBoxStructural = exports.SemanticClassifierCheckBoxIdentifier = exports.SemanticClassifierCheckBoxNone = exports.SemanticClassifierCheckBoxShow = exports.SemanticClassifierCNWFlag = exports.SemanticClassifierSNWFlag = exports.CNWGoButton = exports.CNWResetButton = exports.CNWPushButton = exports.CNWDataPreview = exports.CNWDataInput = exports.CNWRoundingInput = exports.SNWGoButton = exports.SNWDataInput2 = exports.SNWDataInput1 = exports.SNWRoundingInput = exports.dataSetNumberOutput = exports.dataDataAnalysisButton = exports.timeDataAnalysisInput = exports.dataDataAnalysisInput = exports.imageDataAnalysisButton = exports.imageDataAnalysisInput = exports.rectangleHeatmapCheckbox = exports.horizontalHeatmapCheckbox = exports.verticalHeatmapCheckbox = exports.horizontalViewCheckbox = exports.verticalViewCheckbox = exports.rectangleViewCheckbox = exports.rowViewCheckbox = exports.lineViewCheckBox = exports.clickLogDataSetBar = exports.clickLogActivationBarMin = exports.clickLogActivationBarMax = exports.semanticClassifierCanvas = exports.clickLogCanvas = void 0;
     exports.clickLogCanvas = document.getElementById("click-log-canvas");
     exports.semanticClassifierCanvas = document.getElementById("semantic-classifier");
     exports.clickLogActivationBarMax = document.getElementById("clickLogActivationBarMax");
@@ -711,6 +851,7 @@ define("htmlImports", ["require", "exports"], function (require, exports) {
     exports.rectangleHeatmapCheckbox = document.getElementById("rectangleHeatmapCheckbox");
     exports.imageDataAnalysisInput = document.getElementById("imageDataAnalysisInput");
     exports.imageDataAnalysisButton = document.getElementById("imageDataAnalysisButton");
+    exports.timeDataAnalysisInput = document.getElementById("timeDataAnalysisInput");
     exports.dataDataAnalysisInput = document.getElementById("dataDataAnalysisInput");
     exports.dataDataAnalysisButton = document.getElementById("dataDataAnalysisButton");
     exports.SNWRoundingInput = document.getElementById("SNW_rounding");
@@ -735,6 +876,17 @@ define("htmlImports", ["require", "exports"], function (require, exports) {
     exports.DataSetInput = document.getElementById("datasetInput");
     exports.DataSetLoadButton = document.getElementById("datasetLoadButton");
     exports.DataSetSaveAsButton = document.getElementById("datasetSaveAsButton");
+    exports.RectangleMinimalWidthInput = document.getElementById("minimalWidthInput");
+    exports.RectangleMinimalHeightInput = document.getElementById("minimalHeightInput");
+    exports.RectangleGradientRadiusInput = document.getElementById("rectangleGradRadiusInput");
+    exports.RectangleSubmitButton = document.getElementById("useRectangle");
+    exports.CircleRadiusInput = document.getElementById("radiusInput");
+    exports.CircleGradientRadiusInput = document.getElementById("circleGradRadiusInput");
+    exports.CircleSubmitButton = document.getElementById("useCircle");
+    exports.EllipseXRadiusInput = document.getElementById("xRadiusInput");
+    exports.EllipseYRadiusInput = document.getElementById("yRadiusInput");
+    exports.EllipseGradientRadiusInput = document.getElementById("ellipseGradRadiusInput");
+    exports.EllipseSubmitButton = document.getElementById("useEllipse");
     exports.canvas = document.getElementById("bubble-image-canvas");
     exports.ctx = exports.canvas.getContext("2d");
     exports.image = new Image();
@@ -780,7 +932,6 @@ define("index", ["require", "exports", "clickDataSaver", "BoxDiagram", "LineDiag
     html_doc.image.onload = function () {
         html_doc.canvas.width = 2 * html_doc.image.width;
         html_doc.canvas.height = html_doc.image.height;
-        var a = 3;
         html_doc.clickLogCanvas.width = 2 * html_doc.image.width;
         html_doc.clickLogCanvas.height = html_doc.image.height;
         html_doc.semanticClassifierCanvas.width = 2 * html_doc.image.width;
@@ -954,6 +1105,32 @@ define("index", ["require", "exports", "clickDataSaver", "BoxDiagram", "LineDiag
         }
         html_doc.CNWDataPreview.value = "[None]";
     });
+    html_doc.RectangleSubmitButton.addEventListener('click', function () {
+        clickDataSaver_3.clickDataSaver.minimal_width = parseInt(html_doc.RectangleMinimalWidthInput.value);
+        clickDataSaver_3.clickDataSaver.minimal_height = parseInt(html_doc.RectangleMinimalHeightInput.value);
+        clickDataSaver_3.clickDataSaver.grad_radius = parseInt(html_doc.RectangleGradientRadiusInput.value);
+        clickDataSaver_3.clickDataSaver.use_rectangle = true;
+        clickDataSaver_3.clickDataSaver.use_circle = false;
+        clickDataSaver_3.clickDataSaver.use_ellipse = false;
+        setRedrawClickLog();
+    });
+    html_doc.CircleSubmitButton.addEventListener('click', function () {
+        clickDataSaver_3.clickDataSaver.radius = parseInt(html_doc.CircleRadiusInput.value);
+        clickDataSaver_3.clickDataSaver.grad_radius = parseInt(html_doc.CircleGradientRadiusInput.value);
+        clickDataSaver_3.clickDataSaver.use_rectangle = false;
+        clickDataSaver_3.clickDataSaver.use_circle = true;
+        clickDataSaver_3.clickDataSaver.use_ellipse = false;
+        setRedrawClickLog();
+    });
+    html_doc.EllipseSubmitButton.addEventListener('click', function () {
+        clickDataSaver_3.clickDataSaver.radius_x = parseInt(html_doc.EllipseXRadiusInput.value);
+        clickDataSaver_3.clickDataSaver.radius_y = parseInt(html_doc.EllipseYRadiusInput.value);
+        clickDataSaver_3.clickDataSaver.grad_radius = parseInt(html_doc.EllipseGradientRadiusInput.value);
+        clickDataSaver_3.clickDataSaver.use_rectangle = false;
+        clickDataSaver_3.clickDataSaver.use_circle = false;
+        clickDataSaver_3.clickDataSaver.use_ellipse = true;
+        setRedrawClickLog();
+    });
     function loadDataFrom(filename) {
         return __awaiter(this, void 0, void 0, function () {
             var JSONData, _a, _b;
@@ -1005,7 +1182,7 @@ define("index", ["require", "exports", "clickDataSaver", "BoxDiagram", "LineDiag
         var horizontalHeatMap = html_doc.horizontalHeatmapCheckbox.checked;
         var rectangleHeatMap = html_doc.rectangleHeatmapCheckbox.checked;
         if (rectangleView === true)
-            BoxDiagram_1.drawRectangleView(context, buffer[maxLog]);
+            BoxDiagram_1.drawShapeView(context, buffer[maxLog]);
         if (lineView === true)
             BoxDiagram_1.drawLineView(context, buffer[maxLog], html_doc.image.width);
         if (rowView === true)
@@ -1019,7 +1196,7 @@ define("index", ["require", "exports", "clickDataSaver", "BoxDiagram", "LineDiag
         if (horizontalHeatMap === true)
             Heatmaps_1.drawHorizontalHeatMap(context, minLog, maxLog, buffer, html_doc.image.height);
         if (rectangleHeatMap === true)
-            Heatmaps_1.drawRectangleHeatMap(context, minLog, maxLog, buffer);
+            Heatmaps_1.drawShapeHeatMap(context, minLog, maxLog, buffer);
         semanticClassifier.drawToLabel(buffer, minLog, maxLog, html_doc.SemanticClassifierOutput);
     }
     function drawVerticalSNW() {

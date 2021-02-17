@@ -6,7 +6,6 @@
     <script src="scripts/rEYEker.js"></script>
 </head>
 <body>
-<h1>Ein Beispiel Text :)</h1>
 <div id="Image">
     <div style="position: relative;">
         <canvas id="bubble-image-canvas" style="position: relative; left: 0; top: 0;"></canvas>
@@ -16,13 +15,21 @@
 <div id="attributeText">
     <div class="htmlTesting">
     <h3>html Testing</h3>
+        <h4>General</h4>
         x-Folding Range<label id="xFoldingRangeLabel"> [2]</label>             <input type="range" min="1" max="50"  value="5" class="slider" id="xFoldingRange"><br>
         y-Folding Range<label id="yFoldingRangeLabel"> [2]</label>             <input type="range" min="1" max="50"  value="5" class="slider" id="yFoldingRange"><br>
+        blur Radius<label id="blurRadiusLabel"> [50]</label>                   <input type="range" min="1" max="200" value="50" class="slider" id="blurRadius"><br>
+        <h4>Rectangle</h4>
+        use rectangle <input type="checkbox" id="useRectangleCheckbox" checked="true"><br>
         minimal x Visibility<label id="minimalXVisibilityLabel"> [50]</label>  <input type="range" min="1" max="200" value="50" class="slider" id="minimalXVisibility"><br>
         minimal y Visibility<label id="minimalYVisibilityLabel"> [50]</label>  <input type="range" min="1" max="200" value="50" class="slider" id="minimalYVisibility"><br>
-        blur Radius<label id="blurRadiusLabel"> [50]</label>                   <input type="range" min="1" max="200" value="50" class="slider" id="blurRadius"><br>
-        x blur Ratio<label id="blurXRatioLabel"> [100]%</label>                <input type="range" min="1" max="100" value="100" class="slider" id="blurXRatio"><br>
-        y blur Ratio<label id="blurYRatioLabel"> [100]%</label>                <input type="range" min="1" max="100" value="100" class="slider" id="blurYRatio"><br>
+        <h4>Circle</h4>
+        use circle <input type="checkbox" id="useCircleCheckbox"><br>
+        circle radius <label id="circleRadiusLabel"> [50]</label> <input type="range" min="1" max="200" value="50" class="slider" id="circleRadius"><br>
+        <h4>Ellipse</h4>
+        use ellipse <input type="checkbox" id="useEllipseCheckbox"><br>
+        ellipse radius x <label id="ellipseXRadiusLabel"> [50]</label> <input type="range" min="1" max="200" value="50" class="slider" id="ellipseXRadius"><br>
+        ellipse radius x <label id="ellipseYRadiusLabel"> [50]</label> <input type="range" min="1" max="200" value="50" class="slider" id="ellipseYRadius"><br>
         <br>
         Mouse Click: <input type="checkbox" id="mouseClickActivation" checked><br>
         <br>

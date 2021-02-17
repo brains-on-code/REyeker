@@ -29,19 +29,25 @@ declare module "ImageCalculator" {
     import { Rectangle } from "Rectangle";
     export class ImageCalculator {
         private readonly bytesPerPixel;
+        private max_width;
+        private max_height;
         private color_buffer;
         private blurry_buffer;
         private visible_buffer;
-        private max_width;
-        private max_height;
+        private has_calculated_lock;
+        private use_rectangle;
         private minimal_width_visibility;
         private minimal_height_visibility;
+        private use_circle;
+        private circle_radius;
+        private use_ellipse;
+        private ellipse_x_radius;
+        private ellipse_y_radius;
         private gradient_radius;
-        private gradient_x_ratio;
-        private gradient_y_ratio;
         private current_render_area;
         private click_log;
-        private has_calculated_lock;
+        private click_log_times;
+        private time_start;
         constructor();
         private to_index;
         private get_render_region;
@@ -49,7 +55,9 @@ declare module "ImageCalculator" {
         set_color_buffer(buffer: number[], width: number, height: number): void;
         calculate_blurred(x_radius_blur: number, y_radius_blur: any): void;
         calculate_visible_area(x_coordinate: number, y_coordinate: number): void;
+        clear_click_log(): void;
         get_click_log(): Coordinate[];
+        get_click_log_times(): number[];
         set_click_log(click_log: Coordinate[]): void;
         set_click_log_from_string(data_str: string): void;
         get_click_log_size(): number;
@@ -57,16 +65,22 @@ declare module "ImageCalculator" {
         get_visible_buffer(): number[];
         get_blurry_buffer(): number[];
         get_color_buffer(): number[];
+        read_and_reset_calculated_lock(): boolean;
+        set_use_rectangle(): void;
         set_minimal_width_radius(minimal_width_radius: number): void;
         get_minimal_width_radius(): number;
         set_minimal_height_radius(minimal_height_radius: number): void;
         get_minimal_height_radius(): number;
         set_gradient_radius(gradient_radius: number): void;
         get_gradient_radius(): number;
-        set_gradient_x_ratio(gradient_x_radius: number): void;
-        set_gradient_y_ratio(gradient_y_radius: number): void;
-        clear_click_log(): void;
-        read_and_reset_calculated_lock(): boolean;
+        set_use_circle(): void;
+        set_circle_radius(radius: number): void;
+        get_circle_radius(): number;
+        set_use_ellipse(): void;
+        set_ellipse_radius_x(radius_x: number): void;
+        set_ellipse_radius_y(radius_y: number): void;
+        get_ellipse_radius_x(): number;
+        get_ellipse_radius_y(): number;
     }
 }
 declare module "useCases" {

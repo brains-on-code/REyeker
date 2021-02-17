@@ -18,17 +18,46 @@
     </expand>
     <select />
   </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" ENABLED="true" />
+    </configurations>
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="860cf309-b0da-40b6-a85e-ae7bbede9cc1" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/index.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/index.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/index.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/index.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BoxDiagram.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/BoxDiagram.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Heatmaps.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Heatmaps.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/clickDataSaver.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/clickDataSaver.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/htmlImports.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/htmlImports.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../implementation/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../implementation/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="MacroExpansionManager">
+    <option name="directoryName" value="gpjp93tx" />
   </component>
   <component name="ProjectId" id="1hUWQ2y3nGb8OITWYr9cWXxd8Qq" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -39,8 +68,10 @@
   <component name="PropertiesComponent">
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/data" />
+    <property name="cf.first.check.clang-format" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -49,16 +80,23 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="settings.typescriptcompiler" />
-    <property name="ts.external.directory.path" value="C:\Users\jonas\AppData\Local\JetBrains\Toolbox\apps\WebStorm\ch-0\202.7660.23\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
+    <property name="ts.external.directory.path" value="C:\Users\jonas\AppData\Roaming\npm\node_modules\typescript\lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\jonas\OneDrive\Dokumente\GitHub\rEYEker\dataAnalyses\data" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\jonas\OneDrive\Dokumente\GitHub\rEYEker\dataAnalyses\data" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\jonas\OneDrive\Dokumente\GitHub\rEYEker\dataAnalyses\data" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -87,7 +125,15 @@
       <workItem from="1605966460288" duration="600000" />
       <workItem from="1606159991303" duration="612000" />
       <workItem from="1606241439168" duration="2126000" />
-      <workItem from="1606309526650" duration="960000" />
+      <workItem from="1606309526650" duration="1253000" />
+      <workItem from="1606312041216" duration="572000" />
+      <workItem from="1608024568670" duration="13700000" />
+      <workItem from="1608055928119" duration="3797000" />
+      <workItem from="1608109457542" duration="1566000" />
+      <workItem from="1611062344792" duration="544000" />
+      <workItem from="1611130006300" duration="79000" />
+      <workItem from="1612446889007" duration="12000" />
+      <workItem from="1612513472050" duration="4159000" />
     </task>
     <servers />
   </component>
@@ -99,44 +145,27 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/master" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
-  <component name="WindowStateProjectService">
-    <state x="1027" y="321" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1602511878887">
-      <screen x="0" y="0" width="2560" height="1040" />
-    </state>
-    <state x="1027" y="321" key="#com.intellij.fileTypes.FileTypeChooser/0.0.2560.1040/-1920.0.1920.1040@0.0.2560.1040" timestamp="1602511878887" />
-    <state x="1060" y="274" key="FileChooserDialogImpl" timestamp="1602513272157">
-      <screen x="0" y="0" width="2560" height="1040" />
-    </state>
-    <state x="1060" y="274" key="FileChooserDialogImpl/0.0.2560.1040/-1920.0.1920.1040@0.0.2560.1040" timestamp="1602513272157" />
-    <state x="781" y="164" width="997" height="711" key="SettingsEditor" timestamp="1605780451691">
-      <screen x="0" y="0" width="2560" height="1040" />
-    </state>
-    <state x="781" y="164" width="997" height="711" key="SettingsEditor/-1920.-3.1920.1040/2560.0.1920.1040/0.0.2560.1040@0.0.2560.1040" timestamp="1605780451691" />
-    <state x="781" y="164" key="SettingsEditor/0.0.2560.1040/-1920.0.1920.1040@0.0.2560.1040" timestamp="1600102419988" />
-    <state x="2574" y="-15" width="1936" height="718" maximized="true" key="dock-window-1" timestamp="1605771909637">
-      <screen x="2560" y="0" width="1920" height="1040" />
-    </state>
-    <state x="2574" y="-15" width="1936" height="718" maximized="true" key="dock-window-1/-1920.-3.1920.1040/2560.0.1920.1040/0.0.2560.1040@0.0.2560.1040" timestamp="1605771909637" />
-    <state x="2560" y="0" width="1936" height="1028" key="dock-window-1/0.0.2560.1040/-1920.-3.1920.1040/2560.0.1920.1040@0.0.2560.1040" timestamp="1605708250888" />
-    <state x="-1920" y="0" width="1936" height="718" key="dock-window-1/0.0.2560.1040/-1920.0.1920.1040@0.0.2560.1040" timestamp="1602515445662" />
-    <state x="2572" y="-28" width="1936" height="718" maximized="true" key="dock-window-2" timestamp="1605708694946">
-      <screen x="2560" y="0" width="1920" height="1040" />
-    </state>
-    <state x="2572" y="-28" width="1936" height="718" maximized="true" key="dock-window-2/0.0.2560.1040/-1920.-3.1920.1040/2560.0.1920.1040@0.0.2560.1040" timestamp="1605708694946" />
-    <state x="-1920" y="-3" width="1936" height="718" maximized="true" key="dock-window-3" timestamp="1605712691797">
-      <screen x="-1920" y="-3" width="1920" height="1040" />
-    </state>
-    <state x="-1920" y="-3" width="1936" height="718" maximized="true" key="dock-window-3/0.0.2560.1040/-1920.-3.1920.1040/2560.0.1920.1040@0.0.2560.1040" timestamp="1605712691797" />
-    <state x="943" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1600159007795">
-      <screen x="0" y="0" width="2560" height="1040" />
-    </state>
-    <state x="943" y="225" width="672" height="678" key="search.everywhere.popup/0.0.2560.1040/-1920.0.1920.1040@0.0.2560.1040" timestamp="1600159007795" />
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
