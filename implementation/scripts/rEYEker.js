@@ -467,7 +467,7 @@ define("rEYEker", ["require", "exports", "useCases", "ImageCalculator"], functio
     var mouseClickedLeft = false;
     var mouseClickMode = true;
     var calculateNew = true;
-    var ex_1_url = "./images/Student.PNG";
+    var ex_1_url = "./images/InsertSort.PNG";
     var ex_2_url = "./images/Calculation.PNG";
     var ex_3_url = "./images/Rectangle.PNG";
     var imageUrl;

@@ -26,16 +26,14 @@
   <component name="ChangeListManager">
     <list default="true" id="860cf309-b0da-40b6-a85e-ae7bbede9cc1" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scripts/index.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/index.d.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scripts/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/index.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/index.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BoxDiagram.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/BoxDiagram.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Heatmaps.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Heatmaps.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/clickDataSaver.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/clickDataSaver.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/htmlImports.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/htmlImports.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../implementation/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../implementation/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../implementation/images/InsertSort.PNG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../implementation/scripts/rEYEker.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../implementation/scripts/rEYEker.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../implementation/scripts/rEYEker.js" beforeDir="false" afterPath="$PROJECT_DIR$/../implementation/scripts/rEYEker.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../implementation/src/rEYEker.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../implementation/src/rEYEker.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,7 +69,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="cf.first.check.clang-format" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../implementation" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -88,15 +86,9 @@
       <recent name="C:\Users\jonas\OneDrive\Dokumente\GitHub\rEYEker\dataAnalyses\data" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\jonas\OneDrive\Dokumente\GitHub\REyeker\dataAnalyses\images" />
       <recent name="C:\Users\jonas\OneDrive\Dokumente\GitHub\rEYEker\dataAnalyses\data" />
     </key>
-  </component>
-  <component name="RunManager">
-    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -134,6 +126,7 @@
       <workItem from="1611130006300" duration="79000" />
       <workItem from="1612446889007" duration="12000" />
       <workItem from="1612513472050" duration="4159000" />
+      <workItem from="1613555824487" duration="912000" />
     </task>
     <servers />
   </component>

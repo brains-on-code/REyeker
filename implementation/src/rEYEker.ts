@@ -12,7 +12,7 @@ let mouseMoved: boolean = true; //a boolean value, used to indicate if the mouse
 let mouseClickedLeft: boolean = false; //a boolean value, used to indicate if the mouse was clicked
 let mouseClickMode: boolean = true; //a boolean value, used to indicate if in mouse click or hover mode to deblur
 let calculateNew: boolean = true; //a boolean value, used to indicate if the blur should be recalculated
-let ex_1_url: string = "./images/Student.PNG"; //the used test image, use an rgb (8 bit color depth) image
+let ex_1_url: string = "./images/InsertSort.PNG"; //the used test image, use an rgb (8 bit color depth) image
 let ex_2_url: string = "./images/Calculation.PNG"; //the used test image, use an rgb (8 bit color depth) im./imagesge
 let ex_3_url: string = "./images/Rectangle.PNG"; //the used test image, use an rgb (8 bit color depth) image
 
@@ -87,6 +87,7 @@ if (UseCases.htmlTesting === true) {
     ellipseXRadiusInput  = <HTMLInputElement>document.getElementById("ellipseXRadius")
     ellipseYRadiusInput  = <HTMLInputElement>document.getElementById("ellipseYRadius")
 }
+
 if (UseCases.soSciSurvey === true) {
     imageUrl = document.getElementById("imageToBlurTag").innerHTML; //the used test image, use an rgba (8 bit color depth) image
     variableNameClickLog = document.getElementById("clickLogVariable").innerHTML; //the name of the inner variable of soSci

@@ -10,7 +10,7 @@ import {clickDataSaver} from "./clickDataSaver";
  * @param buffer    the buffer for the coordinates to draw for the rectangle heatmap
  */
 export function drawShapeHeatMap(context: CanvasRenderingContext2D, min: number, max: number, buffer: Coordinate[]) {
-    const opacity: number = 0.9 / (max - min + 1);
+    const opacity: number = 1.3 / (max - min + 1);
     context.fillStyle = "rgba(0,255,0," + opacity + ")";
     context.strokeStyle = "rgba(0,255,0," + opacity + ")";
 

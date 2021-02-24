@@ -286,7 +286,7 @@ define("Heatmaps", ["require", "exports", "clickDataSaver"], function (require, 
     exports.__esModule = true;
     exports.drawHorizontalHeatMap = exports.drawVerticalHeatMap = exports.drawShapeHeatMap = void 0;
     function drawShapeHeatMap(context, min, max, buffer) {
-        var opacity = 0.9 / (max - min + 1);
+        var opacity = 1.3 / (max - min + 1);
         context.fillStyle = "rgba(0,255,0," + opacity + ")";
         context.strokeStyle = "rgba(0,255,0," + opacity + ")";
         if (clickDataSaver_2.clickDataSaver.use_rectangle) {
