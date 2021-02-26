@@ -1,9 +1,9 @@
-#Implementation of REyeker
+# Implementation of REyeker
 
 REyeker is an Web Tool for visual attention tracking. It is written in Typescript and can thus be compiled into Javascript.
 REyeker was designt to be a plug and play system for online survey Tools, we made an Implementation for SoSciSurvey.<br>
 
-##Example SoSciSurvey
+## Example SoSciSurvey
 
 For Embedding the Tool into SoSciSurvey some Boilerplate must be lifted. 
 This happens on the one hand on the code page and on the other hand on the website page.
@@ -11,12 +11,12 @@ We will go into this in detail below.<br>
 
 This happens on the one hand on the code page and on the other hand on the website page. We will go into this in detail below.<br>
 
-###Side of Code
+### Side of Code
 
 For the code side, a new use case must be created in the corresponding class.
 Furthermore, it is checked that only one useCase is active at a time. This happens in the file "useCase.ts" and looks as follows.
 
-####Use-Cases
+#### Use-Cases
 ````typescript
 /**
  * Indicates that the REYEker tool will be uses on soSciSurvey
@@ -34,7 +34,7 @@ public static isValid() : boolean{
 }
 ````
 
-#####Retrieving html elements
+##### Retrieving html elements
 Now the addressing of the respective required HTML elements must be inserted.
 This is done in the file "rEYEker.ts". Various changes must now be made here.
 First, the HTML elements that are needed are loaded. Among them is the name of the image to be displayed,
@@ -51,7 +51,7 @@ if (UseCases.soSciSurvey === true) {
 }
 ````
 
-####Data Storage
+#### Data Storage
 Now a little code needs to be added so that the runtime saved data is persistently saved when the answers are submitted.
 For this purpose, the Submit button of SoSciSurvey is addressed, which has the ID "submit0".
 A function is added to this at the 'click' event, which serialises the runtime-stored data and stores it in the SoSciSurvey variables.
@@ -78,14 +78,14 @@ if (UseCases.soSciSurvey === true) {
 }
 `````
 
-####End of code Boilerplate
+#### End of code Boilerplate
 Finally, the code can now be compiled into a single JavaScript file, which can now be found in the scripts folder and has the name "rEYEker.js".
 
-###Side of SoSciSurvey
+### Side of SoSciSurvey
 
 To start in SoSciSurvey, all images and script (rEYEker.js) must first be uploaded ("require.js" can also be uploaded or directly included via url). This is done in the tab Images and Mediafiles. After this has been done, the questions are created.
 
-####Creation of Variable, Embedding and Question
+#### Creation of Variable, Embedding and Question
 
 First of all, you have to create a new rubric, in which you can now create questions and text.
 We start with the creation of the variables. To do this, a new question must be created and the type set to internal variable,
@@ -141,23 +141,23 @@ After that, we should write an embedding of the code, using a new text that we s
 Finally, a question can be created as desired.
 
 
-####bringing it together
+#### Bringing it together
 
 In order to bring these 3 parts together, a new page must be created in the questionnaire, which can be modified via drag and drop.
 Modify the page so that first the variable, then the embedding and finally the question is on one page.
 
-###Data
+### Data
 
 The collected data, if any, is now displayed under the corresponding tab. These are formatted so that x and y values of a click are formatted with a hyphen.
 Different clicks are separated by a space. The timestamps are also separated by a space and displayed in ms.
 
-##Example of click Data
+## Example of click Data
 
 ````text
 160-27 189-50 188-69 242-50 193-76 164-98 180-150 270-145 222-164 219-179 239-194 252-212 248-218 249-234 249-219 190-244 139-274 205-362 205-382 205-400 206-359 207-371 262-378 255-390 202-403
 ````
 
-##Example of timestamp Data
+## Example of timestamp Data
 ````text
 1834 3233 5051 6790 8651 10517 12301 14251 18286 21087 24038 24339
 ````

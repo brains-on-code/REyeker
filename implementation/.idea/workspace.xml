@@ -25,11 +25,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a9f458ff-f848-4d7e-b22f-abe55be0863f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../dataAnalyses/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../dataAnalyses/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/readMe.txt" beforeDir="false" afterPath="$PROJECT_DIR$/readMe.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/rEYEker.js" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/rEYEker.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rEYEker.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/rEYEker.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/readMe.md" beforeDir="false" afterPath="$PROJECT_DIR$/readMe.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -141,7 +137,7 @@
       <workItem from="1613668310154" duration="1702000" />
       <workItem from="1613817544234" duration="1855000" />
       <workItem from="1614330536915" duration="5428000" />
-      <workItem from="1614354110542" duration="3299000" />
+      <workItem from="1614354110542" duration="3915000" />
     </task>
     <servers />
   </component>
