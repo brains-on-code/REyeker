@@ -161,3 +161,7 @@ Different clicks are separated by a space. The timestamps are also separated by 
 ````text
 1834 3233 5051 6790 8651 10517 12301 14251 18286 21087 24038 24339
 ````
+
+## Example HTML Testing
+
+Set the Flag for HTMl Testing compile the code and start a webserver hosting the index.html.

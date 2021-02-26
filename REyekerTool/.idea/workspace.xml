@@ -25,7 +25,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a9f458ff-f848-4d7e-b22f-abe55be0863f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/readMe.md" beforeDir="false" afterPath="$PROJECT_DIR$/readMe.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,11 +78,6 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="build" type="TypeScriptProgramRunner" factoryName="TypeScript">
       <module name="rEYEker" />
       <option name="interpreterRef" value="project" />
@@ -138,6 +133,7 @@
       <workItem from="1613817544234" duration="1855000" />
       <workItem from="1614330536915" duration="5428000" />
       <workItem from="1614354110542" duration="3915000" />
+      <workItem from="1614370538422" duration="147000" />
     </task>
     <servers />
   </component>
