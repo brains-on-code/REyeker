@@ -417,7 +417,7 @@ function drawClickLog() {
 
     if (verticalHeatMap === true) drawVerticalHeatMap(context, minLog, maxLog, buffer, html_doc.image.width);
     if (horizontalHeatMap === true) drawHorizontalHeatMap(context, minLog, maxLog, buffer, html_doc.image.height);
-    if (rectangleHeatMap === true) drawShapeHeatMap(context, minLog, maxLog, buffer);
+    if (rectangleHeatMap === true) drawShapeHeatMap(context, minLog, maxLog, buffer, html_doc.image.width, html_doc.image.height);
 
     semanticClassifier.drawToLabel(buffer, minLog, maxLog, html_doc.SemanticClassifierOutput);
 }

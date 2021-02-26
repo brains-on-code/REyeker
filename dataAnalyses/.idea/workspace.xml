@@ -25,15 +25,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="860cf309-b0da-40b6-a85e-ae7bbede9cc1" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scripts/index.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/index.d.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scripts/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/index.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/index.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Heatmaps.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Heatmaps.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dataAnalyses2.0/.ipynb_checkpoints/rEYEker_DataAnalysis-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../dataAnalyses2.0/.ipynb_checkpoints/rEYEker_DataAnalysis-checkpoint.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../implementation/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../implementation/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../implementation/images/InsertSort.PNG" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../implementation/scripts/rEYEker.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../implementation/scripts/rEYEker.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../implementation/scripts/rEYEker.js" beforeDir="false" afterPath="$PROJECT_DIR$/../implementation/scripts/rEYEker.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../implementation/src/rEYEker.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../implementation/src/rEYEker.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../implementation/src/ImageCalculator.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../implementation/src/ImageCalculator.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -127,6 +128,7 @@
       <workItem from="1612446889007" duration="12000" />
       <workItem from="1612513472050" duration="4159000" />
       <workItem from="1613555824487" duration="912000" />
+      <workItem from="1614331939778" duration="5516000" />
     </task>
     <servers />
   </component>

@@ -288,14 +288,10 @@ define("ImageCalculator", ["require", "exports", "Coordinate", "Rectangle", "Hel
                             gradiant_buffer[idx * this.bytesPerPixel + 2] = this.color_buffer[idx * this.bytesPerPixel + 2];
                         }
                         else if (interpolate) {
-                            var x_distance = Math.abs(x_coordinate - width_iter);
-                            var y_distance = Math.abs(y_coordinate - height_iter);
-                            var x_distance_normalized = Math.max(0, x_distance - this.circle_radius);
-                            x_distance_normalized = Math.max(0, x_distance_normalized / this.gradient_radius);
-                            var y_distance_normalized = Math.max(0, y_distance - this.circle_radius);
-                            y_distance_normalized = Math.max(0, y_distance_normalized / this.gradient_radius);
-                            var distance = Math.min(1, x_distance_normalized + y_distance_normalized);
-                            var alpha = 1.0 - distance;
+                            var x_distance = Math.abs(x_coordinate - width_iter - this.circle_radius);
+                            var y_distance = Math.abs(y_coordinate - height_iter - this.circle_radius);
+                            var distance = Math.sqrt(Math.pow(x_distance, 2) + Math.pow(y_distance, 2));
+                            var alpha = 1 - Math.min(distance / this.gradient_radius, 1);
                             var _h = this.get_color_interpolation(idx, alpha), r = _h[0], g = _h[1], b = _h[2];
                             gradiant_buffer[idx * this.bytesPerPixel] = r;
                             gradiant_buffer[idx * this.bytesPerPixel + 1] = g;

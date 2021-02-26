@@ -97,7 +97,6 @@ export class ImageCalculator {
      *
      * @param current_coordinate    the coordinate as index from where to start
      * @param min_radius            the min radius where deblurring should happen
-     * @param factor                the factor for the different aspect ratio
      * @param max_value             the values which shouldn't be crossed as max value
      * @private
      */
@@ -331,17 +330,11 @@ export class ImageCalculator {
                         gradiant_buffer[idx * this.bytesPerPixel + 2] = this.color_buffer[idx * this.bytesPerPixel + 2];
                     } else if(interpolate){
                         //use interpolation
-                        let x_distance = Math.abs(x_coordinate-width_iter);
-                        let y_distance = Math.abs(y_coordinate-height_iter);
+                        let x_distance = Math.abs(x_coordinate-width_iter-this.circle_radius);
+                        let y_distance = Math.abs(y_coordinate-height_iter-this.circle_radius);
+                        let distance = Math.sqrt(Math.pow(x_distance, 2) + Math.pow(y_distance, 2));
+                        let alpha = 1-Math.min(distance/this.gradient_radius, 1);
 
-                        let x_distance_normalized: number = Math.max(0, x_distance - this.circle_radius);
-                        x_distance_normalized = Math.max(0, x_distance_normalized / this.gradient_radius);
-
-                        let y_distance_normalized: number = Math.max(0, y_distance - this.circle_radius);
-                        y_distance_normalized = Math.max(0, y_distance_normalized / this.gradient_radius);
-
-                        const distance: number = Math.min(1, x_distance_normalized + y_distance_normalized);
-                        const alpha: number = 1.0 - distance;
 
                         const [r, g, b]: [number, number, number] = this.get_color_interpolation(idx, alpha);
                         gradiant_buffer[idx * this.bytesPerPixel] = r;

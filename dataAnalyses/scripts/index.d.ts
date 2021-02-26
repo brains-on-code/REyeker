@@ -42,7 +42,7 @@ declare module "BoxDiagram" {
 }
 declare module "Heatmaps" {
     import { Coordinate } from "Coordinate";
-    export function drawShapeHeatMap(context: CanvasRenderingContext2D, min: number, max: number, buffer: Coordinate[]): void;
+    export function drawShapeHeatMap(context: CanvasRenderingContext2D, min: number, max: number, buffer: Coordinate[], max_width: number, max_height: number): void;
     export function drawVerticalHeatMap(context: CanvasRenderingContext2D, min: number, max: number, buffer: Coordinate[], maxWidth: number): void;
     export function drawHorizontalHeatMap(context: CanvasRenderingContext2D, min: number, max: number, buffer: Coordinate[], maxHeight: number): void;
 }
