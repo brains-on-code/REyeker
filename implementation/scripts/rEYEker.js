@@ -892,7 +892,7 @@ define("rEYEker", ["require", "exports", "useCases", "ImageCalculator"], functio
                         if (ellipse_radius_x_element != null) {
                             ellipse_radius_x = Number(ellipse_radius_x_element.innerHTML);
                         }
-                        ellipse_radius_y_element = document.getElementById("ellipse_radius_x");
+                        ellipse_radius_y_element = document.getElementById("ellipse_radius_y");
                         if (ellipse_radius_y_element != null) {
                             ellipse_radius_y = Number(ellipse_radius_y_element.innerHTML);
                         }

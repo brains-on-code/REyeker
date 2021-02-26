@@ -540,7 +540,7 @@ async function setup() {
         ellipse_radius_x = Number(ellipse_radius_x_element.innerHTML)
     }
 
-    let ellipse_radius_y_element = document.getElementById("ellipse_radius_x")
+    let ellipse_radius_y_element = document.getElementById("ellipse_radius_y")
     if (ellipse_radius_y_element != null){
         ellipse_radius_y = Number(ellipse_radius_y_element.innerHTML)
     }
