@@ -9,7 +9,7 @@ export class clickDataSaver{
     public static timeLogData : number[][] = [];
     public static current = -1;
 
-    public static use_times = false;
+    public static use_times = true;
     public static use_rectangle = true;
     public static use_circle = false;
     public static use_ellipse = false;
@@ -52,6 +52,9 @@ export class clickDataSaver{
             time_log_vector.push(time_stamp);
         }
         clickDataSaver.timeLogData.push(time_log_vector);
+        if(clickDataSaver.timeLogData[clickDataSaver.timeLogData.length-1].length != clickDataSaver.clickLogData[clickDataSaver.clickLogData.length-1].length){
+            clickDataSaver.use_times = false;
+        }
     }
 
     /**
@@ -98,6 +101,9 @@ export class clickDataSaver{
                 clickDataSaver.current = 0;
             }
         }
+        if("use_times" in dataToSet){
+            clickDataSaver.use_times = dataToSet["use_times"];
+        }
         if("times" in dataToSet){
             let timeString : [string] = dataToSet["times"];
             for(let i=0; i<timeString.length; i++){
@@ -111,7 +117,7 @@ export class clickDataSaver{
         if("use_rectangle" in dataToSet && dataToSet["use_rectangle"] === true){
             clickDataSaver.use_rectangle = true;
             clickDataSaver.use_circle = false;
-            clickDataSaver.use_rectangle = false;
+            clickDataSaver.use_ellipse = false;
             if("minimal_width" in dataToSet){
                 clickDataSaver.minimal_width = dataToSet["minimal_width"]
             }
@@ -121,14 +127,14 @@ export class clickDataSaver{
         }else if("use_circle" in dataToSet && dataToSet["use_circle"] === true){
             clickDataSaver.use_rectangle = false;
             clickDataSaver.use_circle = true;
-            clickDataSaver.use_rectangle = false;
+            clickDataSaver.use_ellipse = false;
             if("radius" in dataToSet){
                 clickDataSaver.radius = dataToSet["radius"];
             }
         }else if("use_ellipse" in dataToSet && dataToSet["use_ellipse"] === true){
             clickDataSaver.use_rectangle = false;
             clickDataSaver.use_circle = false;
-            clickDataSaver.use_rectangle = true;
+            clickDataSaver.use_ellipse = true;
             if("radius_x" in dataToSet){
                 clickDataSaver.radius_x = dataToSet["radius_x"];
             }else if("radius_y" in dataToSet){
@@ -152,6 +158,7 @@ export class clickDataSaver{
         object_to_add_on["use_rectangle"] = clickDataSaver.use_rectangle;
         object_to_add_on["use_circle"] = clickDataSaver.use_circle;
         object_to_add_on["use_ellipse"] = clickDataSaver.use_ellipse;
+        object_to_add_on["use_times"] = clickDataSaver.use_times;
         let clickLogStringArray = [];
         for(let i=0; i<clickDataSaver.clickLogData.length; i++){
             let oneDataSet = "";

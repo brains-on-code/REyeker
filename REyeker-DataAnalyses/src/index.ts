@@ -108,6 +108,7 @@ html_doc.image.onload = function () {
  */
 html_doc.dataDataAnalysisButton.addEventListener('click', function () {
     clickDataSaver.string_to_click_log(html_doc.dataDataAnalysisInput.value);
+    clickDataSaver.string_to_time_log(html_doc.timeDataAnalysisInput.value);
     indicatorCNWBuffers.push(false);
     html_doc.clickLogDataSetBar.max = String(clickDataSaver.clickLogData.length - 1);
 
@@ -210,7 +211,6 @@ function get_semantic_value(){
 html_doc.clickLogCanvas.addEventListener("mousedown", function (event: MouseEvent) {
     if (event.button === 0) {
         let mouseY = Math.floor(event.y - html_doc.clickLogCanvas.getBoundingClientRect().top)
-        debugger;
         if (event.shiftKey) {
             semanticClassifier_top = mouseY;
             if (semanticClassifier_bottom != null && semanticClassifier_bottom <= semanticClassifier_top) {
@@ -415,8 +415,8 @@ function drawClickLog() {
     if (horizontalView === true) drawHorizontalLineDiagram(context, minLog, maxLog, buffer);
 
 
-    if (verticalHeatMap === true) drawVerticalHeatMap(context, minLog, maxLog, buffer, html_doc.image.width);
-    if (horizontalHeatMap === true) drawHorizontalHeatMap(context, minLog, maxLog, buffer, html_doc.image.height);
+    if (verticalHeatMap === true) drawVerticalHeatMap(context, minLog, maxLog, buffer, html_doc.image.width, html_doc.image.height);
+    if (horizontalHeatMap === true) drawHorizontalHeatMap(context, minLog, maxLog, buffer, html_doc.image.width, html_doc.image.height);
     if (rectangleHeatMap === true) drawShapeHeatMap(context, minLog, maxLog, buffer, html_doc.image.width, html_doc.image.height);
 
     semanticClassifier.drawToLabel(buffer, minLog, maxLog, html_doc.SemanticClassifierOutput);
@@ -513,7 +513,6 @@ async function drawImage() {
  */
 async function running() {
     if(semanticClassifier_bottom != null && semanticClassifier_top != null){
-        debugger;
         let semanticValue = get_semantic_value()
         semanticClassifier.setSemanticFields(semanticClassifier_top, semanticClassifier_bottom, semanticValue)
         redrawClickLog = true;

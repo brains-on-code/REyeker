@@ -330,8 +330,8 @@ export class ImageCalculator {
                         gradiant_buffer[idx * this.bytesPerPixel + 2] = this.color_buffer[idx * this.bytesPerPixel + 2];
                     } else if(interpolate){
                         //use interpolation
-                        let x_distance = Math.abs(x_coordinate-width_iter-this.circle_radius);
-                        let y_distance = Math.abs(y_coordinate-height_iter-this.circle_radius);
+                        let x_distance = Math.abs(x_coordinate-width_iter);
+                        let y_distance = Math.abs(y_coordinate-height_iter);
                         let distance = Math.sqrt(Math.pow(x_distance, 2) + Math.pow(y_distance, 2));
                         let alpha = 1-Math.min(distance/this.gradient_radius, 1);
 

@@ -16,3 +16,5 @@ can be used to check different sequences for similarity.
 But since the Needleman Wunsch diagram would be too unreliable, classes have to be set to fit the click data.
 This can be done by grouping on the basis of the y
 data or by semantic classifiers (http://users.sussex.ac.uk/~bend/ppig2014/12ppig2014_submission_7.pdf).
+These can be set by clicking with the left mouse click and holding SHIFT for the "upper" and ctrl for the "lower"
+bound. You can make them visible by checking the checkbox and then selecting the classifier type you want to set.
