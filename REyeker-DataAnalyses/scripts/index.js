@@ -358,7 +358,7 @@ define("Heatmaps", ["require", "exports", "clickDataSaver"], function (require, 
                     x_distance_normalized = Math.max(0, x_distance_normalized / clickDataSaver_2.clickDataSaver.grad_radius);
                     var y_distance_normalized = Math.max(0, y_distance - clickDataSaver_2.clickDataSaver.radius_y);
                     y_distance_normalized = Math.max(0, y_distance_normalized / clickDataSaver_2.clickDataSaver.grad_radius);
-                    var distance = Math.min(1, x_distance_normalized + y_distance_normalized);
+                    var distance = Math.min(1, Math.sqrt(Math.pow(x_distance_normalized, 2) + Math.pow(y_distance_normalized, 2)));
                     var alpha = 1.0 - distance;
                     heat_values[idx] += alpha * time;
                 }
@@ -385,8 +385,12 @@ define("Heatmaps", ["require", "exports", "clickDataSaver"], function (require, 
                 else if (interpolate) {
                     var x_distance = Math.abs(x - width_iter);
                     var y_distance = Math.abs(y - height_iter);
-                    var distance = Math.sqrt(Math.pow(x_distance, 2) + Math.pow(y_distance, 2));
-                    var alpha = 1 - Math.min(distance / clickDataSaver_2.clickDataSaver.grad_radius, 1);
+                    var x_distance_normalized = Math.max(0, x_distance - clickDataSaver_2.clickDataSaver.radius);
+                    x_distance_normalized = Math.max(0, x_distance_normalized / clickDataSaver_2.clickDataSaver.grad_radius);
+                    var y_distance_normalized = Math.max(0, y_distance - clickDataSaver_2.clickDataSaver.radius);
+                    y_distance_normalized = Math.max(0, y_distance_normalized / clickDataSaver_2.clickDataSaver.grad_radius);
+                    var distance = Math.min(1, Math.sqrt(Math.pow(x_distance_normalized, 2) + Math.pow(y_distance_normalized, 2)));
+                    var alpha = 1.0 - distance;
                     heat_values[idx] += alpha * time;
                 }
             }

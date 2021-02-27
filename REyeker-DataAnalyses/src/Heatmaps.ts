@@ -115,7 +115,7 @@ function fillForEllipse(heat_values: number[], x: number, y, max_width: number, 
                 let y_distance_normalized: number = Math.max(0, y_distance - clickDataSaver.radius_y);
                 y_distance_normalized = Math.max(0, y_distance_normalized / clickDataSaver.grad_radius);
 
-                const distance: number = Math.min(1, x_distance_normalized + y_distance_normalized);
+                const distance: number = Math.min(1, Math.sqrt(Math.pow(x_distance_normalized,2)+ Math.pow(y_distance_normalized,2)));
                 const alpha: number = 1.0 - distance;
 
                 heat_values[idx] += alpha * time;
@@ -159,8 +159,15 @@ function fillForCircle(heat_values: number[], x: number, y, max_width: number, m
             } else if (interpolate) {
                 let x_distance = Math.abs(x - width_iter);
                 let y_distance = Math.abs(y - height_iter);
-                let distance = Math.sqrt(Math.pow(x_distance, 2) + Math.pow(y_distance, 2));
-                let alpha = 1 - Math.min(distance / clickDataSaver.grad_radius, 1);
+
+                let x_distance_normalized: number = Math.max(0, x_distance - clickDataSaver.radius);
+                x_distance_normalized = Math.max(0, x_distance_normalized / clickDataSaver.grad_radius);
+
+                let y_distance_normalized: number = Math.max(0, y_distance - clickDataSaver.radius);
+                y_distance_normalized = Math.max(0, y_distance_normalized / clickDataSaver.grad_radius);
+
+                const distance: number = Math.min(1, Math.sqrt(Math.pow(x_distance_normalized,2)+ Math.pow(y_distance_normalized,2)));
+                const alpha: number = 1.0 - distance;
 
                 heat_values[idx] += alpha * time;
             }
