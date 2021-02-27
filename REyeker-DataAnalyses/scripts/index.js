@@ -81,6 +81,9 @@ define("clickDataSaver", ["require", "exports", "Coordinate"], function (require
                 time_log_vector.push(time_stamp);
             }
             clickDataSaver.timeLogData.push(time_log_vector);
+            if (clickDataSaver.timeLogData[clickDataSaver.timeLogData.length - 1].length != clickDataSaver.clickLogData[clickDataSaver.clickLogData.length - 1].length) {
+                clickDataSaver.use_times = false;
+            }
         };
         clickDataSaver.get_current_log = function () {
             return clickDataSaver.clickLogData[clickDataSaver.current];
@@ -111,6 +114,9 @@ define("clickDataSaver", ["require", "exports", "Coordinate"], function (require
                     clickDataSaver.current = 0;
                 }
             }
+            if ("use_times" in dataToSet) {
+                clickDataSaver.use_times = dataToSet["use_times"];
+            }
             if ("times" in dataToSet) {
                 var timeString = dataToSet["times"];
                 for (var i = 0; i < timeString.length; i++) {
@@ -124,7 +130,7 @@ define("clickDataSaver", ["require", "exports", "Coordinate"], function (require
             if ("use_rectangle" in dataToSet && dataToSet["use_rectangle"] === true) {
                 clickDataSaver.use_rectangle = true;
                 clickDataSaver.use_circle = false;
-                clickDataSaver.use_rectangle = false;
+                clickDataSaver.use_ellipse = false;
                 if ("minimal_width" in dataToSet) {
                     clickDataSaver.minimal_width = dataToSet["minimal_width"];
                 }
@@ -135,7 +141,7 @@ define("clickDataSaver", ["require", "exports", "Coordinate"], function (require
             else if ("use_circle" in dataToSet && dataToSet["use_circle"] === true) {
                 clickDataSaver.use_rectangle = false;
                 clickDataSaver.use_circle = true;
-                clickDataSaver.use_rectangle = false;
+                clickDataSaver.use_ellipse = false;
                 if ("radius" in dataToSet) {
                     clickDataSaver.radius = dataToSet["radius"];
                 }
@@ -143,7 +149,7 @@ define("clickDataSaver", ["require", "exports", "Coordinate"], function (require
             else if ("use_ellipse" in dataToSet && dataToSet["use_ellipse"] === true) {
                 clickDataSaver.use_rectangle = false;
                 clickDataSaver.use_circle = false;
-                clickDataSaver.use_rectangle = true;
+                clickDataSaver.use_ellipse = true;
                 if ("radius_x" in dataToSet) {
                     clickDataSaver.radius_x = dataToSet["radius_x"];
                 }
@@ -163,6 +169,7 @@ define("clickDataSaver", ["require", "exports", "Coordinate"], function (require
             object_to_add_on["use_rectangle"] = clickDataSaver.use_rectangle;
             object_to_add_on["use_circle"] = clickDataSaver.use_circle;
             object_to_add_on["use_ellipse"] = clickDataSaver.use_ellipse;
+            object_to_add_on["use_times"] = clickDataSaver.use_times;
             var clickLogStringArray = [];
             for (var i = 0; i < clickDataSaver.clickLogData.length; i++) {
                 var oneDataSet = "";
@@ -195,7 +202,7 @@ define("clickDataSaver", ["require", "exports", "Coordinate"], function (require
         clickDataSaver.clickLogData = [];
         clickDataSaver.timeLogData = [];
         clickDataSaver.current = -1;
-        clickDataSaver.use_times = false;
+        clickDataSaver.use_times = true;
         clickDataSaver.use_rectangle = true;
         clickDataSaver.use_circle = false;
         clickDataSaver.use_ellipse = false;
@@ -292,7 +299,29 @@ define("Heatmaps", ["require", "exports", "clickDataSaver"], function (require, 
     function to_index(width_idx, height_idx, max_width) {
         return height_idx * max_width + width_idx;
     }
-    function fillForRectangle(heat_values, x, y, max_width, max_height) {
+    function fillRectangleHelper(x_min, x_max, y_min, y_max, minimal_x_rect, maximal_x_rect, minimal_y_rect, maximal_y_rect, minimal_width, minimal_height, grad_radius, x, y, heat_values, time, max_width) {
+        for (var i = x_min; i < x_max; i++) {
+            for (var j = y_min; j < y_max; j++) {
+                var idx = to_index(i, j, max_width);
+                if (i >= minimal_x_rect && i <= maximal_x_rect && j >= minimal_y_rect && j <= maximal_y_rect) {
+                    heat_values[idx] += time;
+                }
+                else {
+                    var y_distance = Math.sqrt(Math.pow(y - j, 2));
+                    var x_distance = Math.sqrt(Math.pow(x - i, 2));
+                    var x_distance_normalized = Math.max(0, x_distance - minimal_width);
+                    x_distance_normalized = Math.max(0, x_distance_normalized / grad_radius);
+                    var y_distance_normalized = Math.max(0, y_distance - minimal_height);
+                    y_distance_normalized = Math.max(0, y_distance_normalized / grad_radius);
+                    var distance = Math.min(1, x_distance_normalized + y_distance_normalized);
+                    var alpha = 1 - distance;
+                    heat_values[idx] += alpha * time;
+                }
+            }
+        }
+    }
+    function fillForRectangle(heat_values, x, y, max_width, max_height, time) {
+        if (time === void 0) { time = 1; }
         var minimal_x_rect = x - clickDataSaver_2.clickDataSaver.minimal_width;
         var maximal_x_rect = x + clickDataSaver_2.clickDataSaver.minimal_width;
         var minimal_y_rect = y - clickDataSaver_2.clickDataSaver.minimal_height;
@@ -300,28 +329,11 @@ define("Heatmaps", ["require", "exports", "clickDataSaver"], function (require, 
         var x_min = Math.max(x - clickDataSaver_2.clickDataSaver.minimal_width - clickDataSaver_2.clickDataSaver.grad_radius, 0);
         var x_max = Math.max(x + clickDataSaver_2.clickDataSaver.minimal_width + clickDataSaver_2.clickDataSaver.grad_radius, max_width);
         var y_min = Math.max(y - clickDataSaver_2.clickDataSaver.minimal_height - clickDataSaver_2.clickDataSaver.grad_radius, 0);
-        var y_max = Math.max(y + clickDataSaver_2.clickDataSaver.minimal_height + clickDataSaver_2.clickDataSaver.grad_radius, max_width);
-        for (var i = x_min; i < x_max; i++) {
-            for (var j = y_min; j < y_max; j++) {
-                var idx = to_index(i, j, max_width);
-                if (i >= minimal_x_rect && i <= maximal_x_rect && j >= minimal_y_rect && j <= maximal_y_rect) {
-                    heat_values[idx] += 1;
-                }
-                else {
-                    var y_distance = Math.sqrt(Math.pow(y - j, 2));
-                    var x_distance = Math.sqrt(Math.pow(x - i, 2));
-                    var x_distance_normalized = Math.max(0, x_distance - clickDataSaver_2.clickDataSaver.minimal_width);
-                    x_distance_normalized = Math.max(0, x_distance_normalized / clickDataSaver_2.clickDataSaver.grad_radius);
-                    var y_distance_normalized = Math.max(0, y_distance - clickDataSaver_2.clickDataSaver.minimal_height);
-                    y_distance_normalized = Math.max(0, y_distance_normalized / clickDataSaver_2.clickDataSaver.grad_radius);
-                    var distance = Math.min(1, x_distance_normalized + y_distance_normalized);
-                    var alpha = 1 - distance;
-                    heat_values[idx] += alpha;
-                }
-            }
-        }
+        var y_max = Math.max(y + clickDataSaver_2.clickDataSaver.minimal_height + clickDataSaver_2.clickDataSaver.grad_radius, max_height);
+        fillRectangleHelper(x_min, x_max, y_min, y_max, minimal_x_rect, maximal_x_rect, minimal_y_rect, maximal_y_rect, clickDataSaver_2.clickDataSaver.minimal_width, clickDataSaver_2.clickDataSaver.minimal_height, clickDataSaver_2.clickDataSaver.grad_radius, x, y, heat_values, time, max_width);
     }
-    function fillForEllipse(heat_values, x, y, max_width, max_height) {
+    function fillForEllipse(heat_values, x, y, max_width, max_height, time) {
+        if (time === void 0) { time = 1; }
         var x_min = Math.max(x - clickDataSaver_2.clickDataSaver.radius_x - clickDataSaver_2.clickDataSaver.grad_radius, 0);
         var x_max = Math.max(x + clickDataSaver_2.clickDataSaver.radius_x + clickDataSaver_2.clickDataSaver.grad_radius, max_width);
         var y_min = Math.max(y - clickDataSaver_2.clickDataSaver.radius_x - clickDataSaver_2.clickDataSaver.grad_radius, 0);
@@ -337,7 +349,7 @@ define("Heatmaps", ["require", "exports", "clickDataSaver"], function (require, 
                 var interpolate = inter_value <= 1;
                 var idx = to_index(width_iter, height_iter, max_width);
                 if (clear) {
-                    heat_values[idx] += 1;
+                    heat_values[idx] += time;
                 }
                 else if (interpolate) {
                     var x_distance = Math.abs(x - width_iter);
@@ -348,12 +360,13 @@ define("Heatmaps", ["require", "exports", "clickDataSaver"], function (require, 
                     y_distance_normalized = Math.max(0, y_distance_normalized / clickDataSaver_2.clickDataSaver.grad_radius);
                     var distance = Math.min(1, x_distance_normalized + y_distance_normalized);
                     var alpha = 1.0 - distance;
-                    heat_values[idx] += alpha;
+                    heat_values[idx] += alpha * time;
                 }
             }
         }
     }
-    function fillForCircle(heat_values, x, y, max_width, max_height) {
+    function fillForCircle(heat_values, x, y, max_width, max_height, time) {
+        if (time === void 0) { time = 1; }
         var x_min = Math.max(x - clickDataSaver_2.clickDataSaver.radius - clickDataSaver_2.clickDataSaver.grad_radius, 0);
         var x_max = Math.max(x + clickDataSaver_2.clickDataSaver.radius + clickDataSaver_2.clickDataSaver.grad_radius, max_width);
         var y_min = Math.max(y - clickDataSaver_2.clickDataSaver.radius - clickDataSaver_2.clickDataSaver.grad_radius, 0);
@@ -367,45 +380,43 @@ define("Heatmaps", ["require", "exports", "clickDataSaver"], function (require, 
                 var interpolate = inter_value <= rad_grad_square;
                 var idx = to_index(width_iter, height_iter, max_width);
                 if (clear) {
-                    heat_values[idx] += 1;
+                    heat_values[idx] += time;
                 }
                 else if (interpolate) {
-                    var x_distance = Math.abs(x - width_iter - clickDataSaver_2.clickDataSaver.radius);
-                    var y_distance = Math.abs(y - height_iter - clickDataSaver_2.clickDataSaver.radius);
+                    var x_distance = Math.abs(x - width_iter);
+                    var y_distance = Math.abs(y - height_iter);
                     var distance = Math.sqrt(Math.pow(x_distance, 2) + Math.pow(y_distance, 2));
                     var alpha = 1 - Math.min(distance / clickDataSaver_2.clickDataSaver.grad_radius, 1);
-                    heat_values[idx] += alpha;
+                    heat_values[idx] += alpha * time;
                 }
             }
         }
     }
-    function drawShapeHeatMap(context, min, max, buffer, max_width, max_height) {
-        var heat_values = [];
-        for (var i = 0; i < max_width * max_height; i++) {
-            heat_values.push(0);
+    function get_time(idx) {
+        var time = 1;
+        if (clickDataSaver_2.clickDataSaver.use_times && idx === clickDataSaver_2.clickDataSaver.get_current_time_log().length - 1) {
+            var average = clickDataSaver_2.clickDataSaver.get_current_time_log().reduce(function (pv, pc) {
+                return pv + pc;
+            }, 0);
+            time = Math.floor(average / clickDataSaver_2.clickDataSaver.get_current_time_log().length);
         }
-        if (clickDataSaver_2.clickDataSaver.use_rectangle) {
-            for (var i = min; i <= max; i++) {
-                fillForRectangle(heat_values, buffer[i].get_x(), buffer[i].get_y(), max_width, max_height);
-            }
+        else if (clickDataSaver_2.clickDataSaver.use_times) {
+            time = clickDataSaver_2.clickDataSaver.get_current_time_log()[idx + 1] - clickDataSaver_2.clickDataSaver.get_current_time_log()[idx];
         }
-        else if (clickDataSaver_2.clickDataSaver.use_circle) {
-            for (var i = min; i <= max; i++) {
-                fillForCircle(heat_values, buffer[i].get_x(), buffer[i].get_y(), max_width, max_height);
-            }
-        }
-        else if (clickDataSaver_2.clickDataSaver.use_ellipse) {
-            for (var i = min; i <= max; i++) {
-                fillForEllipse(heat_values, buffer[i].get_x(), buffer[i].get_y(), max_width, max_height);
-            }
-        }
+        return time;
+    }
+    function normalize_heat(heat_values) {
         var max_value = 0;
         for (var i = 0; i < heat_values.length; i++) {
             if (max_value < heat_values[i]) {
                 max_value = heat_values[i];
             }
         }
-        heat_values = heat_values.map(function (x) { return x / max_value; });
+        for (var i = 0; i < heat_values.length; i++) {
+            heat_values[i] = heat_values[i] / max_value;
+        }
+    }
+    function draw_heat(context, heat_values, max_width, max_height) {
         context.beginPath();
         for (var i = 0; i < max_width; i++) {
             for (var j = 0; j < max_height; j++) {
@@ -415,45 +426,107 @@ define("Heatmaps", ["require", "exports", "clickDataSaver"], function (require, 
             }
         }
         context.stroke();
-        context.fillStyle = "rgba(0,0,0,1)";
-        context.strokeStyle = "rgba(1,1,1,1)";
     }
-    exports.drawShapeHeatMap = drawShapeHeatMap;
-    function drawVerticalHeatMap(context, min, max, buffer, maxWidth) {
-        var minimal_y_half;
+    function drawShapeHeatMap(context, min, max, buffer, max_width, max_height) {
+        var heat_values = [];
+        for (var i = 0; i < max_width * max_height; i++) {
+            heat_values.push(0);
+        }
         if (clickDataSaver_2.clickDataSaver.use_rectangle) {
-            minimal_y_half = clickDataSaver_2.clickDataSaver.minimal_height + clickDataSaver_2.clickDataSaver.grad_radius;
+            for (var i = min; i <= max; i++) {
+                var time = get_time(i);
+                fillForRectangle(heat_values, buffer[i].get_x(), buffer[i].get_y(), max_width, max_height, time);
+            }
         }
         else if (clickDataSaver_2.clickDataSaver.use_circle) {
-            minimal_y_half = clickDataSaver_2.clickDataSaver.radius + clickDataSaver_2.clickDataSaver.grad_radius;
+            for (var i = min; i <= max; i++) {
+                var time = get_time(i);
+                fillForCircle(heat_values, buffer[i].get_x(), buffer[i].get_y(), max_width, max_height, time);
+            }
+        }
+        else if (clickDataSaver_2.clickDataSaver.use_ellipse) {
+            for (var i = min; i <= max; i++) {
+                var time = get_time(i);
+                fillForEllipse(heat_values, buffer[i].get_x(), buffer[i].get_y(), max_width, max_height, time);
+            }
+        }
+        var idx = to_index(buffer[0].get_x(), buffer[0].get_y(), max_width);
+        normalize_heat(heat_values);
+        draw_heat(context, heat_values, max_width, max_height);
+        context.fillStyle = "rgba(0,0,0,1)";
+    }
+    exports.drawShapeHeatMap = drawShapeHeatMap;
+    function drawVerticalHeatMap(context, min, max, buffer, maxWidth, maxHeight) {
+        var minimal_y_half;
+        var minimal_y_half_grad;
+        var x = maxWidth / 2;
+        if (clickDataSaver_2.clickDataSaver.use_rectangle) {
+            minimal_y_half = clickDataSaver_2.clickDataSaver.minimal_height;
+        }
+        else if (clickDataSaver_2.clickDataSaver.use_circle) {
+            minimal_y_half = clickDataSaver_2.clickDataSaver.radius;
         }
         else {
-            minimal_y_half = clickDataSaver_2.clickDataSaver.radius_y + clickDataSaver_2.clickDataSaver.grad_radius;
+            minimal_y_half = clickDataSaver_2.clickDataSaver.radius_y;
         }
-        var opacity = 0.9 / (max - min + 1);
-        context.fillStyle = "rgba(255,0,0," + opacity + ")";
+        minimal_y_half_grad = minimal_y_half + clickDataSaver_2.clickDataSaver.grad_radius;
+        var heat_values = [];
+        for (var i = 0; i < maxWidth * maxHeight; i++) {
+            heat_values.push(0);
+        }
+        var minimal_width = maxWidth / 2;
+        var minimal_height = minimal_y_half;
         for (var i = min; i <= max; i++) {
-            context.fillRect(0, buffer[i].get_y() - minimal_y_half, maxWidth, 2 * minimal_y_half);
+            var minimal_x_rect = 0;
+            var maximal_x_rect = maxWidth;
+            var minimal_y_rect = buffer[i].get_y() - minimal_y_half;
+            var maximal_y_rect = buffer[i].get_y() + minimal_y_half;
+            var x_min = minimal_x_rect;
+            var x_max = maximal_x_rect;
+            var y_min = Math.max(buffer[i].get_y() - minimal_y_half_grad, 0);
+            var y_max = Math.min(buffer[i].get_y() + minimal_y_half_grad, maxHeight);
+            var time = get_time(i);
+            fillRectangleHelper(x_min, x_max, y_min, y_max, minimal_x_rect, maximal_x_rect, minimal_y_rect, maximal_y_rect, minimal_width, minimal_height, clickDataSaver_2.clickDataSaver.grad_radius, x, buffer[i].get_y(), heat_values, time, maxWidth);
         }
+        normalize_heat(heat_values);
+        draw_heat(context, heat_values, maxWidth, maxHeight);
         context.fillStyle = "rgba(0,0,0,1)";
     }
     exports.drawVerticalHeatMap = drawVerticalHeatMap;
-    function drawHorizontalHeatMap(context, min, max, buffer, maxHeight) {
+    function drawHorizontalHeatMap(context, min, max, buffer, maxWidth, maxHeight) {
         var minimal_x_half;
+        var minimal_x_half_grad;
+        var y = maxHeight / 2;
         if (clickDataSaver_2.clickDataSaver.use_rectangle) {
-            minimal_x_half = clickDataSaver_2.clickDataSaver.minimal_width + clickDataSaver_2.clickDataSaver.grad_radius;
+            minimal_x_half = clickDataSaver_2.clickDataSaver.minimal_width;
         }
         else if (clickDataSaver_2.clickDataSaver.use_circle) {
-            minimal_x_half = clickDataSaver_2.clickDataSaver.radius + clickDataSaver_2.clickDataSaver.grad_radius;
+            minimal_x_half = clickDataSaver_2.clickDataSaver.radius;
         }
         else {
-            minimal_x_half = clickDataSaver_2.clickDataSaver.radius_x + clickDataSaver_2.clickDataSaver.grad_radius;
+            minimal_x_half = clickDataSaver_2.clickDataSaver.radius_x;
         }
-        var opacity = 0.9 / (max - min + 1);
-        context.fillStyle = "rgba(0,0,255," + opacity + ")";
+        minimal_x_half_grad = minimal_x_half + clickDataSaver_2.clickDataSaver.grad_radius;
+        var heat_values = [];
+        for (var i = 0; i < maxWidth * maxHeight; i++) {
+            heat_values.push(0);
+        }
+        var minimal_width = minimal_x_half;
+        var minimal_height = maxHeight / 2;
         for (var i = min; i <= max; i++) {
-            context.fillRect(buffer[i].get_x() - minimal_x_half, 0, 2 * minimal_x_half, maxHeight);
+            var minimal_y_rect = 0;
+            var maximal_y_rect = maxHeight;
+            var y_min = minimal_y_rect;
+            var y_max = maximal_y_rect;
+            var minimal_x_rect = buffer[i].get_x() - minimal_x_half;
+            var maximal_x_rect = buffer[i].get_x() + minimal_x_half;
+            var x_min = Math.max(buffer[i].get_x() - minimal_x_half_grad, 0);
+            var x_max = Math.min(buffer[i].get_x() + minimal_x_half_grad, maxWidth);
+            var time = get_time(i);
+            fillRectangleHelper(x_min, x_max, y_min, y_max, minimal_x_rect, maximal_x_rect, minimal_y_rect, maximal_y_rect, minimal_width, minimal_height, clickDataSaver_2.clickDataSaver.grad_radius, buffer[i].get_x(), y, heat_values, time, maxWidth);
         }
+        normalize_heat(heat_values);
+        draw_heat(context, heat_values, maxWidth, maxHeight);
         context.fillStyle = "rgba(0,0,0,1)";
     }
     exports.drawHorizontalHeatMap = drawHorizontalHeatMap;
@@ -1057,6 +1130,7 @@ define("index", ["require", "exports", "clickDataSaver", "BoxDiagram", "LineDiag
     };
     html_doc.dataDataAnalysisButton.addEventListener('click', function () {
         clickDataSaver_3.clickDataSaver.string_to_click_log(html_doc.dataDataAnalysisInput.value);
+        clickDataSaver_3.clickDataSaver.string_to_time_log(html_doc.timeDataAnalysisInput.value);
         indicatorCNWBuffers.push(false);
         html_doc.clickLogDataSetBar.max = String(clickDataSaver_3.clickDataSaver.clickLogData.length - 1);
         if (clickDataSaver_3.clickDataSaver.clickLogData.length === 1) {
@@ -1117,7 +1191,6 @@ define("index", ["require", "exports", "clickDataSaver", "BoxDiagram", "LineDiag
     html_doc.clickLogCanvas.addEventListener("mousedown", function (event) {
         if (event.button === 0) {
             var mouseY = Math.floor(event.y - html_doc.clickLogCanvas.getBoundingClientRect().top);
-            debugger;
             if (event.shiftKey) {
                 semanticClassifier_top = mouseY;
                 if (semanticClassifier_bottom != null && semanticClassifier_bottom <= semanticClassifier_top) {
@@ -1292,9 +1365,9 @@ define("index", ["require", "exports", "clickDataSaver", "BoxDiagram", "LineDiag
         if (horizontalView === true)
             LineDiagram_1.drawHorizontalLineDiagram(context, minLog, maxLog, buffer);
         if (verticalHeatMap === true)
-            Heatmaps_1.drawVerticalHeatMap(context, minLog, maxLog, buffer, html_doc.image.width);
+            Heatmaps_1.drawVerticalHeatMap(context, minLog, maxLog, buffer, html_doc.image.width, html_doc.image.height);
         if (horizontalHeatMap === true)
-            Heatmaps_1.drawHorizontalHeatMap(context, minLog, maxLog, buffer, html_doc.image.height);
+            Heatmaps_1.drawHorizontalHeatMap(context, minLog, maxLog, buffer, html_doc.image.width, html_doc.image.height);
         if (rectangleHeatMap === true)
             Heatmaps_1.drawShapeHeatMap(context, minLog, maxLog, buffer, html_doc.image.width, html_doc.image.height);
         semanticClassifier.drawToLabel(buffer, minLog, maxLog, html_doc.SemanticClassifierOutput);
@@ -1378,7 +1451,6 @@ define("index", ["require", "exports", "clickDataSaver", "BoxDiagram", "LineDiag
                 switch (_a.label) {
                     case 0:
                         if (semanticClassifier_bottom != null && semanticClassifier_top != null) {
-                            debugger;
                             semanticValue = get_semantic_value();
                             semanticClassifier.setSemanticFields(semanticClassifier_top, semanticClassifier_bottom, semanticValue);
                             redrawClickLog = true;
