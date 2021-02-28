@@ -5,7 +5,7 @@ import modules.NeedlemanWunsch as nw
 import modules.clickSettings as clk
 import modules.semanticClassifier as semCls
 import json
-import numpy as np
+import modules.HeatmapHelpers as hmh
 
 
 def load_image(path):
@@ -73,13 +73,15 @@ def load_data_from_json(path):
     """
 
     :param path:    the path and name to the json file
-    :return:        a tuple with (array of array of coordinates (x,y), clickSettings)
+    :return:        a tuple with (array of array of coordinates (x,y), array of array of timestamps, clickSettings)
     """
-
     file = open(path)
     data_dic = json.load(file)
 
-    click_settings = clk.ClickSettings(data_dic["grad_radius"], data_dic["minimal_width"], data_dic["minimal_height"])
+    click_settings = clk.ClickSettings()
+    click_settings.load_from_dict(data_dic)
+
+    # get click settings
     click_data_str = data_dic["data"]
 
     click_data = []
@@ -92,21 +94,39 @@ def load_data_from_json(path):
             coordinates.append(coordinate)
         click_data.append(coordinates)
 
-    return click_data, click_settings
+    time_data = []
+    # get time settings
+    if "times" in data_dic:
+        times = data_dic["times"]
+        for time_data in times:
+            time_str = time_data.split(" ")
+            times = []
+            for time in time_str:
+                times.append(int(time))
+            time_data.append(times)
+
+    return click_data, time_data, click_settings
 
 
-def save_data_to_json(path, click_settings, coordinate_buffers):
+def save_data_to_json(path, click_settings, coordinate_buffers, timestamps):
     """
     :param path:                the path and name of the file to write
     :param click_settings:      the click settings which will be saved
     :param coordinate_buffers:  a array of array of coordinates
+    :param timestamps:          a array of array of timestamps
     :return:                    nothing
     """
 
     data_dict = {
         "grad_radius": click_settings.grad_radius,
         "minimal_width": click_settings.minimal_width,
-        "minimal_height": click_settings.minimal_height
+        "minimal_height": click_settings.minimal_height,
+        "radius": click_settings.radius,
+        "radius_x": click_settings.x_radius,
+        "radius_y": click_settings.y_radius,
+        "use_rectangle": click_settings.use_rectangle,
+        "use_circle": click_settings.use_circle,
+        "use_ellipse": click_settings.use_ellipse,
     }
 
     data = []
@@ -116,6 +136,14 @@ def save_data_to_json(path, click_settings, coordinate_buffers):
         data.append(coordinate_str)
 
     data_dict["data"] = data
+
+    times = []
+    for time_buffer in timestamps:
+        tmp = [str(x) for x in time_buffer]
+        time_str = " ".join(tmp)
+        times.append(time_str)
+
+    data_dict["times"] = times
 
     data_str = json.dumps(data_dict)
 
@@ -219,15 +247,14 @@ def draw_row_view(image, coordinate, click_settings, should_copy=False):
     return im
 
 
-def draw_rectangle_heat_map(image, min_idx, max_idx, coordinates, click_settings, base_color=(0, 1, 0),
-                            should_copy=False):
+def draw_shape_heat_map(image, min_idx, max_idx, coordinates, click_settings, time_stamps=None, should_copy=False):
     """
+    :param time_stamps:     value for timestamps if it should be used
     :param image:           the image data to work with
     :param min_idx:         the index where to start drawing the heatmap
     :param max_idx:         the index where to stop drawing the heatmap exclusive
     :param coordinates:     an array of coordinates (x,y)
     :param click_settings:  the click Settings of the Image
-    :param base_color:      the base color for the index
     :param should_copy:     Indicates if the image should be copied b4
     :return:                the modified image data
     """
@@ -244,33 +271,19 @@ def draw_rectangle_heat_map(image, min_idx, max_idx, coordinates, click_settings
         max_idx = min_idx + 1
     max_idx = min(len(coordinates), max_idx)
 
-    minimal_x_half = click_settings.minimal_width + click_settings.grad_radius
-    minimal_y_half = click_settings.minimal_height + click_settings.grad_radius
-
-    alpha = 0.9 / (max_idx - min_idx)
-    color = (base_color[0], base_color[1], base_color[2], alpha)
-
-    for i in range(min_idx, max_idx):
-        x = coordinates[i][0]
-        y = coordinates[i][1]
-        im = drw.draw_rectangle(im,
-                                (max(0, x - minimal_x_half), max(0, y - minimal_y_half)),
-                                (min(image.shape[1] - 1, x + minimal_x_half),
-                                 min(image.shape[0] - 1, y + minimal_y_half)),
-                                color, True)
+    hmh.draw_shape_heat_map(im, min_idx, max_idx, coordinates, click_settings, time_stamps)
 
     return im
 
 
-def draw_vertical_heat_map(image, min_idx, max_idx, coordinates, click_settings, base_color=(1, 0, 0),
-                           should_copy=False):
+def draw_vertical_heat_map(image, min_idx, max_idx, coordinates, click_settings, time_stamps=None, should_copy=False):
     """
+    :param time_stamps:     value for timestamps if it should be used
     :param image:           the image data to work with
     :param min_idx:         the index where to start drawing the heatmap
     :param max_idx:         the index where to stop drawing the heatmap exclusive
     :param coordinates:     an array of coordinates (x,y)
     :param click_settings:  the click Settings of the Image
-    :param base_color:      the base color for the index
     :param should_copy:     Indicates if the image should be copied b4
     :return:                the modified image data
     """
@@ -287,30 +300,19 @@ def draw_vertical_heat_map(image, min_idx, max_idx, coordinates, click_settings,
         max_idx = min_idx + 1
     max_idx = min(len(coordinates), max_idx)
 
-    minimal_y_half = click_settings.minimal_height + click_settings.grad_radius
-
-    alpha = 0.9 / (max_idx - min_idx)
-    color = (base_color[0], base_color[1], base_color[2], alpha)
-
-    for i in range(min_idx, max_idx):
-        y = coordinates[i][1]
-        im = drw.draw_rectangle(im,
-                                (0, max(0, y - minimal_y_half)),
-                                (image.shape[1] - 1, min(image.shape[1] - 1, y + minimal_y_half)),
-                                color, True)
+    hmh.draw_vertical_heatmap(im, min_idx, max_idx, coordinates, time_stamps, click_settings)
 
     return im
 
 
-def draw_horizontal_heat_map(image, min_idx, max_idx, coordinates, click_settings, base_color=(0, 0, 1),
-                             should_copy=False):
+def draw_horizontal_heat_map(image, min_idx, max_idx, coordinates, click_settings, time_stamps=None, should_copy=False):
     """
+    :param time_stamps:     value for timestamps if it should be used
     :param image:           the image data to work with
     :param min_idx:         the index where to start drawing the heatmap
     :param max_idx:         the index where to stop drawing the heatmap exclusive
     :param coordinates:     an array of coordinates (x,y)
     :param click_settings:  the click Settings of the Image
-    :param base_color:      the base color for the index
     :param should_copy:     Indicates if the image should be copied b4
     :return:                the modified image data
     """
@@ -327,17 +329,7 @@ def draw_horizontal_heat_map(image, min_idx, max_idx, coordinates, click_setting
         max_idx = min_idx + 1
     max_idx = min(len(coordinates), max_idx)
 
-    minimal_x_half = click_settings.minimal_width + click_settings.grad_radius
-
-    alpha = 0.9 / (max_idx - min_idx)
-    color = (base_color[0], base_color[1], base_color[2], alpha)
-
-    for i in range(min_idx, max_idx):
-        x = coordinates[i][0]
-        im = drw.draw_rectangle(im,
-                                (max(0, x - minimal_x_half), 0),
-                                (min(image.shape[1] - 1, x + minimal_x_half), image.shape[0] - 1),
-                                color, True)
+    hmh.draw_horizontal_heatmap(im, min_idx, max_idx, coordinates, time_stamps, click_settings)
 
     return im
 

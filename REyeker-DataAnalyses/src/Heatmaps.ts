@@ -85,7 +85,7 @@ function fillForEllipse(heat_values: number[], x: number, y, max_width: number, 
     const x_min = Math.max(x - clickDataSaver.radius_x - clickDataSaver.grad_radius, 0);
     const x_max = Math.max(x + clickDataSaver.radius_x + clickDataSaver.grad_radius, max_width);
 
-    const y_min = Math.max(y - clickDataSaver.radius_x - clickDataSaver.grad_radius, 0);
+    const y_min = Math.max(y - clickDataSaver.radius_y - clickDataSaver.grad_radius, 0);
     const y_max = Math.max(y + clickDataSaver.radius_y + clickDataSaver.grad_radius, max_height);
 
     let x_rad_square = Math.pow(clickDataSaver.radius_x, 2);
@@ -265,7 +265,6 @@ export function drawShapeHeatMap(context: CanvasRenderingContext2D, min: number,
         }
     }
 
-    let idx = to_index(buffer[0].get_x(), buffer[0].get_y(), max_width)
     normalize_heat(heat_values);
     draw_heat(context, heat_values, max_width, max_height)
 
@@ -304,16 +303,17 @@ export function drawVerticalHeatMap(context: CanvasRenderingContext2D, min: numb
     let minimal_height: number = minimal_y_half;
 
     for (let i = min; i <= max; i++) {
-        const minimal_x_rect: number = 0;
-        const maximal_x_rect: number = maxWidth;
+
         const minimal_y_rect: number = buffer[i].get_y() - minimal_y_half;
         const maximal_y_rect: number = buffer[i].get_y() + minimal_y_half;
+        const y_min = Math.max(buffer[i].get_y() - minimal_y_half_grad, 0);
+        const y_max = Math.min(buffer[i].get_y() + minimal_y_half_grad, maxHeight);
 
+        const minimal_x_rect: number = 0;
+        const maximal_x_rect: number = maxWidth;
         const x_min = minimal_x_rect;
         const x_max = maximal_x_rect;
 
-        const y_min = Math.max(buffer[i].get_y() - minimal_y_half_grad, 0);
-        const y_max = Math.min(buffer[i].get_y() + minimal_y_half_grad, maxHeight);
 
         let time = get_time(i);
         fillRectangleHelper(x_min, x_max, y_min, y_max, minimal_x_rect, maximal_x_rect, minimal_y_rect, maximal_y_rect,
@@ -364,8 +364,6 @@ export function drawHorizontalHeatMap(context: CanvasRenderingContext2D, min: nu
 
         const y_min = minimal_y_rect;
         const y_max = maximal_y_rect;
-
-
 
         const minimal_x_rect: number = buffer[i].get_x() - minimal_x_half;
         const maximal_x_rect: number = buffer[i].get_x() + minimal_x_half;

@@ -1,3 +1,5 @@
+import colorsys
+
 from matplotlib import pyplot as plt
 import matplotlib.image as mpimg
 import numpy as np
@@ -18,6 +20,24 @@ def get_alpha_blend(color, alpha, old_color):
     b = alpha * color[2] + (1.0 - alpha) * old_color[2]
 
     return r, g, b
+
+
+def draw_point(image, coordinate, color, should_copy=False):
+    """
+
+        :param image:       the image data to manipulate
+        :param coordinate:  the coordinate (x,y)
+        :param color:       the color of the line as RGB tuple
+        :param should_copy: Indicates if the image should be copied b4
+        :return:            the image data to manipulate
+        """
+    im = None
+    if should_copy:
+        im = image.copy()
+    else:
+        im = image
+
+    im[coordinate[0], coordinate[1]] = get_alpha_blend(color, color[3], im[coordinate[0], coordinate[1]])
 
 
 def draw_line(image, start, end, color, should_copy=False):
