@@ -98,12 +98,12 @@ def load_data_from_json(path):
     # get time settings
     if "times" in data_dic:
         times = data_dic["times"]
-        for time_data in times:
-            time_str = time_data.split(" ")
-            times = []
+        for time_data_tmp in times:
+            time_str = time_data_tmp.split(" ")
+            time_tmp = []
             for time in time_str:
-                times.append(int(time))
-            time_data.append(times)
+                time_tmp.append(int(time))
+            time_data.append(time_tmp)
 
     return click_data, time_data, click_settings
 
