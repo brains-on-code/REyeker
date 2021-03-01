@@ -14,7 +14,8 @@ def load_image(path):
     :param path:    the path to the image, which should be loaded
     :return:        returns a 2D rgb array for the image data
     """
-    return mpimg.imread(path)
+    image = mpimg.imread(path)[:, :, :3]
+    return image
 
 
 def display(image, normal_size=True, axis_on=True):
