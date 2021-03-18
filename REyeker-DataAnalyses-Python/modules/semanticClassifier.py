@@ -1,5 +1,6 @@
 import json
 
+
 class SemanticClassifier:
     def __init__(self, height):
         self.semantic_fields = ["N"] * height

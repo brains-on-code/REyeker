@@ -1,4 +1,5 @@
 from matplotlib import pyplot as plt
+import modules.utils as utils
 import matplotlib.image as mpimg
 import modules.drawing as drw
 import modules.NeedlemanWunsch as nw
@@ -163,11 +164,7 @@ def draw_rectangle_view(image, coordinate, click_settings, should_copy=False):
     :return:                the manipulated image data
     """
 
-    im = None
-    if should_copy:
-        im = image.copy()
-    else:
-        im = image
+    im = utils.shallow_or_deep(image, should_copy)
 
     x = coordinate[0]
     y = coordinate[1]
@@ -193,11 +190,7 @@ def draw_line_view(image, coordinate, click_settings, should_copy=False):
     :return:                the manipulated image data
     """
 
-    im = None
-    if should_copy:
-        im = image.copy()
-    else:
-        im = image
+    im = utils.shallow_or_deep(image, should_copy)
 
     y = coordinate[1]
 
@@ -226,11 +219,7 @@ def draw_row_view(image, coordinate, click_settings, should_copy=False):
     :return:                the manipulated image data
     """
 
-    im = None
-    if should_copy:
-        im = image.copy()
-    else:
-        im = image
+    im = utils.shallow_or_deep(image, should_copy)
 
     x = coordinate[0]
 
@@ -248,7 +237,8 @@ def draw_row_view(image, coordinate, click_settings, should_copy=False):
     return im
 
 
-def draw_shape_heat_map(image, min_idx, max_idx, coordinates, click_settings, time_stamps=None, should_copy=False):
+def draw_shape_heat_map(image, coordinates, click_settings, min_idx=None, max_idx=None, time_stamps=None,
+                        should_copy=False):
     """
     :param time_stamps:     value for timestamps if it should be used
     :param image:           the image data to work with
@@ -260,24 +250,20 @@ def draw_shape_heat_map(image, min_idx, max_idx, coordinates, click_settings, ti
     :return:                the modified image data
     """
 
-    im = None
-    if should_copy:
-        im = image.copy()
-    else:
-        im = image
+    im = utils.shallow_or_deep(image, should_copy)
 
-    min_idx = max(0, min_idx)
+    min_idx = utils.get_normal_on_none(min_idx, 0)
+    min_idx = utils.clamp(min_idx, 0, len(coordinates)-1)
 
-    if max_idx < min_idx:
-        max_idx = min_idx + 1
-    max_idx = min(len(coordinates), max_idx)
+    max_idx = utils.get_normal_on_none(max_idx, len(coordinates))
+    max_idx = utils.clamp(max_idx, 1, len(coordinates))
 
     hmh.draw_shape_heat_map(im, min_idx, max_idx, coordinates, click_settings, time_stamps)
 
     return im
 
 
-def draw_vertical_heat_map(image, min_idx, max_idx, coordinates, click_settings, time_stamps=None, should_copy=False):
+def draw_vertical_heat_map(image, coordinates, click_settings,min_idx=None, max_idx=None, time_stamps=None, should_copy=False):
     """
     :param time_stamps:     value for timestamps if it should be used
     :param image:           the image data to work with
@@ -289,24 +275,20 @@ def draw_vertical_heat_map(image, min_idx, max_idx, coordinates, click_settings,
     :return:                the modified image data
     """
 
-    im = None
-    if should_copy:
-        im = image.copy()
-    else:
-        im = image
+    im = utils.shallow_or_deep(image, should_copy)
 
-    min_idx = max(0, min_idx)
+    min_idx = utils.get_normal_on_none(min_idx, 0)
+    min_idx = utils.clamp(min_idx, 0, len(coordinates) - 1)
 
-    if max_idx < min_idx:
-        max_idx = min_idx + 1
-    max_idx = min(len(coordinates), max_idx)
+    max_idx = utils.get_normal_on_none(max_idx, len(coordinates))
+    max_idx = utils.clamp(max_idx, 1, len(coordinates))
 
     hmh.draw_vertical_heatmap(im, min_idx, max_idx, coordinates, time_stamps, click_settings)
 
     return im
 
 
-def draw_horizontal_heat_map(image, min_idx, max_idx, coordinates, click_settings, time_stamps=None, should_copy=False):
+def draw_horizontal_heat_map(image, coordinates, click_settings,min_idx=None, max_idx=None, time_stamps=None, should_copy=False):
     """
     :param time_stamps:     value for timestamps if it should be used
     :param image:           the image data to work with
@@ -318,24 +300,20 @@ def draw_horizontal_heat_map(image, min_idx, max_idx, coordinates, click_setting
     :return:                the modified image data
     """
 
-    im = None
-    if should_copy:
-        im = image.copy()
-    else:
-        im = image
+    im = utils.shallow_or_deep(image, should_copy)
 
-    min_idx = max(0, min_idx)
+    min_idx = utils.get_normal_on_none(min_idx, 0)
+    min_idx = utils.clamp(min_idx, 0, len(coordinates) - 1)
 
-    if max_idx < min_idx:
-        max_idx = min_idx + 1
-    max_idx = min(len(coordinates), max_idx)
+    max_idx = utils.get_normal_on_none(max_idx, len(coordinates))
+    max_idx = utils.clamp(max_idx, 1, len(coordinates))
 
     hmh.draw_horizontal_heatmap(im, min_idx, max_idx, coordinates, time_stamps, click_settings)
 
     return im
 
 
-def draw_vertical_line_diagram(image, min_idx, max_idx, coordinates, should_copy=False):
+def draw_vertical_line_diagram(image, coordinates,min_idx=None, max_idx=None, should_copy=False):
     """
     :param image:           the image data to work with
     :param min_idx:         the index where to start drawing the heatmap
@@ -345,17 +323,13 @@ def draw_vertical_line_diagram(image, min_idx, max_idx, coordinates, should_copy
     :return:                the modified image data
     """
 
-    im = None
-    if should_copy:
-        im = image.copy()
-    else:
-        im = image
+    im = utils.shallow_or_deep(image, should_copy)
 
-    min_idx = max(0, min_idx)
+    min_idx = utils.get_normal_on_none(min_idx, 0)
+    min_idx = utils.clamp(min_idx, 0, len(coordinates) - 1)
 
-    if max_idx < min_idx:
-        max_idx = min_idx + 1
-    max_idx = min(len(coordinates), max_idx)
+    max_idx = utils.get_normal_on_none(max_idx, len(coordinates))
+    max_idx = utils.clamp(max_idx, 1, len(coordinates))
 
     # a number to start, 3 otherwise would overlap with the start
     current_x = 3
@@ -371,7 +345,7 @@ def draw_vertical_line_diagram(image, min_idx, max_idx, coordinates, should_copy
     return im
 
 
-def draw_horizontal_line_diagram(image, min_idx, max_idx, coordinates, should_copy=False):
+def draw_horizontal_line_diagram(image, coordinates,min_idx=None, max_idx=None, should_copy=False):
     """
     :param image:           the image data to work with
     :param min_idx:         the index where to start drawing the heatmap
@@ -381,17 +355,13 @@ def draw_horizontal_line_diagram(image, min_idx, max_idx, coordinates, should_co
     :return:                the modified image data
     """
 
-    im = None
-    if should_copy:
-        im = image.copy()
-    else:
-        im = image
+    im = utils.shallow_or_deep(image, should_copy)
 
-    min_idx = max(0, min_idx)
+    min_idx = utils.get_normal_on_none(min_idx, 0)
+    min_idx = utils.clamp(min_idx, 0, len(coordinates) - 1)
 
-    if max_idx < min_idx:
-        max_idx = min_idx + 1
-    max_idx = min(len(coordinates), max_idx)
+    max_idx = utils.get_normal_on_none(max_idx, len(coordinates))
+    max_idx = utils.clamp(max_idx, 1, len(coordinates))
 
     # a number to start, 3 otherwise would overlap with the start
     current_y = 3
@@ -419,11 +389,7 @@ def draw_vertical_needleman_wunsch_line_diagram(image, rounding, coordinate_buff
     :return:                        the updated image, the buffer with needleman wunsch data (dictionary with "kind", "data")
     """
 
-    im = None
-    if should_copy:
-        im = image.copy()
-    else:
-        im = image
+    im = utils.shallow_or_deep(image, should_copy)
 
     buffer_nw_a = []
     buffer_nw_b = []
@@ -465,11 +431,7 @@ def draw_vertical_needleman_wunsch_semantic_line_diagram(image, coordinate_buffe
     :param semantic_classifier      The semantic classifiers class for rounding
     :return:                        the updated image, the buffer with needleman wunsch data (dictionary with "kind", "data")
     """
-    im = None
-    if should_copy:
-        im = image.copy()
-    else:
-        im = image
+    im = utils.shallow_or_deep(image, should_copy)
 
     semantic_coord_a = semantic_classifier.align_buffer_to_classifier(coordinate_buffer_a)
     semantic_coord_b = semantic_classifier.align_buffer_to_classifier(coordinate_buffer_b)
@@ -489,11 +451,7 @@ def draw_horizontal_needleman_wunsch_line_diagram(image, rounding, coordinate_bu
     :return:                        the updated image, the buffer with needleman wunsch data (dictionary with "kind", "data")
     """
 
-    im = None
-    if should_copy:
-        im = image.copy()
-    else:
-        im = image
+    im = utils.shallow_or_deep(image, should_copy)
 
     buffer_nw_a = []
     buffer_nw_b = []
@@ -535,11 +493,7 @@ def draw_vertical_combined_needleman_wunsch_line_diagram(image, rounding, buffer
     :return:                        the updated image data and the solution of the needleman wunsch
     """
 
-    im = None
-    if should_copy:
-        im = image.copy()
-    else:
-        im = image
+    im = utils.shallow_or_deep(image, should_copy)
 
     buffers_needle = []
 
@@ -580,11 +534,7 @@ def draw_vertical_combined_needleman_wunsch_semantic_line_diagram(image, buffers
     :param semantic_classifier      The semantic classifiers class for rounding
     :return:                        the updated image, the buffer with needleman wunsch data (dictionary with "kind", "data")
     """
-    im = None
-    if should_copy:
-        im = image.copy()
-    else:
-        im = image
+    im = utils.shallow_or_deep(image, should_copy)
 
     semantic_buffers = []
     for buffer in buffers:
@@ -602,11 +552,7 @@ def draw_horizontal_combined_needleman_wunsch_line_diagram(image, rounding, buff
     :return:                        the updated image data and the solution of the needleman wunsch
     """
 
-    im = None
-    if should_copy:
-        im = image.copy()
-    else:
-        im = image
+    im = utils.shallow_or_deep(image, should_copy)
 
     buffers_needle = []
 
@@ -646,11 +592,7 @@ def draw_semantic_classifier(image, semantic_classifier, should_copy=False):
     :return:                        the updated image data and the solution of the needleman wunsch
 
     """
-    im = None
-    if should_copy:
-        im = image.copy()
-    else:
-        im = image
+    im = utils.shallow_or_deep(image, should_copy)
 
     semantic_fields = semantic_classifier.get_semantic_fields()
 

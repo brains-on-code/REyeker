@@ -33,6 +33,21 @@ class ClickSettings:
         if "use_ellipse" in dic:
             self.use_ellipse = dic["use_ellipse"]
 
+    @staticmethod
+    def new_rectangle(width, height, radius):
+        """
+        a function to return a new clickSetting based on a rectangle
+
+        :param width:
+        :param height:
+        :param radius:
+        :return:
+        """
+        clk = ClickSettings()
+        clk.make_use_rectangle(width, height)
+        clk.grad_radius = radius
+        return clk
+
     def make_use_rectangle(self, width, height):
         """
         function to make use of rectangle
@@ -48,6 +63,20 @@ class ClickSettings:
         self.minimal_width = width
         self.minimal_height = height
 
+    @staticmethod
+    def new_rectangle(radius, grad_radius):
+        """
+        a function to return a new clickSetting based on a circle
+
+        :param grad_radius:
+        :param radius:
+        :return:
+        """
+        clk = ClickSettings()
+        clk.make_use_circle(radius)
+        clk.grad_radius = grad_radius
+        return clk
+
     def make_use_circle(self, radius):
         """
         function to make use of circle
@@ -60,6 +89,21 @@ class ClickSettings:
         self.use_circle = True
 
         self.radius = radius
+
+    @staticmethod
+    def new_ellipse(x_radius, y_radius, radius):
+        """
+        a function to return a new clickSetting based on a ellipse
+
+        :param y_radius:
+        :param x_radius:
+        :param radius:
+        :return:
+        """
+        clk = ClickSettings()
+        clk.make_use_ellipse(x_radius, y_radius)
+        clk.grad_radius = radius
+        return clk
 
     def make_use_ellipse(self, x_radius, y_radius):
         """

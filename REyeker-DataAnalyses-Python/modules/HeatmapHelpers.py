@@ -37,16 +37,38 @@ def normalize_heat(heat_values):
 
 
 def heat_map_color_for_value(value):
+    """
+    returns the color value for a 0-1. value
+
+    :param value:
+    :return:
+    """
     h = ((1.0 - value) * 240.0)/360.0
     return h, 1.0, 0.5, 0.5
 
 
 def hsva2rgba(h, s, v, a):
+    """
+    hsva to rgba
+
+    :param h:
+    :param s:
+    :param v:
+    :param a:
+    :return:
+    """
     tup = colorsys.hsv_to_rgb(h, s, v)
     return tup[0], tup[1], tup[2], a
 
 
 def draw_heat(image, heat_values):
+    """
+    draws heatmap to an image
+
+    :param image:
+    :param heat_values:
+    :return:
+    """
     max_width = image.shape[1]
     max_height = image.shape[0]
     for i in range(max_width):
@@ -63,6 +85,27 @@ def fill_rectangle_helper(x_min, x_max, y_min, y_max,
                           minimal_width, minimal_height, grad_radius,
                           x, y,
                           heat_values, time, max_width):
+    """
+    draws a rectangle heatmap onto a heat_values array
+
+    :param x_min:
+    :param x_max:
+    :param y_min:
+    :param y_max:
+    :param minimal_x_rect:
+    :param maximal_x_rect:
+    :param minimal_y_rect:
+    :param maximal_y_rect:
+    :param minimal_width:
+    :param minimal_height:
+    :param grad_radius:
+    :param x:
+    :param y:
+    :param heat_values:
+    :param time:
+    :param max_width:
+    :return:
+    """
     for i in range(int(x_min), int(x_max)):
         for j in range(int(y_min), int(y_max)):
             idx = to_index(i, j, max_width)
@@ -84,6 +127,18 @@ def fill_rectangle_helper(x_min, x_max, y_min, y_max,
 
 
 def fill_for_rectangle(heat_values, x, y, click_settings, max_width, max_height, time):
+    """
+    fills the heatmap using a rectangle
+
+    :param heat_values:
+    :param x:
+    :param y:
+    :param click_settings:
+    :param max_width:
+    :param max_height:
+    :param time:
+    :return:
+    """
     minimal_x_rect = x - click_settings.minimal_width
     maximal_x_rect = x + click_settings.minimal_width
     minimal_y_rect = y - click_settings.minimal_height
@@ -100,6 +155,18 @@ def fill_for_rectangle(heat_values, x, y, click_settings, max_width, max_height,
 
 
 def fill_for_ellipse(heat_values, x, y, click_settings, max_width, max_height, time):
+    """
+    fill the heatmap using a ellipse
+
+    :param heat_values:
+    :param x:
+    :param y:
+    :param click_settings:
+    :param max_width:
+    :param max_height:
+    :param time:
+    :return:
+    """
     x_min = max(x - click_settings.x_radius - click_settings.grad_radius, 0.0)
     x_max = min(x + click_settings.x_radius + click_settings.grad_radius, max_width)
 
@@ -139,6 +206,18 @@ def fill_for_ellipse(heat_values, x, y, click_settings, max_width, max_height, t
 
 
 def fill_for_circle(heat_values, x, y, click_settings, max_width, max_height, time):
+    """
+    fill the heatvalues based on the circle
+
+    :param heat_values:
+    :param x:
+    :param y:
+    :param click_settings:
+    :param max_width:
+    :param max_height:
+    :param time:
+    :return:
+    """
     x_min = max(x - click_settings.radius - click_settings.grad_radius, 0.0)
     x_max = min(x + click_settings.radius + click_settings.grad_radius, max_width - 1)
 
@@ -208,6 +287,17 @@ def draw_shape_heat_map(image, min_idx, max_idx, coordinates, click_settings, ti
 
 
 def draw_vertical_heatmap(image, min_idx, max_idx, coordinates, times, click_settings):
+    """
+    draws a vertical heat map
+
+    :param image:
+    :param min_idx:
+    :param max_idx:
+    :param coordinates:
+    :param times:
+    :param click_settings:
+    :return:
+    """
     max_width = image.shape[1]
     max_height = image.shape[0]
 
@@ -250,6 +340,17 @@ def draw_vertical_heatmap(image, min_idx, max_idx, coordinates, times, click_set
 
 
 def draw_horizontal_heatmap(image, min_idx, max_idx, coordinates, times, click_settings):
+    """
+    draws a horizontal heat map
+
+    :param image:
+    :param min_idx:
+    :param max_idx:
+    :param coordinates:
+    :param times:
+    :param click_settings:
+    :return:
+    """
     max_width = image.shape[1]
     max_height = image.shape[0]
 
