@@ -372,7 +372,8 @@ def draw_average_nth_heat_map_rel(image, coordinates_array, click_settings, time
         heat_values_array.append(heat_values)
 
     max_value = -1 - nth_max
-    for heat_values in heat_values_array:
+    for idx in range(len(heat_values_array)):
+        heat_values = heat_values_array[idx]
         heat_values = np.array(heat_values)
         desired = np.unique(np.sort(heat_values.flatten()))[max_value]
         low = desired - desired * tolerance
@@ -386,6 +387,8 @@ def draw_average_nth_heat_map_rel(image, coordinates_array, click_settings, time
             while value > desired:
                 value -= desired
             heat_values[i] = value / desired
+
+        heat_values_array[idx] = heat_values
 
     final_heat = []
     for i in range(max_width * max_height):
