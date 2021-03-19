@@ -1,5 +1,6 @@
 class ClickSettings:
     def __init__(self):
+        self.grad_saver = 0
         self.grad_radius = 30
 
         self.use_rectangle = True
@@ -12,6 +13,23 @@ class ClickSettings:
         self.use_ellipse = False
         self.x_radius = 100
         self.y_radius = 50
+
+    def add_grad_radius_to_shape(self):
+        self.minimal_height += self.grad_radius
+        self.minimal_width += self.grad_radius
+        self.radius += self.grad_radius
+        self.x_radius += self.grad_radius
+        self.y_radius += self.grad_radius
+        self.grad_saver = self.grad_radius
+        self.grad_radius = 0
+
+    def reset_grad_radius_to_shape(self):
+        self.grad_radius = self.grad_saver
+        self.minimal_height -= self.grad_radius
+        self.minimal_width -= self.grad_radius
+        self.radius -= self.grad_radius
+        self.x_radius -= self.grad_radius
+        self.y_radius -= self.grad_radius
 
     def load_from_dict(self, dic):
         if "grad_radius" in dic:

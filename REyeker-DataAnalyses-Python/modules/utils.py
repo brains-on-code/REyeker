@@ -18,3 +18,8 @@ def get_normal_on_none(obj, normal):
         return normal
     return obj
 
+
+def get_element_or_none(lst, idx):
+    if lst is None or len(lst) >= idx:
+        return None
+    return lst[idx]

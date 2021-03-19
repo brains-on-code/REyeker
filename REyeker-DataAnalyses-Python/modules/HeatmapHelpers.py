@@ -1,6 +1,8 @@
 import colorsys
 import math
 import modules.drawing as drawing
+import modules.utils as utils
+import numpy as np
 
 
 def to_index(width_idx, height_idx, max_width):
@@ -43,7 +45,7 @@ def heat_map_color_for_value(value):
     :param value:
     :return:
     """
-    h = ((1.0 - value) * 240.0)/360.0
+    h = ((1.0 - value) * 240.0) / 360.0
     return h, 1.0, 0.5, 0.5
 
 
@@ -182,14 +184,15 @@ def fill_for_ellipse(heat_values, x, y, click_settings, max_width, max_height, t
     for height_iter in range(int(y_min), int(y_max)):
         for width_iter in range(int(x_min), int(x_max)):
             clear = math.pow(width_iter - x, 2.0) / x_rad_square + math.pow(height_iter - y, 2.0) / y_rad_square <= 1.0
-            inter_value = math.pow(width_iter - x, 2.0) / x_rad_grad_square + math.pow(height_iter - y, 2.0) / y_rad_grad_square
+            inter_value = math.pow(width_iter - x, 2.0) / x_rad_grad_square + math.pow(height_iter - y,
+                                                                                       2.0) / y_rad_grad_square
             interpolate = inter_value <= 1.0
 
             idx = to_index(width_iter, height_iter, max_width)
 
             if clear:
                 heat_values[idx] += time
-            elif interpolate:
+            elif interpolate and click_settings.grad_radius != 0:
                 x_distance = math.fabs(x - width_iter)
                 y_distance = math.fabs(y - height_iter)
 
@@ -235,7 +238,7 @@ def fill_for_circle(heat_values, x, y, click_settings, max_width, max_height, ti
             idx = to_index(width_iter, height_iter, max_width)
             if clear:
                 heat_values[idx] += time
-            elif interpolate:
+            elif interpolate and click_settings.grad_radius != 0:
                 x_distance = math.fabs(x - width_iter)
                 y_distance = math.fabs(y - height_iter)
 
@@ -249,6 +252,153 @@ def fill_for_circle(heat_values, x, y, click_settings, max_width, max_height, ti
                 alpha = 1.0 - distance
 
                 heat_values[idx] += alpha * time
+
+
+def draw_average_nth_heat_map_abs(image, coordinates_array, click_settings, time_stamps_array, nth_max, tolerance):
+    """
+    a function to draw a heatmap based on the
+    :param tolerance:
+    :param nth_max:
+    :param image:
+    :param coordinates_array:
+    :param click_settings:
+    :param time_stamps_array:
+    :return:
+    """
+
+    click_settings.add_grad_radius_to_shape()
+
+    max_width = image.shape[1]
+    max_height = image.shape[0]
+
+    heat_values = []
+    for i in range(max_width * max_height):
+        heat_values.append(0.0)
+
+    for idx in range(len(coordinates_array)):
+        coordinates = coordinates_array[idx]
+        time_stamps = utils.get_element_or_none(time_stamps_array, idx)
+        min_idx = 0
+        max_idx = len(coordinates)
+
+        if click_settings.use_rectangle:
+            for i in range(min_idx, max_idx):
+                time = get_time(i, time_stamps)
+                fill_for_rectangle(heat_values, coordinates[i][0], coordinates[i][1], click_settings, max_width,
+                                   max_height,
+                                   time)
+        elif click_settings.use_circle:
+            for i in range(min_idx, max_idx):
+                time = get_time(i, time_stamps)
+                fill_for_circle(heat_values, coordinates[i][0], coordinates[i][1], click_settings, max_width,
+                                max_height,
+                                time)
+        elif click_settings.use_ellipse:
+            for i in range(min_idx, max_idx):
+                time = get_time(i, time_stamps)
+                fill_for_ellipse(heat_values, coordinates[i][0], coordinates[i][1], click_settings, max_width,
+                                 max_height,
+                                 time)
+
+    max_value = -1 - nth_max
+    heat_values = np.array(heat_values)
+    desired = np.unique(np.sort(heat_values.flatten()))[max_value]
+    low = desired - desired * tolerance
+    high = desired + desired * tolerance
+    heat_values[heat_values < low] = 0.0
+    heat_values[heat_values > high] = 0.0
+
+    heat_values = heat_values.tolist()
+    for i in range(len(heat_values)):
+        value = heat_values[i]
+        while value > desired:
+            value -= desired
+        heat_values[i] = value / desired
+
+    draw_heat(image, heat_values)
+
+    click_settings.reset_grad_radius_to_shape()
+
+
+def draw_average_nth_heat_map_rel(image, coordinates_array, click_settings, time_stamps_array, nth_max, tolerance):
+    """
+    a function to draw a heatmap based on the
+    :param tolerance:
+    :param nth_max:
+    :param image:
+    :param coordinates_array:
+    :param click_settings:
+    :param time_stamps_array:
+    :return:
+    """
+
+    click_settings.add_grad_radius_to_shape()
+
+    max_width = image.shape[1]
+    max_height = image.shape[0]
+
+    heat_values_array = []
+
+    for idx in range(len(coordinates_array)):
+
+        heat_values = []
+        for i in range(max_width * max_height):
+            heat_values.append(0.0)
+
+        coordinates = coordinates_array[idx]
+        time_stamps = utils.get_element_or_none(time_stamps_array, idx)
+        min_idx = 0
+        max_idx = len(coordinates)
+
+        if click_settings.use_rectangle:
+            for i in range(min_idx, max_idx):
+                time = get_time(i, time_stamps)
+                fill_for_rectangle(heat_values, coordinates[i][0], coordinates[i][1], click_settings, max_width,
+                                   max_height,
+                                   time)
+        elif click_settings.use_circle:
+            for i in range(min_idx, max_idx):
+                time = get_time(i, time_stamps)
+                fill_for_circle(heat_values, coordinates[i][0], coordinates[i][1], click_settings, max_width,
+                                max_height,
+                                time)
+        elif click_settings.use_ellipse:
+            for i in range(min_idx, max_idx):
+                time = get_time(i, time_stamps)
+                fill_for_ellipse(heat_values, coordinates[i][0], coordinates[i][1], click_settings, max_width,
+                                 max_height,
+                                 time)
+
+        heat_values_array.append(heat_values)
+
+    max_value = -1 - nth_max
+    for heat_values in heat_values_array:
+        heat_values = np.array(heat_values)
+        desired = np.unique(np.sort(heat_values.flatten()))[max_value]
+        low = desired - desired * tolerance
+        high = desired + desired * tolerance
+        heat_values[heat_values < low] = 0.0
+        heat_values[heat_values > high] = 0.0
+
+        heat_values = heat_values.tolist()
+        for i in range(len(heat_values)):
+            value = heat_values[i]
+            while value > desired:
+                value -= desired
+            heat_values[i] = value / desired
+
+    final_heat = []
+    for i in range(max_width * max_height):
+        final_heat.append(0.0)
+
+    for heat_values in heat_values_array:
+        for i in range(max_width * max_height):
+            final_heat[i] += heat_values[i]
+
+    normalize_heat(final_heat)
+    draw_heat(image, final_heat)
+
+    click_settings.reset_grad_radius_to_shape()
 
 
 def draw_shape_heat_map(image, min_idx, max_idx, coordinates, click_settings, time_stamps):
@@ -272,15 +422,18 @@ def draw_shape_heat_map(image, min_idx, max_idx, coordinates, click_settings, ti
     if click_settings.use_rectangle:
         for i in range(min_idx, max_idx):
             time = get_time(i, time_stamps)
-            fill_for_rectangle(heat_values, coordinates[i][0], coordinates[i][1], click_settings, max_width, max_height, time)
+            fill_for_rectangle(heat_values, coordinates[i][0], coordinates[i][1], click_settings, max_width, max_height,
+                               time)
     elif click_settings.use_circle:
         for i in range(min_idx, max_idx):
             time = get_time(i, time_stamps)
-            fill_for_circle(heat_values, coordinates[i][0], coordinates[i][1], click_settings, max_width, max_height, time)
+            fill_for_circle(heat_values, coordinates[i][0], coordinates[i][1], click_settings, max_width, max_height,
+                            time)
     elif click_settings.use_ellipse:
         for i in range(min_idx, max_idx):
             time = get_time(i, time_stamps)
-            fill_for_ellipse(heat_values, coordinates[i][0], coordinates[i][1], click_settings, max_width, max_height, time)
+            fill_for_ellipse(heat_values, coordinates[i][0], coordinates[i][1], click_settings, max_width, max_height,
+                             time)
 
     normalize_heat(heat_values)
     draw_heat(image, heat_values)
@@ -334,7 +487,8 @@ def draw_vertical_heatmap(image, min_idx, max_idx, coordinates, times, click_set
         x_max = maximal_x_rect
 
         time = get_time(i, times)
-        fill_rectangle_helper(x_min, x_max, y_min, y_max, minimal_x_rect, maximal_x_rect, minimal_y_rect, maximal_y_rect,
+        fill_rectangle_helper(x_min, x_max, y_min, y_max, minimal_x_rect, maximal_x_rect, minimal_y_rect,
+                              maximal_y_rect,
                               minimal_width, minimal_height, click_settings.grad_radius,
                               x, coordinates[i][1], heat_values, time, max_width)
 
@@ -387,6 +541,7 @@ def draw_horizontal_heatmap(image, min_idx, max_idx, coordinates, times, click_s
         x_max = max(max_width, coordinates[i][0] + minimal_x_half_grad)
 
         time = get_time(i, times)
-        fill_rectangle_helper(x_min, x_max, y_min, y_max, minimal_x_rect, maximal_x_rect, minimal_y_rect, maximal_y_rect,
+        fill_rectangle_helper(x_min, x_max, y_min, y_max, minimal_x_rect, maximal_x_rect, minimal_y_rect,
+                              maximal_y_rect,
                               minimal_width, minimal_height, click_settings.grad_radius,
                               coordinates[i][0], y, heat_values, time, max_width)

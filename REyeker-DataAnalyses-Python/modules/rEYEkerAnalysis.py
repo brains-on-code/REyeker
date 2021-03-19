@@ -237,6 +237,42 @@ def draw_row_view(image, coordinate, click_settings, should_copy=False):
     return im
 
 
+def draw_average_nth_shape_heat_map_abs(image, coordinates_array, click_settings, nth_max, tolerance,  time_stamps_array=None, should_copy=False):
+    """
+    draws a heatmap based on the nth largest value in the heatmap
+
+    :param tolerance:
+    :param image:
+    :param coordinates_array:
+    :param click_settings:
+    :param nth_max:
+    :param time_stamps_array:
+    :param should_copy:
+    :return:
+    """
+    im = utils.shallow_or_deep(image, should_copy)
+    hmh.draw_average_nth_heat_map_abs(im, coordinates_array, click_settings, time_stamps_array, nth_max, tolerance)
+    return im
+
+
+def draw_average_nth_shape_heat_map_rel(image, coordinates_array, click_settings, nth_max, tolerance,  time_stamps_array=None, should_copy=False):
+    """
+    draws a heatmap based on the nth largest value in the heatmap
+
+    :param tolerance:
+    :param image:
+    :param coordinates_array:
+    :param click_settings:
+    :param nth_max:
+    :param time_stamps_array:
+    :param should_copy:
+    :return:
+    """
+    im = utils.shallow_or_deep(image, should_copy)
+    hmh.draw_average_nth_heat_map_rel(im, coordinates_array, click_settings, time_stamps_array, nth_max, tolerance)
+    return im
+
+
 def draw_shape_heat_map(image, coordinates, click_settings, min_idx=None, max_idx=None, time_stamps=None,
                         should_copy=False):
     """
