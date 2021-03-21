@@ -237,39 +237,39 @@ def draw_row_view(image, coordinate, click_settings, should_copy=False):
     return im
 
 
-def draw_average_nth_shape_heat_map_abs(image, coordinates_array, click_settings, nth_max, tolerance,  time_stamps_array=None, should_copy=False):
+def draw_average_shape_heat_map_abs(image, coordinates_array, click_settings, upper, lower,  time_stamps_array=None, should_copy=False):
     """
     draws a heatmap based on the nth largest value in the heatmap
 
-    :param tolerance:
+    :param lower:
     :param image:
     :param coordinates_array:
     :param click_settings:
-    :param nth_max:
+    :param upper:
     :param time_stamps_array:
     :param should_copy:
     :return:
     """
     im = utils.shallow_or_deep(image, should_copy)
-    hmh.draw_average_nth_heat_map_abs(im, coordinates_array, click_settings, time_stamps_array, nth_max, tolerance)
+    hmh.draw_average_heat_map_abs(im, coordinates_array, click_settings, time_stamps_array, upper, lower)
     return im
 
 
-def draw_average_nth_shape_heat_map_rel(image, coordinates_array, click_settings, nth_max, tolerance,  time_stamps_array=None, should_copy=False):
+def draw_average_shape_heat_map_rel(image, coordinates_array, click_settings, upper, lower,  time_stamps_array=None, should_copy=False):
     """
     draws a heatmap based on the nth largest value in the heatmap
 
-    :param tolerance:
+    :param upper:
     :param image:
     :param coordinates_array:
     :param click_settings:
-    :param nth_max:
+    :param lower:
     :param time_stamps_array:
     :param should_copy:
     :return:
     """
     im = utils.shallow_or_deep(image, should_copy)
-    hmh.draw_average_nth_heat_map_rel(im, coordinates_array, click_settings, time_stamps_array, nth_max, tolerance)
+    hmh.draw_average_heat_map_rel(im, coordinates_array, click_settings, time_stamps_array, upper, lower)
     return im
 
 

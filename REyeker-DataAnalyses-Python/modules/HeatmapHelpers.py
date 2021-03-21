@@ -254,11 +254,11 @@ def fill_for_circle(heat_values, x, y, click_settings, max_width, max_height, ti
                 heat_values[idx] += alpha * time
 
 
-def draw_average_nth_heat_map_abs(image, coordinates_array, click_settings, time_stamps_array, nth_max, tolerance):
+def draw_average_heat_map_abs(image, coordinates_array, click_settings, time_stamps_array, upper, lower):
     """
     a function to draw a heatmap based on the
-    :param tolerance:
-    :param nth_max:
+    :param upper:
+    :param lower:
     :param image:
     :param coordinates_array:
     :param click_settings:
@@ -300,31 +300,26 @@ def draw_average_nth_heat_map_abs(image, coordinates_array, click_settings, time
                                  max_height,
                                  time)
 
-    max_value = -1 - nth_max
     heat_values = np.array(heat_values)
-    desired = np.unique(np.sort(heat_values.flatten()))[max_value]
-    low = desired - desired * tolerance
-    high = desired + desired * tolerance
+    max = np.unique(np.sort(heat_values.flatten()))[-1]
+    low = max * lower
+    high = max * upper
     heat_values[heat_values < low] = 0.0
     heat_values[heat_values > high] = 0.0
 
     heat_values = heat_values.tolist()
-    for i in range(len(heat_values)):
-        value = heat_values[i]
-        while value > desired:
-            value -= desired
-        heat_values[i] = value / desired
 
+    normalize_heat(heat_values)
     draw_heat(image, heat_values)
 
     click_settings.reset_grad_radius_to_shape()
 
 
-def draw_average_nth_heat_map_rel(image, coordinates_array, click_settings, time_stamps_array, nth_max, tolerance):
+def draw_average_heat_map_rel(image, coordinates_array, click_settings, time_stamps_array, upper, lower):
     """
     a function to draw a heatmap based on the
-    :param tolerance:
-    :param nth_max:
+    :param upper:
+    :param lower:
     :param image:
     :param coordinates_array:
     :param click_settings:
@@ -371,23 +366,17 @@ def draw_average_nth_heat_map_rel(image, coordinates_array, click_settings, time
 
         heat_values_array.append(heat_values)
 
-    max_value = -1 - nth_max
     for idx in range(len(heat_values_array)):
         heat_values = heat_values_array[idx]
         heat_values = np.array(heat_values)
-        desired = np.unique(np.sort(heat_values.flatten()))[max_value]
-        low = desired - desired * tolerance
-        high = desired + desired * tolerance
+        max = np.unique(np.sort(heat_values.flatten()))[-1]
+        low = max * lower
+        high = max * upper
         heat_values[heat_values < low] = 0.0
         heat_values[heat_values > high] = 0.0
 
         heat_values = heat_values.tolist()
-        for i in range(len(heat_values)):
-            value = heat_values[i]
-            while value > desired:
-                value -= desired
-            heat_values[i] = value / desired
-
+        normalize_heat(heat_values)
         heat_values_array[idx] = heat_values
 
     final_heat = []
