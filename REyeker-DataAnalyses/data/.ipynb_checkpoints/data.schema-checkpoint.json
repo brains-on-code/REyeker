@@ -1,0 +1,84 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/product.schema.json",
+  "title": "REyeker Data",
+  "description": "Data gathered by REyeker and its properties ",
+  "type": "object",
+  "properties": {
+    "imageName" : {
+      "description": "The relative path to the image",
+      "type": "string"
+    },
+    "minimal_width" : {
+      "description": "The width for a rectangle",
+      "type": "integer"
+    },
+    "minimal_height" : {
+      "description": "The height for a rectangle",
+      "type": "integer"
+    },
+    "radius" : {
+      "description": "The radius of the circle",
+      "type": "integer"
+    },
+    "radius_x" : {
+      "description": "The x radius of an ellipse",
+      "type": "integer"
+    },
+    "radius_y" : {
+      "description": "The y radius of an ellipse",
+      "type": "integer"
+    },
+    "use_rectangle" : {
+      "description": "Flag to indicate if rectangle should be used",
+      "type": "boolean"
+    },
+    "use_circle" : {
+      "description": "Flag to indicate if circle should be used",
+      "type": "boolean"
+    },
+    "use_ellipse" : {
+      "description": "Flag to indicate if ellipse should be used",
+      "type": "boolean"
+    },
+    "use_times" : {
+      "description": "Flag to indicate if times should be used",
+      "type": "boolean"
+    },
+    "data" : {
+      "description": "The gathered data in format 'x1-y2 ... xn-yn' ",
+      "type": "array",
+      "contains": {
+        "type": "string"
+      }
+    },
+    "times" : {
+      "description": "The gathered time data in format 't1 ... tn' ",
+      "type": "array",
+      "contains": {
+        "type": "string"
+      }
+    },
+    "semanticClassifier" : {
+      "description": "The gathered semanticClassifier data",
+      "type": "array",
+      "contains": {
+        "type": "object",
+        "properties": {
+          "top" : {
+            "description": "The top value of the classifier, inclusive",
+            "type": "integer"
+          },
+          "bot" : {
+            "description": "The bot value of the classifier, exclusive",
+            "type": "integer"
+          },
+          "classifier": {
+            "description": "value of the classifier",
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
