@@ -19,9 +19,10 @@ def load_image(path):
     return image
 
 
-def display(image, normal_size=True, axis_on=True):
+def display(image, normal_size=True, axis_on=True, should_plot=True):
     """
 
+    :param should_plot:     indicates if the image should be plotted
     :param image:           The Image data which should be displayed as 2d rgb array
     :param normal_size:     should display the image in normal or downsclaed size
     :param axis_on:         should display the axis to the image
@@ -45,7 +46,8 @@ def display(image, normal_size=True, axis_on=True):
         plt.axis("off")
 
     plt.imshow(image)
-    plt.show()
+    if should_plot:
+        plt.show()
 
 
 def load_semantic_classifier_from_json(path):
