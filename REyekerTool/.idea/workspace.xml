@@ -26,6 +26,10 @@
   <component name="ChangeListManager">
     <list default="true" id="a9f458ff-f848-4d7e-b22f-abe55be0863f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/rEYEker.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/rEYEker.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ImageCalculator.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/ImageCalculator.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rEYEker.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/rEYEker.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,6 +49,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitToolBoxStore">
+    <option name="projectConfigVersion" value="2" />
   </component>
   <component name="MacroExpansionManager">
     <option name="directoryName" value="m3dpwnlf" />
@@ -78,6 +85,11 @@
     </key>
   </component>
   <component name="RunManager">
+    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="build" type="TypeScriptProgramRunner" factoryName="TypeScript">
       <module name="rEYEker" />
       <option name="interpreterRef" value="project" />
@@ -134,6 +146,7 @@
       <workItem from="1614330536915" duration="5428000" />
       <workItem from="1614354110542" duration="3915000" />
       <workItem from="1614370538422" duration="147000" />
+      <workItem from="1617095281377" duration="1227000" />
     </task>
     <servers />
   </component>

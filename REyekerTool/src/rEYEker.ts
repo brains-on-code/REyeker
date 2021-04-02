@@ -13,8 +13,8 @@ let mouseClickedLeft: boolean = false; //a boolean value, used to indicate if th
 let mouseClickMode: boolean = true; //a boolean value, used to indicate if in mouse click or hover mode to deblur
 let calculateNew: boolean = true; //a boolean value, used to indicate if the blur should be recalculated
 let ex_1_url: string = "./images/InsertSort.PNG"; //the used test image, use an rgb (8 bit color depth) image
-let ex_2_url: string = "./images/Calculation.PNG"; //the used test image, use an rgb (8 bit color depth) im./imagesge
-let ex_3_url: string = "./images/Rectangle.PNG"; //the used test image, use an rgb (8 bit color depth) image
+let ex_2_url: string = "./images/TI_Fibonacci.png"; //the used test image, use an rgb (8 bit color depth) im./imagesge
+let ex_3_url: string = "./images/TR_Fibonacci.png"; //the used test image, use an rgb (8 bit color depth) image
 
 let imageUrl: string; //the img which will be loaded
 let variableNameClickLog: string;//the name for the intern soSci variable name

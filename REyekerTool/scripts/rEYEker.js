@@ -1,9 +1,7 @@
-var __spreadArrays = (this && this.__spreadArrays) || function () {
-    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-    for (var r = Array(s), k = 0, i = 0; i < il; i++)
-        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-            r[k] = a[j];
-    return r;
+var __spreadArray = (this && this.__spreadArray) || function (to, from) {
+    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
+        to[j] = from[i];
+    return to;
 };
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -119,15 +117,15 @@ define("ImageCalculator", ["require", "exports", "Coordinate", "Rectangle", "Hel
             this.has_calculated_lock = false;
             this.max_width = 0;
             this.max_height = 0;
-            this.use_rectangle = false;
-            this.minimal_width_visibility = 5;
-            this.minimal_height_visibility = 5;
+            this.use_rectangle = true;
+            this.minimal_width_visibility = 200;
+            this.minimal_height_visibility = 1;
             this.use_circle = false;
             this.circle_radius = 3;
             this.use_ellipse = true;
             this.ellipse_x_radius = 150;
             this.ellipse_y_radius = 20;
-            this.gradient_radius = 50;
+            this.gradient_radius = 30;
             this.current_render_area = new Rectangle_1.Rectangle(0, 0, 0, 0);
             this.click_log = [];
             this.click_log_times = [];
@@ -219,7 +217,7 @@ define("ImageCalculator", ["require", "exports", "Coordinate", "Rectangle", "Hel
             var _a, _b, _c, _d, _e, _f;
             x_coordinate = Math.floor(x_coordinate);
             y_coordinate = Math.floor(y_coordinate);
-            var gradiant_buffer = __spreadArrays(this.blurry_buffer);
+            var gradiant_buffer = __spreadArray([], this.blurry_buffer);
             var y_distance_flag;
             var x_distance_flag;
             var x_min, x_max;
@@ -468,8 +466,8 @@ define("rEYEker", ["require", "exports", "useCases", "ImageCalculator"], functio
     var mouseClickMode = true;
     var calculateNew = true;
     var ex_1_url = "./images/InsertSort.PNG";
-    var ex_2_url = "./images/Calculation.PNG";
-    var ex_3_url = "./images/Rectangle.PNG";
+    var ex_2_url = "./images/TI_Fibonacci.png";
+    var ex_3_url = "./images/TR_Fibonacci.png";
     var imageUrl;
     var variableNameClickLog;
     var variableNameTimeLog = null;

@@ -62,9 +62,9 @@ export class ImageCalculator {
         this.max_width = 0;
         this.max_height = 0;
 
-        this.use_rectangle = false;
-        this.minimal_width_visibility = 5;
-        this.minimal_height_visibility = 5;
+        this.use_rectangle = true;
+        this.minimal_width_visibility = 200;
+        this.minimal_height_visibility = 1;
 
         this.use_circle = false;
         this.circle_radius = 3;
@@ -73,7 +73,7 @@ export class ImageCalculator {
         this.ellipse_x_radius = 150;
         this.ellipse_y_radius = 20;
 
-        this.gradient_radius = 50;
+        this.gradient_radius = 30;
 
         this.current_render_area = new Rectangle(0, 0, 0, 0);
 
