@@ -253,8 +253,8 @@ def draw_average_shape_heat_map_abs(image, coordinates_array, click_settings, up
     :return:
     """
     im = utils.shallow_or_deep(image, should_copy)
-    hmh.draw_average_heat_map_abs(im, coordinates_array, click_settings, time_stamps_array, upper, lower)
-    return im
+    heatmask = hmh.draw_average_heat_map_abs(im, coordinates_array, click_settings, time_stamps_array, upper, lower)
+    return im, heatmask
 
 
 def draw_average_shape_heat_map_rel(image, coordinates_array, click_settings, upper, lower,  time_stamps_array=None, should_copy=False):
@@ -271,8 +271,8 @@ def draw_average_shape_heat_map_rel(image, coordinates_array, click_settings, up
     :return:
     """
     im = utils.shallow_or_deep(image, should_copy)
-    hmh.draw_average_heat_map_rel(im, coordinates_array, click_settings, time_stamps_array, upper, lower)
-    return im
+    heatmask = hmh.draw_average_heat_map_rel(im, coordinates_array, click_settings, time_stamps_array, upper, lower)
+    return im, heatmask
 
 
 def draw_shape_heat_map(image, coordinates, click_settings, min_idx=None, max_idx=None, time_stamps=None,

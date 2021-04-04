@@ -314,6 +314,8 @@ def draw_average_heat_map_abs(image, coordinates_array, click_settings, time_sta
 
     click_settings.reset_grad_radius_to_shape()
 
+    return heat_values
+
 
 def draw_average_heat_map_rel(image, coordinates_array, click_settings, time_stamps_array, upper, lower):
     """
@@ -391,6 +393,8 @@ def draw_average_heat_map_rel(image, coordinates_array, click_settings, time_sta
     draw_heat(image, final_heat)
 
     click_settings.reset_grad_radius_to_shape()
+
+    return heat_values
 
 
 def draw_shape_heat_map(image, min_idx, max_idx, coordinates, click_settings, time_stamps):
