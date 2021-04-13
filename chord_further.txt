@@ -1,0 +1,34 @@
+Chord diagrams were used to visualise the Areas of Interest classification.
+Bar charts with the respective transitions can be generated, but do not provide a good quantitative evaluation.
+Inserting all transitions into a bar chart was quite confusing and not usable.
+Therefore, the pie version of it was used.
+The width of the sections in a diagram represents how often an area of interest was clicked on,
+the transitions between the areas show which transitions were used how often. 
+
+All snippets were classified first, using the respective lines of the snippet. 
+
+In the case of the iterative:
+
+['none' - no AOI,
+ 'main' - complete main method,
+ 'Iterative definition' - declaration of the method name,
+ 'Pre calculation' - calculations or conditions performed before the iteration, 
+ 'Iteration Condition' - condition of the iteration, mostly the loop head, 
+ 'Iteration Step' - calculations in the iteration, 
+ 'Return Result' - return or output of the result].
+
+In the case of recursiob:
+
+['none' - no AOI, 
+ 'main' - complete main method, 
+ 'Recursive definition' - declaration of the method name, 
+ 'Pre calculation' - calculations or conditions performed before the recursion, 
+ 'Recursive Condition' - condition of the recursion, mostly the termination criterion and the recursion start, 
+ 'Recursive Step' - calculations with the recursion, 
+ 'Return Result' - return or output of the result].
+
+
+Then, all measures of visual attention were assigned to an AOI and subsequently two consecutive measures
+of click data became a transition. Thus, all snippets of a class were visualised in a diagram.
+A visualisation per algorithm is possible, but was not carried out in order to first assess the meaningfulness of the diagrams.
+The interactive diagrams with the exact figures are in the folder REyeker-DataAnalyses-Python\results.
