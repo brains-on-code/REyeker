@@ -100,7 +100,7 @@ After that, we should write an embedding of the code, using a new text that we s
 
 <!-- Used for Displaying the blurred image in the background and the visible area in the foreground,. for performance reasons -->
 <div style="position: relative;">
-  <canvas id="bubble-image-canvas" style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
+  <canvas id="bubble-image-canvas" style="position: relative; left: 0; top: 0; z-index: 0;"></canvas>
   <canvas id="visible-image-canvas" style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
 </div>
 <!-- Used for the Image Name -->
