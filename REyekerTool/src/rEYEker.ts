@@ -477,6 +477,7 @@ async function running() {
  * Setup the Tool for use
  */
 async function setup() {
+    console.log("Test")
     if (UseCases.isValid() === false) {
         return;
     }

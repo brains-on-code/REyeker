@@ -5,11 +5,11 @@ export class UseCases{
     /**
      * Indicates that the REYEker tool will be used in on environment
      */
-    public static htmlTesting = true;
+    public static htmlTesting = false;
     /**
      * Indicates that the REYEker tool will be uses on soSciSurvey
      */
-    public static soSciSurvey = false;
+    public static soSciSurvey = true;
 
     /**
      * checks if exactly one flag is set
