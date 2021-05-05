@@ -368,19 +368,6 @@ def draw_average_heat_map_rel(image, coordinates_array, click_settings, time_sta
 
         heat_values_array.append(heat_values)
 
-    for idx in range(len(heat_values_array)):
-        heat_values = heat_values_array[idx]
-        heat_values = np.array(heat_values)
-        max = np.unique(np.sort(heat_values.flatten()))[-1]
-        low = max * lower
-        high = max * upper
-        heat_values[heat_values < low] = 0.0
-        heat_values[heat_values > high] = 0.0
-
-        heat_values = heat_values.tolist()
-        normalize_heat(heat_values)
-        heat_values_array[idx] = heat_values
-
     final_heat = []
     for i in range(max_width * max_height):
         final_heat.append(0.0)
@@ -389,12 +376,15 @@ def draw_average_heat_map_rel(image, coordinates_array, click_settings, time_sta
         for i in range(max_width * max_height):
             final_heat[i] += heat_values[i]
 
+
     normalize_heat(final_heat)
+    final_heat = [(lower <= heat <= upper) * heat for heat in final_heat]
+
     draw_heat(image, final_heat)
 
     click_settings.reset_grad_radius_to_shape()
 
-    return heat_values
+    return final_heat
 
 
 def draw_shape_heat_map(image, min_idx, max_idx, coordinates, click_settings, time_stamps):

@@ -2,9 +2,40 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e91c9682-8ac1-4ce0-8803-06365f2638be" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/data/code_flow/BR_Fibonacci.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/code_flow/BR_Fibonacci.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rEYEker_CodeFlow.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/rEYEker_CodeFlow.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/rEYEker_Pipeline-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/.ipynb_checkpoints/rEYEker_Pipeline-checkpoint.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Preprocessing.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Preprocessing.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/HeatmapHelpers.py" beforeDir="false" afterPath="$PROJECT_DIR$/modules/HeatmapHelpers.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rEYEker_Pipeline.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/rEYEker_Pipeline.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/BinarySearch/heatmaps/average_heatmap/BI_BinarySearch_0.png" beforeDir="false" afterPath="$PROJECT_DIR$/results/BinarySearch/heatmaps/average_heatmap/BI_BinarySearch_0.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/BinarySearch/heatmaps/average_heatmap/BR_BinarySearch_0.png" beforeDir="false" afterPath="$PROJECT_DIR$/results/BinarySearch/heatmaps/average_heatmap/BR_BinarySearch_0.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/BinarySearch/heatmaps/average_heatmap/TI_BinarySearch_0.png" beforeDir="false" afterPath="$PROJECT_DIR$/results/BinarySearch/heatmaps/average_heatmap/TI_BinarySearch_0.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/BubbleSort/heatmaps/average_heatmap/BI_BubbleSort_0.png" beforeDir="false" afterPath="$PROJECT_DIR$/results/BubbleSort/heatmaps/average_heatmap/BI_BubbleSort_0.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/BubbleSort/heatmaps/average_heatmap/BR_BubbleSort_0.png" beforeDir="false" afterPath="$PROJECT_DIR$/results/BubbleSort/heatmaps/average_heatmap/BR_BubbleSort_0.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/BubbleSort/heatmaps/average_heatmap/TI_BubbleSort_0.png" beforeDir="false" afterPath="$PROJECT_DIR$/results/BubbleSort/heatmaps/average_heatmap/TI_BubbleSort_0.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/BubbleSort/heatmaps/average_heatmap/TR_BubbleSort_0.png" beforeDir="false" afterPath="$PROJECT_DIR$/results/BubbleSort/heatmaps/average_heatmap/TR_BubbleSort_0.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/Factorial/heatmaps/average_heatmap/BI_Factorial_0.png" beforeDir="false" afterPath="$PROJECT_DIR$/results/Factorial/heatmaps/average_heatmap/BI_Factorial_0.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/Factorial/heatmaps/average_heatmap/BR_Factorial_0.png" beforeDir="false" afterPath="$PROJECT_DIR$/results/Factorial/heatmaps/average_heatmap/BR_Factorial_0.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/Factorial/heatmaps/average_heatmap/TI_Factorial_0.png" beforeDir="false" afterPath="$PROJECT_DIR$/results/Factorial/heatmaps/average_heatmap/TI_Factorial_0.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/Factorial/heatmaps/average_heatmap/TR_Factorial_0.png" beforeDir="false" afterPath="$PROJECT_DIR$/results/Factorial/heatmaps/average_heatmap/TR_Factorial_0.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/Fibonacci/heatmaps/average_heatmap/BI_Fibonacci_0.png" beforeDir="false" afterPath="$PROJECT_DIR$/results/Fibonacci/heatmaps/average_heatmap/BI_Fibonacci_0.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/Fibonacci/heatmaps/average_heatmap/BR_Fibonacci_0.png" beforeDir="false" afterPath="$PROJECT_DIR$/results/Fibonacci/heatmaps/average_heatmap/BR_Fibonacci_0.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/Fibonacci/heatmaps/average_heatmap/TI_Fibonacci_0.png" beforeDir="false" afterPath="$PROJECT_DIR$/results/Fibonacci/heatmaps/average_heatmap/TI_Fibonacci_0.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/Fibonacci/heatmaps/average_heatmap/TR_Fibonacci_0.png" beforeDir="false" afterPath="$PROJECT_DIR$/results/Fibonacci/heatmaps/average_heatmap/TR_Fibonacci_0.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/IntegerBinary/heatmaps/average_heatmap/BI_IntegerBinary_0.png" beforeDir="false" afterPath="$PROJECT_DIR$/results/IntegerBinary/heatmaps/average_heatmap/BI_IntegerBinary_0.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/IntegerBinary/heatmaps/average_heatmap/BR_IntegerBinary_0.png" beforeDir="false" afterPath="$PROJECT_DIR$/results/IntegerBinary/heatmaps/average_heatmap/BR_IntegerBinary_0.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/IntegerBinary/heatmaps/average_heatmap/TR_IntegerBinary_0.png" beforeDir="false" afterPath="$PROJECT_DIR$/results/IntegerBinary/heatmaps/average_heatmap/TR_IntegerBinary_0.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/MultiplyMatrix/heatmaps/average_heatmap/BI_MultiplyMatrix_0.png" beforeDir="false" afterPath="$PROJECT_DIR$/results/MultiplyMatrix/heatmaps/average_heatmap/BI_MultiplyMatrix_0.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/MultiplyMatrix/heatmaps/average_heatmap/TI_MultiplyMatrix_0.png" beforeDir="false" afterPath="$PROJECT_DIR$/results/MultiplyMatrix/heatmaps/average_heatmap/TI_MultiplyMatrix_0.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/MultiplyMatrix/heatmaps/average_heatmap/TR_MultiplyMatrix_0.png" beforeDir="false" afterPath="$PROJECT_DIR$/results/MultiplyMatrix/heatmaps/average_heatmap/TR_MultiplyMatrix_0.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/PrimeFactors/heatmaps/average_heatmap/BI_PrimeFactors_0.png" beforeDir="false" afterPath="$PROJECT_DIR$/results/PrimeFactors/heatmaps/average_heatmap/BI_PrimeFactors_0.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/PrimeFactors/heatmaps/average_heatmap/BR_PrimeFactors_0.png" beforeDir="false" afterPath="$PROJECT_DIR$/results/PrimeFactors/heatmaps/average_heatmap/BR_PrimeFactors_0.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/PrimeFactors/heatmaps/average_heatmap/TR_PrimeFactors_0.png" beforeDir="false" afterPath="$PROJECT_DIR$/results/PrimeFactors/heatmaps/average_heatmap/TR_PrimeFactors_0.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/ReverseString/heatmaps/average_heatmap/BI_ReverseString_0.png" beforeDir="false" afterPath="$PROJECT_DIR$/results/ReverseString/heatmaps/average_heatmap/BI_ReverseString_0.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/ReverseString/heatmaps/average_heatmap/BR_ReverseString_0.png" beforeDir="false" afterPath="$PROJECT_DIR$/results/ReverseString/heatmaps/average_heatmap/BR_ReverseString_0.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/ReverseString/heatmaps/average_heatmap/TI_ReverseString_0.png" beforeDir="false" afterPath="$PROJECT_DIR$/results/ReverseString/heatmaps/average_heatmap/TI_ReverseString_0.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/ReverseString/heatmaps/average_heatmap/TR_ReverseString_0.png" beforeDir="false" afterPath="$PROJECT_DIR$/results/ReverseString/heatmaps/average_heatmap/TR_ReverseString_0.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/results/data_of_corrects.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/results/data_of_corrects.xlsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,6 +46,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="ProjectId" id="1qZlNnqow2LgZkwSI1GpFqtABkj" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -23,7 +55,15 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="e91c9682-8ac1-4ce0-8803-06365f2638be" name="Default Changelist" comment="" />
@@ -32,7 +72,22 @@
       <option name="presentableId" value="Default" />
       <updated>1617294958645</updated>
       <workItem from="1617294964366" duration="9000" />
+      <workItem from="1620143526920" duration="2387000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
