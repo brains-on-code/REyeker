@@ -414,7 +414,7 @@ async function redrawRenderArea(arrayBuffer: number[], width: number, canvas: HT
 }
 
 /**
- * draws the visible part of the last inpout
+ * draws the visible part of the last input
  */
 async function drawVisiblePart() {
     eyeTrackImage.calculate_visible_area(mouseXOverMainCanvas, mouseYOverMainCanvas);

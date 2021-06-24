@@ -26,10 +26,11 @@
   <component name="ChangeListManager">
     <list default="true" id="a9f458ff-f848-4d7e-b22f-abe55be0863f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scripts/rEYEker.d.ts" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/scripts/rEYEker.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ImageCalculator.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/ImageCalculator.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/rEYEker.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/rEYEker.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/useCases.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/useCases.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,8 +66,10 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="cf.first.check.clang-format" value="false" />
+    <property name="cidr.known.project.marker" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -76,7 +79,7 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="preferences.editor" />
-    <property name="ts.external.directory.path" value="C:\Users\jonas\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\203.7148.70\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
+    <property name="ts.external.directory.path" value="C:\Users\jonas\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\211.7442.42\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -85,9 +88,9 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" PASS_PARENT_ENVS_2="true">
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
-        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <configuration name="build" type="TypeScriptProgramRunner" factoryName="TypeScript">
@@ -147,6 +150,7 @@
       <workItem from="1614354110542" duration="3915000" />
       <workItem from="1614370538422" duration="147000" />
       <workItem from="1617095281377" duration="1227000" />
+      <workItem from="1624531554409" duration="61000" />
     </task>
     <servers />
   </component>
